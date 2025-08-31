@@ -1,0 +1,71 @@
+name: hrm.hrm_quant_v1@HierarchicalReasoningModel_ACTV1
+loss:
+  name: losses@ACTLossHead
+  loss_type: stablemax_cross_entropy
+
+# ACT settings
+halt_exploration_prob: 0.1
+halt_max_steps: 16
+
+# Cycle schedule
+H_cycles: 2
+L_cycles: 2
+
+# Depth
+H_layers: 4
+L_layers: 4
+
+# Transformer dims
+hidden_size: 512
+num_heads: 8
+expansion: 4
+
+# Embeddings
+puzzle_emb_ndim: ${.hidden_size}
+pos_encodings: rope
+
+# Dtype
+forward_dtype: bfloat16
+
+# PQC common
+pqc_n_wires: 8
+pqc_n_layers: 2
+
+# Halt head
+halt_head_type: pqc   # linear | mlp | pqc
+halt_proj_dim: 32     # small projection before PQC
+halt_head_hidden: 128 # unused in pqc
+
+# Puzzle embedding
+puzzle_emb_type: pqc  # table | pqc
+puzzle_emb_cache_eval: true
+puzzle_emb_cache_size: 4096
+
+# Quantum gating (residual scaling)
+quantum_gate_enabled: true
+quantum_gate_dim: 2
+quantum_gate_last_h_block_only: true
+quantum_gate_proj_dim: 32
+
+# ACT scheduler PQC
+act_sched_enabled: true
+act_sched_proj_dim: 32
+act_sched_bias_scale: 0.3
+
+# Per-head bias (last H block)
+per_head_bias_enabled: true
+per_head_bias_scale: 1.0
+
+# Token routing (last H block)
+token_routing_enabled: false
+token_routing_keep_ratio: 1.0
+
+# Shared PQC trunk and FiLM / RoPE controls (disabled by default)
+pqc_shared: false
+film_enabled: false
+film_groups: 32
+film_scale: 1.0
+rope_phase_bias_enabled: false
+rope_phase_bias_per_head: true
+rope_phase_bias_scale: 1.0
+
