@@ -1,0 +1,22 @@
+# Large model checkpoints
+checkstop/**/checkpoints/
+checkstop/**/model_checkpoint/checkpoints/
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Large files
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.pt
+*.pth
+*.ckpt
+*.safetensors
