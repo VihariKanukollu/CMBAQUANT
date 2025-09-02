@@ -1,0 +1,465 @@
+{
+  "analysis_metadata": {
+    "generated_at": "2025-08-31T19:59:31.864361",
+    "wandb_run_path": "viharikvs-urbankisaan/Sudoku-extreme-1k-aug-1000 ACT-torch/p2sx5i0k",
+    "analyzer_version": "1.1"
+  },
+  "run_summary": {
+    "run_info": {
+      "run_id": "p2sx5i0k",
+      "run_name": "HierarchicalReasoningModel_ACTV1 delectable-zebu",
+      "state": "running",
+      "created_at": "2025-08-31T14:27:09Z",
+      "project": "Sudoku-extreme-1k-aug-1000 ACT-torch",
+      "entity": "viharikvs-urbankisaan"
+    },
+    "model_info": {
+      "num_parameters": 27275266,
+      "model_architecture": "hrm.hrm_act_v1@HierarchicalReasoningModel_ACTV1"
+    },
+    "dataset_info": {
+      "data_path": "data/sudoku-extreme-1k-aug-1000",
+      "global_batch_size": 32
+    },
+    "training_overview": {
+      "total_metrics_tracked": 9,
+      "total_data_points": 500,
+      "run_completed": false,
+      "run_status": "running"
+    },
+    "key_performance_indicators": {
+      "best_accuracy": {
+        "metric_name": "train/accuracy",
+        "value": 1.0,
+        "final_value": 0.9938271641731262
+      },
+      "best_loss": {
+        "metric_name": "train/q_continue_loss",
+        "value": 0.009331434965133667,
+        "final_value": 0.5305614471435547,
+        "improvement": 0.49038219451904297
+      }
+    }
+  },
+  "training_dynamics": {
+    "training_duration": {
+      "total_runtime_seconds": 82.716729259,
+      "total_runtime_hours": 0.022976869238611114,
+      "avg_step_time": 0.16222895647895794
+    },
+    "step_analysis": {
+      "total_steps": 2482,
+      "step_range": [
+        16,
+        2498
+      ],
+      "avg_step_increment": 4.973947895791583
+    },
+    "convergence_analysis": {},
+    "learning_rate": {
+      "initial_lr": 5.599999999999999e-07,
+      "final_lr": 7e-05,
+      "lr_schedule_detected": true,
+      "lr_decay_factor": 125.0
+    }
+  },
+  "metrics_analysis": [
+    {
+      "metric_name": "train/accuracy",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.08475869007832154,
+      "median": 0.0,
+      "std": 0.25993350772102286,
+      "variance": 0.06756542843615504,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "p95": 0.9585648536682126
+      },
+      "range": 1.0,
+      "iqr": 0.0,
+      "first_value": 0.0,
+      "last_value": 0.9938271641731262,
+      "absolute_change": 0.9938271641731262,
+      "percent_change": null,
+      "coefficient_of_variation": 3.0667475804643805,
+      "moving_averages": {
+        "last_10": 0.29606114370482306,
+        "last_50": 0.1853504800265867,
+        "last_100": 0.21439103203629362
+      },
+      "improvement_direction": "higher_is_better",
+      "is_improving": true,
+      "best_value": 1.0,
+      "worst_value": 0.0
+    },
+    {
+      "metric_name": "train/q_halt_accuracy",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.08524078807665764,
+      "median": 0.0,
+      "std": 0.2675592766800848,
+      "variance": 0.07158796653757017,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "p95": 1.0
+      },
+      "range": 1.0,
+      "iqr": 0.0,
+      "first_value": 0.0,
+      "last_value": 0.5,
+      "absolute_change": 0.5,
+      "percent_change": null,
+      "coefficient_of_variation": 3.138864418281385,
+      "moving_averages": {
+        "last_10": 0.1880952380952381,
+        "last_50": 0.1652518978605935,
+        "last_100": 0.17552338482773266
+      },
+      "improvement_direction": "higher_is_better",
+      "is_improving": true,
+      "best_value": 1.0,
+      "worst_value": 0.0
+    },
+    {
+      "metric_name": "train/q_halt_loss",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0003884732723236084,
+      "max": 0.7398381233215332,
+      "mean": 0.04664952684938908,
+      "median": 0.0038311704993247986,
+      "std": 0.10773543867315728,
+      "variance": 0.011606924746097634,
+      "percentiles": {
+        "p5": 0.0005606301128864288,
+        "p25": 0.0018252842128276825,
+        "p75": 0.008296558633446693,
+        "p95": 0.3052232131361957
+      },
+      "range": 0.7394496500492096,
+      "iqr": 0.006471274420619011,
+      "first_value": 0.006715297698974609,
+      "last_value": 0.19233061373233795,
+      "absolute_change": 0.18561531603336334,
+      "percent_change": 2764.066827025492,
+      "coefficient_of_variation": 2.3094647673702653,
+      "moving_averages": {
+        "last_10": 0.22181038856506347,
+        "last_50": 0.1501956121623516,
+        "last_100": 0.13925333492457867
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": false,
+      "best_value": 0.0003884732723236084,
+      "worst_value": 0.7398381233215332
+    },
+    {
+      "metric_name": "train/count",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.106,
+      "median": 0.0,
+      "std": 0.3081459196803217,
+      "variance": 0.09495390781563127,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "p95": 1.0
+      },
+      "range": 1.0,
+      "iqr": 0.0,
+      "first_value": 0.0,
+      "last_value": 1.0,
+      "absolute_change": 1.0,
+      "percent_change": null,
+      "coefficient_of_variation": 2.9070369781162424,
+      "moving_averages": {
+        "last_10": 0.3,
+        "last_50": 0.2,
+        "last_100": 0.24
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/steps",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 112.0,
+      "mean": 3.9738284127920953,
+      "median": 0.0,
+      "std": 14.949176805967898,
+      "variance": 223.47788717608856,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "p95": 34.049999999999955
+      },
+      "range": 112.0,
+      "iqr": 0.0,
+      "first_value": 0.0,
+      "last_value": 43.5,
+      "absolute_change": 43.5,
+      "percent_change": null,
+      "coefficient_of_variation": 3.7619079771650967,
+      "moving_averages": {
+        "last_10": 10.335714285714285,
+        "last_50": 6.266659765355417,
+        "last_100": 7.52434911344694
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/lr",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 5.599999999999999e-07,
+      "max": 7e-05,
+      "mean": 4.2351749999999986e-05,
+      "median": 4.3627499999999995e-05,
+      "std": 2.2468114422864632e-05,
+      "variance": 5.048161657189377e-10,
+      "percentiles": {
+        "p5": 4.6130000000000006e-06,
+        "p25": 2.30125e-05,
+        "p75": 6.453999999999999e-05,
+        "p95": 7e-05
+      },
+      "range": 6.944e-05,
+      "iqr": 4.152749999999999e-05,
+      "first_value": 5.599999999999999e-07,
+      "last_value": 7e-05,
+      "absolute_change": 6.944e-05,
+      "percent_change": 12400.000000000002,
+      "coefficient_of_variation": 0.5305120667472923,
+      "moving_averages": {
+        "last_10": 7e-05,
+        "last_50": 7e-05,
+        "last_100": 6.999894999999997e-05
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/exact_accuracy",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.020759211923342357,
+      "median": 0.0,
+      "std": 0.11758364405873563,
+      "variance": 0.013825913350131433,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "p95": 0.0
+      },
+      "range": 1.0,
+      "iqr": 0.0,
+      "first_value": 0.0,
+      "last_value": 0.5,
+      "absolute_change": 0.5,
+      "percent_change": null,
+      "coefficient_of_variation": 5.664167045114108,
+      "moving_averages": {
+        "last_10": 0.11190476190476191,
+        "last_50": 0.03474810213940649,
+        "last_100": 0.06447661517226734
+      },
+      "improvement_direction": "higher_is_better",
+      "is_improving": true,
+      "best_value": 1.0,
+      "worst_value": 0.0
+    },
+    {
+      "metric_name": "train/lm_loss",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.18286304062047937,
+      "max": 2.5486777150409514,
+      "mean": 1.102487485363574,
+      "median": 1.112725566888367,
+      "std": 0.6266201267275586,
+      "variance": 0.3926527832200617,
+      "percentiles": {
+        "p5": 0.26790889616877256,
+        "p25": 0.5123517828963416,
+        "p75": 1.5161930686596983,
+        "p95": 2.2419369263107254
+      },
+      "range": 2.365814674420472,
+      "iqr": 1.0038412857633565,
+      "first_value": 2.521701858132997,
+      "last_value": 0.47990462145181645,
+      "absolute_change": -2.0417972366811803,
+      "percent_change": -80.96901820871379,
+      "coefficient_of_variation": 0.5683693783797594,
+      "moving_averages": {
+        "last_10": 0.5582554840702378,
+        "last_50": 0.6495223351025254,
+        "last_100": 0.7057059526911302
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": true,
+      "best_value": 0.18286304062047937,
+      "worst_value": 2.5486777150409514
+    },
+    {
+      "metric_name": "train/q_continue_loss",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.009331434965133667,
+      "max": 0.5577433109283447,
+      "mean": 0.1369013234078884,
+      "median": 0.04584622383117676,
+      "std": 0.14443920675731867,
+      "variance": 0.020862684448683454,
+      "percentiles": {
+        "p5": 0.034952066093683246,
+        "p25": 0.03841108828783035,
+        "p75": 0.1952701285481453,
+        "p95": 0.4571097910404205
+      },
+      "range": 0.5484118759632111,
+      "iqr": 0.15685904026031494,
+      "first_value": 0.04017925262451172,
+      "last_value": 0.5305614471435547,
+      "absolute_change": 0.49038219451904297,
+      "percent_change": 1220.486102869621,
+      "coefficient_of_variation": 1.0550607047601113,
+      "moving_averages": {
+        "last_10": 0.4312283396720886,
+        "last_50": 0.410046329498291,
+        "last_100": 0.39233438923954966
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": false,
+      "best_value": 0.009331434965133667,
+      "worst_value": 0.5577433109283447
+    }
+  ],
+  "wandb_metadata": {
+    "os": "Linux-6.8.0-53-generic-x86_64-with-glibc2.35",
+    "python": "CPython 3.11.11",
+    "startedAt": "2025-08-31T14:27:09.478351Z",
+    "args": [
+      "data_path=data/sudoku-extreme-1k-aug-1000",
+      "epochs=80",
+      "eval_interval=null",
+      "global_batch_size=32",
+      "lr=7e-5",
+      "weight_decay=0.05",
+      "arch=hrm_v1",
+      "arch.halt_max_steps=112",
+      "arch.halt_exploration_prob=0.0"
+    ],
+    "program": "/workspace/CMBA/HRM/pretrain.py",
+    "codePath": "HRM/pretrain.py",
+    "codePathLocal": "pretrain.py",
+    "git": {
+      "remote": "https://github.com/VihariKanukollu/CMBA.git",
+      "commit": "52a0482beee07ff10e5c0cecd221428e30ba2f84"
+    },
+    "email": "vihari@urbankisaan.com",
+    "root": "/workspace/CMBA/HRM",
+    "host": "aabbd19eac3d",
+    "executable": "/usr/bin/python",
+    "writerId": "w3jalagh09egvsuhy3jjpy8pqjsjntt8"
+  },
+  "raw_config": {
+    "lr": 7e-05,
+    "arch": {
+      "loss": {
+        "name": "losses@ACTLossHead",
+        "loss_type": "stablemax_cross_entropy"
+      },
+      "name": "hrm.hrm_act_v1@HierarchicalReasoningModel_ACTV1",
+      "H_cycles": 2,
+      "H_layers": 4,
+      "L_cycles": 2,
+      "L_layers": 4,
+      "expansion": 4,
+      "num_heads": 8,
+      "hidden_size": 512,
+      "pos_encodings": "rope",
+      "halt_max_steps": 112,
+      "puzzle_emb_ndim": 512,
+      "halt_exploration_prob": 0
+    },
+    "seed": 0,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "epochs": 80,
+    "run_name": "HierarchicalReasoningModel_ACTV1 delectable-zebu",
+    "data_path": "data/sudoku-extreme-1k-aug-1000",
+    "lr_min_ratio": 1,
+    "project_name": "Sudoku-extreme-1k-aug-1000 ACT-torch",
+    "weight_decay": 0.05,
+    "eval_interval": null,
+    "puzzle_emb_lr": 0.01,
+    "checkpoint_path": "checkpoints/Sudoku-extreme-1k-aug-1000 ACT-torch/HierarchicalReasoningModel_ACTV1 delectable-zebu",
+    "lr_warmup_steps": 2000,
+    "eval_save_outputs": [],
+    "global_batch_size": 32,
+    "checkpoint_every_eval": true,
+    "puzzle_emb_weight_decay": 0.1
+  },
+  "raw_summary": {
+    "_runtime": 82.74894027,
+    "_step": 2499,
+    "_timestamp": 1756650512.6549757,
+    "_wandb": "{'runtime': 82}",
+    "num_params": 27275266,
+    "train/accuracy": 0,
+    "train/count": 0,
+    "train/exact_accuracy": 0,
+    "train/lm_loss": 0.5146379063587908,
+    "train/lr": 7e-05,
+    "train/q_continue_loss": 0.5262475609779358,
+    "train/q_halt_accuracy": 0,
+    "train/q_halt_loss": 0.1368938684463501,
+    "train/steps": 0
+  }
+}

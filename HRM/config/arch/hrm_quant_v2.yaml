@@ -1,4 +1,9 @@
-name: hrm.hrm_quant_v1@CMBA
+# CMBA v2 (quantum-enhanced PQC settings)
+# NOTE: Update `name` to match your model module path and class.
+# Example if your module is hrm/hrm_quant_v2.py with class HierarchicalReasoningModel_ACTV1:
+# name: hrm.hrm_quant_v2@HierarchicalReasoningModel_ACTV1
+name: hrm.hrm_quant_v2@HierarchicalReasoningModel_ACTV1
+
 loss:
   name: losses@ACTLossHead
   loss_type: stablemax_cross_entropy
@@ -31,9 +36,20 @@ pos_encodings: rope
 # Dtype
 forward_dtype: bfloat16
 
-# PQC common
-pqc_n_wires: 8
-pqc_n_layers: 2
+# PQC common (v2)
+pqc_n_wires: 8           # try 8–12
+pqc_n_layers: 2          # try 2–3
+pqc_device: auto         # auto | lightning.qubit | lightning.gpu
+pqc_diff_method: adjoint # faster than parameter-shift
+pqc_reupload: true       # data re-uploading each layer
+pqc_pair_ZZ: true        # include ZZ pairwise readouts
+pqc_pair_XX: true        # include XX pairwise readouts
+pqc_pair_XY: false       # include XY pairwise readouts
+pqc_ensemble_size: 1     # try 1–4
+pqc_ensemble_merge: mean # mean | concat
+pqc_input_scale_learnable: true
+pqc_zero_init_readout: true
+pqc_l2_coef: 0.0         # small L2 on PQC weights if needed
 
 # Halt head
 halt_head_type: pqc   # linear | mlp | pqc
@@ -50,6 +66,9 @@ quantum_gate_enabled: true
 quantum_gate_dim: 2
 quantum_gate_last_h_block_only: true
 quantum_gate_proj_dim: 32
+# Gate shaping/regularization
+gate_temp: 1.0
+gate_dropout_p: 0.0
 
 # ACT scheduler PQC
 act_sched_enabled: true
@@ -64,8 +83,9 @@ per_head_bias_scale: 1.0
 token_routing_enabled: false
 token_routing_keep_ratio: 1.0
 
-# Shared PQC trunk and FiLM / RoPE controls (disabled by default)
+# Shared PQC trunk and FiLM / RoPE controls
 pqc_shared: false
+pqc_shared_trunk_dim: 128
 film_enabled: false
 film_groups: 32
 film_scale: 1.0
@@ -73,11 +93,10 @@ rope_phase_bias_enabled: false
 rope_phase_bias_per_head: true
 rope_phase_bias_scale: 1.0
 
-# MCP controller (disabled by default)
+# MCP controller
 mcp_enabled: false
 mcp_backend: mlp    # mlp | pqc
 mcp_temp: 1.0
 mcp_hard_eval: true
 mcp_cost_coef: 0.0
 mcp_entropy_coef: 0.0
-

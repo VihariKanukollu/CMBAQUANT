@@ -10,3 +10,7 @@ omegaconf
 hydra-core
 huggingface_hub
 pennylane
+transformers
+accelerate
+sentencepiece
+datasets

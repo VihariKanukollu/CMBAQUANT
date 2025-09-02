@@ -1,0 +1,137 @@
+_wandb:
+    value:
+        cli_version: 0.21.3
+        e:
+            bk91evcporq4xhvd2akfyr0vuhs02b1g:
+                cpu_count: 96
+                cpu_count_logical: 192
+                cudaVersion: "12.4"
+                disk:
+                    /:
+                        total: "5368709120"
+                        used: "2635730944"
+                email: vihari@urbankisaan.com
+                executable: /usr/bin/python
+                git:
+                    commit: 52a0482beee07ff10e5c0cecd221428e30ba2f84
+                    remote: https://github.com/VihariKanukollu/CMBA.git
+                gpu: NVIDIA H200
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Hopper
+                      cudaCores: 16896
+                      memoryTotal: "150754820096"
+                      name: NVIDIA H200
+                      uuid: GPU-1933f77e-a337-b507-a1f0-b3d37a2e075f
+                host: 5723d757fc32
+                memory:
+                    total: "2164181422080"
+                os: Linux-6.8.0-53-generic-x86_64-with-glibc2.35
+                program: workspace/CMBA/HRM/data/Untitled1.ipynb
+                python: CPython 3.11.11
+                root: /workspace/CMBA/HRM
+                startedAt: "2025-09-01T08:19:53.355310Z"
+                writerId: bk91evcporq4xhvd2akfyr0vuhs02b1g
+        m: []
+        python_version: 3.11.11
+        t:
+            "3":
+                - 2
+                - 3
+                - 5
+                - 14
+                - 62
+            "4": 3.11.11
+            "5": 0.21.3
+            "8":
+                - 1
+            "12": 0.21.3
+            "13": linux-x86_64
+arch:
+    value:
+        H_cycles: 2
+        H_layers: 4
+        L_cycles: 2
+        L_layers: 4
+        act_min_step_penalty: 0.0004
+        act_sched_bias_scale: 0.3
+        act_sched_enabled: false
+        act_sched_proj_dim: 32
+        expansion: 4
+        film_enabled: false
+        film_groups: 32
+        film_scale: 1
+        forward_dtype: bfloat16
+        halt_exploration_prob: 0.1
+        halt_head_hidden: 128
+        halt_head_type: pqc
+        halt_max_steps: 130
+        halt_min_steps: 6
+        halt_proj_dim: 32
+        hidden_size: 512
+        loss:
+            loss_type: stablemax_cross_entropy
+            name: losses@ACTLossHead
+        mcp_backend: mlp
+        mcp_cost_coef: 0.0004
+        mcp_enabled: true
+        mcp_entropy_coef: 0
+        mcp_hard_eval: true
+        mcp_temp: 0.7
+        name: hrm.hrm_quant_v1@HierarchicalReasoningModel_ACTV1
+        num_heads: 8
+        per_head_bias_enabled: true
+        per_head_bias_scale: 1
+        pos_encodings: rope
+        pqc_n_layers: 1
+        pqc_n_wires: 4
+        pqc_shared: true
+        puzzle_emb_cache_eval: true
+        puzzle_emb_cache_size: 4096
+        puzzle_emb_ndim: 512
+        puzzle_emb_type: pqc
+        quantum_gate_dim: 2
+        quantum_gate_enabled: true
+        quantum_gate_last_h_block_only: true
+        quantum_gate_proj_dim: 64
+        rope_phase_bias_enabled: false
+        rope_phase_bias_per_head: true
+        rope_phase_bias_scale: 1
+        token_routing_enabled: true
+        token_routing_keep_ratio: 1
+beta1:
+    value: 0.9
+beta2:
+    value: 0.95
+checkpoint_every_eval:
+    value: true
+checkpoint_path:
+    value: checkpoints/Sudoku-6x6-1000 ACT-torch/HierarchicalReasoningModel_ACTV1 gifted-rabbit
+data_path:
+    value: data/sudoku-6x6-1000
+epochs:
+    value: 480
+eval_interval:
+    value: 40
+eval_save_outputs:
+    value: []
+global_batch_size:
+    value: 32
+lr:
+    value: 7e-05
+lr_min_ratio:
+    value: 0.1
+lr_warmup_steps:
+    value: 40
+project_name:
+    value: Sudoku-6x6-1000 ACT-torch
+puzzle_emb_lr:
+    value: 0.01
+puzzle_emb_weight_decay:
+    value: 0.1
+run_name:
+    value: HierarchicalReasoningModel_ACTV1 gifted-rabbit
+seed:
+    value: 0
+weight_decay:
+    value: 0.12

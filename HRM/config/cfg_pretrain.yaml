@@ -29,3 +29,11 @@ puzzle_emb_weight_decay: 0.1
 
 # Hyperparams - Puzzle embeddings training
 puzzle_emb_lr: 1e-2
+
+# Evaluation controls
+# Limit number of eval batches (across all sets). null = full test set
+eval_max_batches: null
+# Cap inner ACT thinking steps during eval (<= arch.halt_max_steps). null = full max
+eval_halt_max_steps: null
+eval_sample_random: false
+eval_sample_seed: 20250901

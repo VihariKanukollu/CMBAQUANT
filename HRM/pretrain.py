@@ -69,6 +69,15 @@ class PretrainConfig(pydantic.BaseModel):
     eval_interval: Optional[int] = None
     eval_save_outputs: List[str] = []
 
+    # Evaluation controls
+    # Limit number of eval batches (across all sets). None = evaluate full test set
+    eval_max_batches: Optional[int] = None
+    # Cap inner ACT thinking steps during eval (<= arch.halt_max_steps). None = use full max
+    eval_halt_max_steps: Optional[int] = None
+    # Random sampling for eval subset
+    eval_sample_random: bool = False
+    eval_sample_seed: int = 20250901
+
 
 @dataclass
 class TrainState:
@@ -228,7 +237,18 @@ def save_train_state(config: PretrainConfig, train_state: TrainState):
         return
 
     os.makedirs(config.checkpoint_path, exist_ok=True)
-    torch.save(train_state.model.state_dict(), os.path.join(config.checkpoint_path, f"step_{train_state.step}"))
+    checkpoint_file = os.path.join(config.checkpoint_path, f"step_{train_state.step}")
+    torch.save(train_state.model.state_dict(), checkpoint_file)
+
+    # Also upload checkpoint to Weights & Biases for remote availability
+    if wandb.run is not None:
+        try:
+            artifact = wandb.Artifact(name=f"checkpoint-step-{train_state.step}", type="model")
+            artifact.add_file(checkpoint_file)
+            wandb.log_artifact(artifact)
+        except Exception:
+            # Do not fail training if artifact upload has any transient issue
+            pass
 
 
 def compute_lr(base_lr: float, config: PretrainConfig, train_state: TrainState):
@@ -300,6 +320,15 @@ def train_batch(config: PretrainConfig, train_state: TrainState, batch: Any, glo
 
 def evaluate(config: PretrainConfig, train_state: TrainState, eval_loader: torch.utils.data.DataLoader, eval_metadata: PuzzleDatasetMetadata, rank: int, world_size: int):
     with torch.inference_mode():
+        # Optionally cap halting steps during evaluation to speed it up
+        orig_halt_max = None
+        try:
+            if getattr(config, 'eval_halt_max_steps', None) is not None:
+                orig_halt_max = train_state.model.config.halt_max_steps  # type: ignore[attr-defined]
+                train_state.model.config.halt_max_steps = min(orig_halt_max, int(config.eval_halt_max_steps))  # type: ignore[attr-defined]
+        except Exception:
+            pass
+
         set_ids = {k: idx for idx, k in enumerate(eval_metadata.sets)}
         
         all_preds = {}
@@ -308,8 +337,58 @@ def evaluate(config: PretrainConfig, train_state: TrainState, eval_loader: torch
         metric_values = None
         metric_global_batch_size = [0 for _ in range(len(set_ids))]
         
+        # Evaluation progress indicator (rank 0 only)
+        eval_pbar = None
+        if rank == 0:
+            try:
+                ds = getattr(eval_loader, 'dataset', None)
+                if ds is not None and hasattr(ds, '_lazy_load_dataset'):
+                    ds._lazy_load_dataset()
+                    total_batches = 0
+                    for set_name in ds.metadata.sets:  # type: ignore[attr-defined]
+                        total_examples = len(ds._data[set_name]["inputs"])  # type: ignore[attr-defined]
+                        total_batches += math.ceil(total_examples / config.global_batch_size)
+                    if getattr(config, 'eval_max_batches', None) is not None:
+                        total_batches = min(total_batches, int(config.eval_max_batches))
+                    eval_pbar = tqdm.tqdm(total=total_batches, leave=False, desc="Eval")
+            except Exception:
+                # Fallback: show an indeterminate bar by omitting total
+                try:
+                    eval_pbar = tqdm.tqdm(leave=False, desc="Eval")
+                except Exception:
+                    eval_pbar = None
+
         carry = None
+        seen_batches = 0
+
+        # Optional random batch sampling: if enabled, we precompute a target set of batch indices
+        # and skip batches not in the sample. This keeps streaming behavior and low memory.
+        sample_batch_indices = None
+        if getattr(config, 'eval_sample_random', False) and getattr(config, 'eval_max_batches', None) is not None:
+            # Estimate total number of batches using dataset sizes
+            try:
+                ds = getattr(eval_loader, 'dataset', None)
+                if ds is not None and hasattr(ds, '_lazy_load_dataset'):
+                    ds._lazy_load_dataset()
+                    total_batches_est = 0
+                    for _sn in ds.metadata.sets:  # type: ignore[attr-defined]
+                        total_examples = len(ds._data[_sn]["inputs"])  # type: ignore[attr-defined]
+                        total_batches_est += math.ceil(total_examples / config.global_batch_size)
+                    rng = torch.Generator()
+                    rng.manual_seed(int(getattr(config, 'eval_sample_seed', 20250901)))
+                    k = min(int(config.eval_max_batches), total_batches_est)
+                    # Draw unique indices without replacement
+                    sample_batch_indices = set(torch.randperm(total_batches_est, generator=rng)[:k].tolist())
+            except Exception:
+                sample_batch_indices = None
+
+        batch_index = 0
         for set_name, batch, global_batch_size in eval_loader:
+            if sample_batch_indices is not None and (batch_index not in sample_batch_indices):
+                batch_index += 1
+                continue
+            if getattr(config, 'eval_max_batches', None) is not None and seen_batches >= int(config.eval_max_batches):
+                break
             # To device
             batch = {k: v.cuda() for k, v in batch.items()}
             with torch.device("cuda"):
@@ -329,6 +408,15 @@ def evaluate(config: PretrainConfig, train_state: TrainState, eval_loader: torch
                         all_preds[k].append(v.cpu())  # Move to CPU for saving GPU memory
                         
             del carry, preds, batch, all_finish
+
+            # Update eval progress bar
+            if eval_pbar is not None:
+                try:
+                    eval_pbar.update(1)
+                except Exception:
+                    pass
+            seen_batches += 1
+            batch_index += 1
 
             # Aggregate
             set_id = set_ids[set_name]
@@ -362,6 +450,17 @@ def evaluate(config: PretrainConfig, train_state: TrainState, eval_loader: torch
                     count = metrics.pop("count")
                     reduced_metrics[set_name] = {k: v / count for k, v in metrics.items()}
 
+                if eval_pbar is not None:
+                    try:
+                        eval_pbar.close()
+                    except Exception:
+                        pass
+                # Restore halting steps after evaluation
+                if orig_halt_max is not None:
+                    try:
+                        train_state.model.config.halt_max_steps = orig_halt_max  # type: ignore[attr-defined]
+                    except Exception:
+                        pass
                 return reduced_metrics
 
 
@@ -479,6 +578,9 @@ def launch(hydra_config: DictConfig):
             save_train_state(config, train_state)
 
     # finalize
+    if RANK == 0 and progress_bar is not None:
+        # Ensure progress bar reaches 100% even if last partial batch was dropped
+        progress_bar.update(train_state.total_steps - progress_bar.n)
     if dist.is_initialized():
         dist.destroy_process_group()
     wandb.finish()

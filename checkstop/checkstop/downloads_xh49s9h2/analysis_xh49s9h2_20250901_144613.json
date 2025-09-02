@@ -1,0 +1,1144 @@
+{
+  "analysis_metadata": {
+    "generated_at": "2025-09-01T14:46:13.289741",
+    "wandb_run_path": "viharikvs-urbankisaan/Arc-aug-100 ACT-torch/xh49s9h2",
+    "analyzer_version": "2.2"
+  },
+  "run_summary": {
+    "run_info": {
+      "run_id": "xh49s9h2",
+      "run_name": "HierarchicalReasoningModel_ACTV1 malachite-dogfish",
+      "state": "running",
+      "created_at": "2025-09-01T08:33:10Z",
+      "project": "Arc-aug-100 ACT-torch",
+      "entity": "viharikvs-urbankisaan"
+    },
+    "model_info": {
+      "num_parameters": 27641054,
+      "model_architecture": "hrm.hrm_quant_v1@HierarchicalReasoningModel_ACTV1"
+    },
+    "dataset_info": {
+      "data_path": "data/arc-aug-100",
+      "global_batch_size": 32
+    },
+    "training_overview": {
+      "total_metrics_tracked": 10,
+      "total_data_points": 500,
+      "run_completed": false,
+      "run_status": "running"
+    },
+    "key_performance_indicators": {
+      "best_accuracy": {
+        "metric_name": "train/accuracy",
+        "value": 1.0000001192092896,
+        "final_value": 0.5085858702659607
+      },
+      "best_loss": {
+        "metric_name": "train/q_continue_loss",
+        "value": 0.021223127841949463,
+        "final_value": 0.03868338465690613,
+        "improvement": -0.019164003431797028
+      }
+    }
+  },
+  "training_dynamics": {
+    "training_duration": {
+      "total_runtime_seconds": 1067.917261379,
+      "total_runtime_hours": 0.2966436837163889,
+      "avg_step_time": 2.1362405042625245
+    },
+    "step_analysis": {
+      "total_steps": 5489,
+      "step_range": [
+        4,
+        5493
+      ],
+      "avg_step_increment": 11.0
+    },
+    "convergence_analysis": {},
+    "learning_rate": {
+      "initial_lr": 2e-06,
+      "final_lr": 5.275455995021008e-06,
+      "lr_schedule_detected": true,
+      "lr_decay_factor": 2.6377279975105044
+    }
+  },
+  "metrics_analysis": [
+    {
+      "metric_name": "train/accuracy",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 1.0000001192092896,
+      "mean": 0.38951357221326655,
+      "median": 0.333333358168602,
+      "std": 0.39234097103073173,
+      "variance": 0.15393143754933747,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 0.8046866953372955,
+        "p95": 0.9333660423755645
+      },
+      "range": 1.0000001192092896,
+      "iqr": 0.8046866953372955,
+      "first_value": 0.1822432279586792,
+      "last_value": 0.5085858702659607,
+      "absolute_change": 0.3263426423072815,
+      "percent_change": 179.06983209344526,
+      "coefficient_of_variation": 1.0072587940938733,
+      "moving_averages": {
+        "last_10": 0.6801595628261566,
+        "last_50": 0.4089117352167765,
+        "last_100": 0.3975697384277979
+      },
+      "improvement_direction": "higher_is_better",
+      "is_improving": true,
+      "best_value": 1.0000001192092896,
+      "worst_value": 0.0,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/accuracy",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "zero_accuracy": {
+            "target_value": 0.0,
+            "exact_count": 232,
+            "percentage": 46.400000000000006,
+            "first_occurrence": 8,
+            "last_occurrence": 494
+          },
+          "half_accuracy": {
+            "target_value": 0.5,
+            "exact_count": 3,
+            "percentage": 0.6,
+            "first_occurrence": 51,
+            "last_occurrence": 414
+          },
+          "perfect_accuracy": {
+            "target_value": 1.0,
+            "exact_count": 3,
+            "percentage": 0.6,
+            "first_occurrence": 145,
+            "last_occurrence": 325
+          }
+        },
+        "range_analysis": {
+          "very_low": {
+            "range": "0.0-0.1",
+            "count": 234,
+            "percentage": 46.800000000000004
+          },
+          "low": {
+            "range": "0.1-0.5",
+            "count": 37,
+            "percentage": 7.3999999999999995
+          },
+          "high": {
+            "range": "0.5-0.9",
+            "count": 172,
+            "percentage": 34.4
+          },
+          "very_high": {
+            "range": "0.9-1.0",
+            "count": 54,
+            "percentage": 10.8
+          }
+        },
+        "perfect_streaks": {
+          "longest_streak": 1,
+          "total_streaks": 3,
+          "avg_streak_length": 1.0
+        }
+      }
+    },
+    {
+      "metric_name": "train/q_halt_accuracy",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.531,
+      "median": 1.0,
+      "std": 0.4990361451320902,
+      "variance": 0.24903707414829662,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 1.0,
+        "p95": 1.0
+      },
+      "range": 1.0,
+      "iqr": 1.0,
+      "first_value": 1.0,
+      "last_value": 1.0,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": 0.9398044164446143,
+      "moving_averages": {
+        "last_10": 0.8,
+        "last_50": 0.54,
+        "last_100": 0.52
+      },
+      "improvement_direction": "higher_is_better",
+      "is_improving": false,
+      "best_value": 1.0,
+      "worst_value": 0.0,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/q_halt_accuracy",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "zero_accuracy": {
+            "target_value": 0.0,
+            "exact_count": 234,
+            "percentage": 46.800000000000004,
+            "first_occurrence": 8,
+            "last_occurrence": 494
+          },
+          "half_accuracy": {
+            "target_value": 0.5,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 118,
+            "last_occurrence": 118
+          },
+          "perfect_accuracy": {
+            "target_value": 1.0,
+            "exact_count": 265,
+            "percentage": 53.0,
+            "first_occurrence": 0,
+            "last_occurrence": 499
+          }
+        },
+        "range_analysis": {
+          "very_low": {
+            "range": "0.0-0.1",
+            "count": 234,
+            "percentage": 46.800000000000004
+          },
+          "low": {
+            "range": "0.1-0.5",
+            "count": 0,
+            "percentage": 0.0
+          },
+          "high": {
+            "range": "0.5-0.9",
+            "count": 1,
+            "percentage": 0.2
+          },
+          "very_high": {
+            "range": "0.9-1.0",
+            "count": 0,
+            "percentage": 0.0
+          }
+        },
+        "perfect_streaks": {
+          "longest_streak": 8,
+          "total_streaks": 119,
+          "avg_streak_length": 2.226890756302521
+        }
+      }
+    },
+    {
+      "metric_name": "train/q_halt_loss",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.00040172040462493896,
+      "max": 0.37593182921409607,
+      "mean": 0.022282530814409257,
+      "median": 0.0021335333585739136,
+      "std": 0.06059016847733439,
+      "variance": 0.003671168516111766,
+      "percentiles": {
+        "p5": 0.0006808839738368988,
+        "p25": 0.0013765916228294373,
+        "p75": 0.004104649648070335,
+        "p95": 0.18494743332266803
+      },
+      "range": 0.37553010880947113,
+      "iqr": 0.002728058025240898,
+      "first_value": 0.005726121366024017,
+      "last_value": 0.0010892897844314575,
+      "absolute_change": -0.00463683158159256,
+      "percent_change": -80.97683030445764,
+      "coefficient_of_variation": 2.7191780405012635,
+      "moving_averages": {
+        "last_10": 0.0019294992089271545,
+        "last_50": 0.011961780935525895,
+        "last_100": 0.006502457559108734
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": true,
+      "best_value": 0.00040172040462493896,
+      "worst_value": 0.37593182921409607,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/q_halt_loss",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "minimum_loss": {
+            "target_value": 0.00040172040462493896,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 412,
+            "last_occurrence": 412
+          },
+          "low_quartile_loss": {
+            "target_value": 0.0013765916228294373,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train/count",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.538,
+      "median": 1.0,
+      "std": 0.4990532118085534,
+      "variance": 0.24905410821643284,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 1.0,
+        "p95": 1.0
+      },
+      "range": 1.0,
+      "iqr": 1.0,
+      "first_value": 1.0,
+      "last_value": 1.0,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": 0.9276082003876457,
+      "moving_averages": {
+        "last_10": 0.8,
+        "last_50": 0.54,
+        "last_100": 0.52
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/steps",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 64.0,
+      "mean": 20.58382380952381,
+      "median": 4.0,
+      "std": 26.189210088288892,
+      "variance": 685.8747250485326,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 43.0,
+        "p95": 64.0
+      },
+      "range": 64.0,
+      "iqr": 43.0,
+      "first_value": 4.0,
+      "last_value": 34.0,
+      "absolute_change": 30.0,
+      "percent_change": 750.0,
+      "coefficient_of_variation": 1.2723199698285192,
+      "moving_averages": {
+        "last_10": 37.1,
+        "last_50": 23.373333333333335,
+        "last_100": 25.63666666666667
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/steps",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "minimum_value": {
+            "target_value": 0.0,
+            "exact_count": 231,
+            "percentage": 46.2,
+            "first_occurrence": 8,
+            "last_occurrence": 494
+          },
+          "maximum_value": {
+            "target_value": 64.0,
+            "exact_count": 108,
+            "percentage": 21.6,
+            "first_occurrence": 14,
+            "last_occurrence": 497
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train/lr",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 2e-06,
+      "max": 4.999950371815306e-05,
+      "mean": 2.79791526920792e-05,
+      "median": 2.7437732792766322e-05,
+      "std": 1.5525703170913076e-05,
+      "variance": 2.410474589513004e-10,
+      "percentiles": {
+        "p5": 6.152014478091733e-06,
+        "p25": 1.3071711624928693e-05,
+        "p75": 4.334370485479789e-05,
+        "p95": 4.9817198933398916e-05
+      },
+      "range": 4.799950371815306e-05,
+      "iqr": 3.0271993229869195e-05,
+      "first_value": 2e-06,
+      "last_value": 5.275455995021008e-06,
+      "absolute_change": 3.2754559950210085e-06,
+      "percent_change": 163.77279975105043,
+      "coefficient_of_variation": 0.5549025498298362,
+      "moving_averages": {
+        "last_10": 5.391898257474805e-06,
+        "last_50": 6.239194186265858e-06,
+        "last_100": 7.688453635368034e-06
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/exact_accuracy",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.007,
+      "median": 0.0,
+      "std": 0.0803985563036515,
+      "variance": 0.0064639278557114205,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "p95": 0.0
+      },
+      "range": 1.0,
+      "iqr": 0.0,
+      "first_value": 0.0,
+      "last_value": 0.0,
+      "absolute_change": 0.0,
+      "percent_change": null,
+      "coefficient_of_variation": 11.485508043378786,
+      "moving_averages": {
+        "last_10": 0.0,
+        "last_50": 0.0,
+        "last_100": 0.0
+      },
+      "improvement_direction": "higher_is_better",
+      "is_improving": false,
+      "best_value": 1.0,
+      "worst_value": 0.0,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/exact_accuracy",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "zero_accuracy": {
+            "target_value": 0.0,
+            "exact_count": 496,
+            "percentage": 99.2,
+            "first_occurrence": 0,
+            "last_occurrence": 499
+          },
+          "half_accuracy": {
+            "target_value": 0.5,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 118,
+            "last_occurrence": 118
+          },
+          "perfect_accuracy": {
+            "target_value": 1.0,
+            "exact_count": 3,
+            "percentage": 0.6,
+            "first_occurrence": 145,
+            "last_occurrence": 325
+          }
+        },
+        "range_analysis": {
+          "very_low": {
+            "range": "0.0-0.1",
+            "count": 496,
+            "percentage": 99.2
+          },
+          "low": {
+            "range": "0.1-0.5",
+            "count": 0,
+            "percentage": 0.0
+          },
+          "high": {
+            "range": "0.5-0.9",
+            "count": 1,
+            "percentage": 0.2
+          },
+          "very_high": {
+            "range": "0.9-1.0",
+            "count": 0,
+            "percentage": 0.0
+          }
+        },
+        "perfect_streaks": {
+          "longest_streak": 1,
+          "total_streaks": 3,
+          "avg_streak_length": 1.0
+        }
+      }
+    },
+    {
+      "metric_name": "train/lm_loss",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.4670018630972175,
+      "max": 2.525170661972324,
+      "mean": 0.8750583093894233,
+      "median": 0.8258385011050056,
+      "std": 0.276932885935726,
+      "variance": 0.07669182331268982,
+      "percentiles": {
+        "p5": 0.5894006699964564,
+        "p25": 0.7171105536265316,
+        "p75": 0.9316332118164277,
+        "p95": 1.4145854981808301
+      },
+      "range": 2.0581687988751067,
+      "iqr": 0.21452265818989602,
+      "first_value": 2.525170661972324,
+      "last_value": 1.2432139495104457,
+      "absolute_change": -1.2819567124618785,
+      "percent_change": -50.767131575201574,
+      "coefficient_of_variation": 0.3164736372013397,
+      "moving_averages": {
+        "last_10": 0.9575436796958942,
+        "last_50": 0.9206191891124073,
+        "last_100": 0.860848978342335
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": true,
+      "best_value": 0.4670018630972175,
+      "worst_value": 2.525170661972324,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/lm_loss",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "minimum_loss": {
+            "target_value": 0.4670018630972175,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 262,
+            "last_occurrence": 262
+          },
+          "low_quartile_loss": {
+            "target_value": 0.7171105536265316,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train/mcp_cost",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": -0.0006936504505574703,
+      "max": -4.1020760545507076e-05,
+      "mean": -0.00022718320048990703,
+      "median": -0.00019908750982722268,
+      "std": 0.0001261332896099813,
+      "variance": 1.5909606747835418e-08,
+      "percentiles": {
+        "p5": -0.0005637004505842924,
+        "p25": -0.0002582739252829924,
+        "p75": -0.00014987984104664065,
+        "p95": -8.713392890058463e-05
+      },
+      "range": 0.0006526296900119632,
+      "iqr": 0.00010839408423635177,
+      "first_value": -5.279924274267008e-05,
+      "last_value": -0.00010992259194608778,
+      "absolute_change": -5.7123349203417696e-05,
+      "percent_change": -108.1897130264201,
+      "coefficient_of_variation": -0.5552051795114356,
+      "moving_averages": {
+        "last_10": -0.00015489965808228589,
+        "last_50": -0.00016761568331276068,
+        "last_100": -0.00016201852701973015
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": true,
+      "best_value": -0.0006936504505574703,
+      "worst_value": -4.1020760545507076e-05
+    },
+    {
+      "metric_name": "train/q_continue_loss",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.021223127841949463,
+      "max": 0.1377202272415161,
+      "mean": 0.05154322259128094,
+      "median": 0.047622200101614,
+      "std": 0.01993252994142302,
+      "variance": 0.00039730574986572516,
+      "percentiles": {
+        "p5": 0.026952958852052688,
+        "p25": 0.03752839379012585,
+        "p75": 0.06119135580956936,
+        "p95": 0.09100062064826486
+      },
+      "range": 0.11649709939956665,
+      "iqr": 0.023662962019443512,
+      "first_value": 0.057847388088703156,
+      "last_value": 0.03868338465690613,
+      "absolute_change": -0.019164003431797028,
+      "percent_change": -33.128554399743955,
+      "coefficient_of_variation": 0.3867148567616882,
+      "moving_averages": {
+        "last_10": 0.039305315166711804,
+        "last_50": 0.03873349443078041,
+        "last_100": 0.03767433546483517
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": true,
+      "best_value": 0.021223127841949463,
+      "worst_value": 0.1377202272415161,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/q_continue_loss",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "minimum_loss": {
+            "target_value": 0.021223127841949463,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 61,
+            "last_occurrence": 61
+          },
+          "low_quartile_loss": {
+            "target_value": 0.03752839379012585,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          }
+        }
+      }
+    }
+  ],
+  "correlation_analysis": {
+    "train/steps_vs_train/exact_accuracy": {
+      "correlation": 0.014711035409008756,
+      "strength": "weak",
+      "direction": "positive",
+      "sample_size": 500
+    },
+    "train/steps_vs_train/q_halt_accuracy": {
+      "correlation": 0.7267232065454885,
+      "strength": "strong",
+      "direction": "positive",
+      "sample_size": 500
+    },
+    "train/mcp_cost_vs_train/exact_accuracy": {
+      "correlation": 0.03262260838096295,
+      "strength": "weak",
+      "direction": "positive",
+      "sample_size": 500
+    },
+    "train/q_halt_loss_vs_train/q_continue_loss": {
+      "correlation": 0.08848406054422103,
+      "strength": "weak",
+      "direction": "positive",
+      "sample_size": 500
+    },
+    "train/lm_loss_vs_train/accuracy": {
+      "correlation": -0.024853315306772254,
+      "strength": "weak",
+      "direction": "negative",
+      "sample_size": 500
+    },
+    "train/steps_vs_train/lm_loss": {
+      "correlation": -0.10145299924852452,
+      "strength": "weak",
+      "direction": "negative",
+      "sample_size": 500
+    },
+    "train/q_halt_accuracy_vs_train/exact_accuracy": {
+      "correlation": -0.08034156118980712,
+      "strength": "weak",
+      "direction": "negative",
+      "sample_size": 500
+    },
+    "train/mcp_cost_vs_train/steps": {
+      "correlation": 0.16864213055194321,
+      "strength": "weak",
+      "direction": "positive",
+      "sample_size": 500
+    }
+  },
+  "act_dynamics": {
+    "halting_patterns": {
+      "uses_max_steps_ratio": 0.216,
+      "uses_min_steps_ratio": 0.462,
+      "step_distribution": {
+        "unique_values": 76,
+        "most_common_step": 0,
+        "most_common_frequency": 0.462,
+        "step_variance": 685.8747250485326,
+        "step_entropy": 3.2885883824645954
+      },
+      "efficiency_metrics": {
+        "avg_steps_used": 20.58382380952381,
+        "steps_utilization": 0.32162224702380954,
+        "halting_consistency": -0.27231996982851925
+      }
+    },
+    "q_learning_stability": {
+      "binary_switches": 234,
+      "switch_rate": 0.468,
+      "time_at_extremes": 0.998,
+      "convergence_quality": {
+        "final_value": 1.0,
+        "converged_to_one": false,
+        "learning_stability": 0.5021167315686782
+      }
+    },
+    "halt_continue_dynamics": {
+      "loss_ratio_mean": 0.4526403651844864,
+      "loss_difference_trend": "halt_decreasing",
+      "balanced_learning": "True"
+    }
+  },
+  "performance_breakthroughs": {
+    "train/exact_accuracy": {
+      "breakthrough_count": 4,
+      "major_breakthroughs": [
+        {
+          "step": 145,
+          "improvement": 1.0,
+          "from_value": 0.0,
+          "to_value": 1.0,
+          "relative_improvement": 1000.0
+        },
+        {
+          "step": 280,
+          "improvement": 1.0,
+          "from_value": 0.0,
+          "to_value": 1.0,
+          "relative_improvement": 1000.0
+        },
+        {
+          "step": 325,
+          "improvement": 1.0,
+          "from_value": 0.0,
+          "to_value": 1.0,
+          "relative_improvement": 1000.0
+        }
+      ],
+      "first_success": 118,
+      "first_major_success": 145,
+      "breakthrough_timing": {
+        "early_phase": 2,
+        "mid_phase": 2,
+        "late_phase": 0
+      }
+    },
+    "train/accuracy": {
+      "breakthrough_count": 136,
+      "major_breakthroughs": [
+        {
+          "step": 280,
+          "improvement": 1.0,
+          "from_value": 0.0,
+          "to_value": 1.0,
+          "relative_improvement": 1000.0
+        },
+        {
+          "step": 325,
+          "improvement": 1.0,
+          "from_value": 0.0,
+          "to_value": 1.0,
+          "relative_improvement": 1000.0
+        },
+        {
+          "step": 495,
+          "improvement": 0.9704545736312866,
+          "from_value": 0.0,
+          "to_value": 0.9704545736312866,
+          "relative_improvement": 970.4545736312866
+        }
+      ],
+      "first_success": 0,
+      "first_major_success": 9,
+      "breakthrough_timing": {
+        "early_phase": 44,
+        "mid_phase": 46,
+        "late_phase": 46
+      }
+    }
+  },
+  "mcp_gate_analysis": {
+    "available": true,
+    "cost_dynamics": {
+      "initial_cost": -5.279924274267008e-05,
+      "final_cost": -0.00010992259194608778,
+      "mean_cost": -0.00022718320048990703,
+      "cost_range": 0.0006526296900119632,
+      "trend_direction": "decreasing",
+      "trend_magnitude": -1.0818971302642009
+    },
+    "learning_phases": {
+      "early_mean": -0.00028313526105609656,
+      "late_mean": -0.0001712311399237175,
+      "phase_improvement": 0.3952320199009331
+    },
+    "stability_analysis": {
+      "coefficient_of_variation": -0.5552051795114356,
+      "convergence_point": 371,
+      "late_stability": 4.0557983486167036e-05
+    }
+  },
+  "stability_analysis": {
+    "train/lm_loss": {
+      "available": true,
+      "metric_name": "train/lm_loss",
+      "stable_regions": [
+        [
+          153,
+          177
+        ],
+        [
+          265,
+          272
+        ],
+        [
+          278,
+          286
+        ],
+        [
+          293,
+          299
+        ],
+        [
+          354,
+          360
+        ],
+        [
+          362,
+          364
+        ],
+        [
+          379,
+          405
+        ],
+        [
+          408,
+          409
+        ],
+        [
+          418,
+          451
+        ]
+      ],
+      "num_stable_regions": 9,
+      "total_stable_steps": 113,
+      "stability_ratio": 0.226,
+      "avg_cv": 0.16441647900345632,
+      "min_cv": 0.10283244645869534,
+      "stability_threshold": 0.13854743338379255
+    },
+    "train/exact_accuracy": {
+      "available": true,
+      "metric_name": "train/exact_accuracy",
+      "stable_regions": [
+        [
+          27,
+          50
+        ],
+        [
+          122,
+          127
+        ]
+      ],
+      "num_stable_regions": 2,
+      "total_stable_steps": 28,
+      "stability_ratio": 0.056,
+      "avg_cv": 6.762816063500379,
+      "min_cv": 4.948716593053935,
+      "stability_threshold": 7.071067811865475
+    },
+    "train/steps": {
+      "available": true,
+      "metric_name": "train/steps",
+      "stable_regions": [
+        [
+          9,
+          14
+        ],
+        [
+          116,
+          117
+        ],
+        [
+          149,
+          153
+        ],
+        [
+          157,
+          158
+        ],
+        [
+          164,
+          173
+        ],
+        [
+          174,
+          175
+        ],
+        [
+          177,
+          185
+        ],
+        [
+          189,
+          191
+        ],
+        [
+          211,
+          214
+        ],
+        [
+          220,
+          224
+        ]
+      ],
+      "num_stable_regions": 22,
+      "total_stable_steps": 110,
+      "stability_ratio": 0.22,
+      "avg_cv": 1.289394297197209,
+      "min_cv": 1.027454210308338,
+      "stability_threshold": 1.2019013502270723
+    },
+    "train/mcp_cost": {
+      "available": true,
+      "metric_name": "train/mcp_cost",
+      "stable_regions": [
+        [
+          121,
+          123
+        ],
+        [
+          138,
+          143
+        ],
+        [
+          146,
+          147
+        ],
+        [
+          249,
+          262
+        ],
+        [
+          319,
+          344
+        ],
+        [
+          364,
+          424
+        ],
+        [
+          426,
+          433
+        ]
+      ],
+      "num_stable_regions": 7,
+      "total_stable_steps": 113,
+      "stability_ratio": 0.226,
+      "avg_cv": 0.2866224067363015,
+      "min_cv": 0.20304010254719224,
+      "stability_threshold": 0.25296882157350886
+    }
+  },
+  "downloaded_files": {
+    "checkpoints": [],
+    "configs": []
+  },
+  "wandb_metadata": {
+    "os": "Linux-6.8.0-53-generic-x86_64-with-glibc2.35",
+    "python": "CPython 3.11.11",
+    "startedAt": "2025-09-01T08:33:10.454926Z",
+    "args": [
+      "data_path=data/arc-aug-100",
+      "epochs=30",
+      "eval_interval=null",
+      "global_batch_size=32",
+      "lr=5e-5",
+      "lr_warmup_steps=100",
+      "lr_min_ratio=0.1",
+      "weight_decay=0.15",
+      "arch=hrm_quant_v1",
+      "arch.halt_max_steps=64",
+      "arch.halt_min_steps=4",
+      "arch.halt_exploration_prob=0.15",
+      "arch.act_min_step_penalty=2e-4",
+      "arch.act_sched_enabled=false",
+      "arch.pqc_shared=true",
+      "arch.pqc_n_wires=4",
+      "arch.pqc_n_layers=1",
+      "arch.quantum_gate_proj_dim=64",
+      "arch.quantum_gate_enabled=true",
+      "arch.quantum_gate_last_h_block_only=true",
+      "arch.per_head_bias_enabled=true",
+      "arch.token_routing_enabled=true",
+      "arch.mcp_enabled=true",
+      "arch.mcp_backend=mlp",
+      "arch.mcp_temp=0.7",
+      "arch.mcp_hard_eval=true",
+      "arch.mcp_cost_coef=3e-4",
+      "arch.mcp_entropy_coef=2e-3",
+      "arch.film_enabled=false",
+      "arch.rope_phase_bias_enabled=false"
+    ],
+    "program": "/workspace/CMBA/HRM/pretrain.py",
+    "codePath": "HRM/pretrain.py",
+    "codePathLocal": "pretrain.py",
+    "git": {
+      "remote": "https://github.com/VihariKanukollu/CMBA.git",
+      "commit": "52a0482beee07ff10e5c0cecd221428e30ba2f84"
+    },
+    "email": "vihari@urbankisaan.com",
+    "root": "/workspace/CMBA/HRM",
+    "host": "5723d757fc32",
+    "executable": "/usr/bin/python",
+    "writerId": "qsakpi89e52ut5sjst3y2ec3vud0uudd"
+  },
+  "raw_config": {
+    "lr": 5e-05,
+    "arch": {
+      "loss": {
+        "name": "losses@ACTLossHead",
+        "loss_type": "stablemax_cross_entropy"
+      },
+      "name": "hrm.hrm_quant_v1@HierarchicalReasoningModel_ACTV1",
+      "H_cycles": 2,
+      "H_layers": 4,
+      "L_cycles": 2,
+      "L_layers": 4,
+      "mcp_temp": 0.7,
+      "expansion": 4,
+      "num_heads": 8,
+      "film_scale": 1,
+      "pqc_shared": true,
+      "film_groups": 32,
+      "hidden_size": 512,
+      "mcp_backend": "mlp",
+      "mcp_enabled": true,
+      "pqc_n_wires": 4,
+      "film_enabled": false,
+      "pqc_n_layers": 1,
+      "forward_dtype": "bfloat16",
+      "halt_proj_dim": 32,
+      "mcp_cost_coef": 0.0003,
+      "mcp_hard_eval": true,
+      "pos_encodings": "rope",
+      "halt_head_type": "pqc",
+      "halt_max_steps": 64,
+      "halt_min_steps": 4,
+      "puzzle_emb_ndim": 512,
+      "puzzle_emb_type": "pqc",
+      "halt_head_hidden": 128,
+      "mcp_entropy_coef": 0.002,
+      "quantum_gate_dim": 2,
+      "act_sched_enabled": false,
+      "act_sched_proj_dim": 32,
+      "per_head_bias_scale": 1,
+      "act_min_step_penalty": 0.0002,
+      "act_sched_bias_scale": 0.3,
+      "quantum_gate_enabled": true,
+      "halt_exploration_prob": 0.15,
+      "per_head_bias_enabled": true,
+      "puzzle_emb_cache_eval": true,
+      "puzzle_emb_cache_size": 4096,
+      "quantum_gate_proj_dim": 64,
+      "rope_phase_bias_scale": 1,
+      "token_routing_enabled": true,
+      "rope_phase_bias_enabled": false,
+      "rope_phase_bias_per_head": true,
+      "token_routing_keep_ratio": 1,
+      "quantum_gate_last_h_block_only": true
+    },
+    "seed": 0,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "epochs": 30,
+    "run_name": "HierarchicalReasoningModel_ACTV1 malachite-dogfish",
+    "data_path": "data/arc-aug-100",
+    "lr_min_ratio": 0.1,
+    "project_name": "Arc-aug-100 ACT-torch",
+    "weight_decay": 0.15,
+    "eval_interval": null,
+    "puzzle_emb_lr": 0.01,
+    "checkpoint_path": "checkpoints/Arc-aug-100 ACT-torch/HierarchicalReasoningModel_ACTV1 malachite-dogfish",
+    "lr_warmup_steps": 100,
+    "eval_save_outputs": [],
+    "global_batch_size": 32,
+    "checkpoint_every_eval": true,
+    "puzzle_emb_weight_decay": 0.1
+  },
+  "raw_summary": {
+    "_runtime": 1070.258903939,
+    "_step": 5505,
+    "_timestamp": 1756716660.9157538,
+    "_wandb": "{'runtime': 1070}",
+    "num_params": 27641054,
+    "train/accuracy": 0,
+    "train/count": 0,
+    "train/exact_accuracy": 0,
+    "train/lm_loss": 1.050536286946116,
+    "train/lr": 5.252633928484019e-06,
+    "train/mcp_cost": -0.00017405906692147255,
+    "train/q_continue_loss": 0.03724168241024017,
+    "train/q_halt_accuracy": 0,
+    "train/q_halt_loss": 0.0011281371116638184,
+    "train/steps": 0
+  }
+}

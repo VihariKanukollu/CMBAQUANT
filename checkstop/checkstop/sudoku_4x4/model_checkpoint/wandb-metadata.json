@@ -1,0 +1,38 @@
+{
+  "os": "Linux-6.8.0-53-generic-x86_64-with-glibc2.35",
+  "python": "CPython 3.11.11",
+  "startedAt": "2025-09-01T07:24:25.530386Z",
+  "program": "workspace/CMBA/HRM/Untitled2.ipynb",
+  "git": {
+    "remote": "https://github.com/VihariKanukollu/CMBA.git",
+    "commit": "52a0482beee07ff10e5c0cecd221428e30ba2f84"
+  },
+  "email": "vihari@urbankisaan.com",
+  "root": "/workspace/CMBA/HRM",
+  "host": "5723d757fc32",
+  "executable": "/usr/bin/python",
+  "cpu_count": 96,
+  "cpu_count_logical": 192,
+  "gpu": "NVIDIA H200",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "5368709120",
+      "used": "2635730944"
+    }
+  },
+  "memory": {
+    "total": "2164181422080"
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA H200",
+      "memoryTotal": "150754820096",
+      "cudaCores": 16896,
+      "architecture": "Hopper",
+      "uuid": "GPU-1933f77e-a337-b507-a1f0-b3d37a2e075f"
+    }
+  ],
+  "cudaVersion": "12.4",
+  "writerId": "cgybp67v2gqx898ruj6l72la75cmaxxn"
+}
