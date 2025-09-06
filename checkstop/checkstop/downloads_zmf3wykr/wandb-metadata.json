@@ -1,0 +1,33 @@
+{
+  "os": "Linux-6.8.0-57-generic-x86_64-with-glibc2.35",
+  "python": "CPython 3.11.11",
+  "startedAt": "2025-09-05T15:57:58.672664Z",
+  "args": [
+    "+data_mode=chat",
+    "+tokenizer_id=mistralai/Mistral-7B-Instruct-v0.2",
+    "+trust_remote_code=true",
+    "+chat_train_jsonl=/workspace/CMBAQUANT/HRM/data/chat/train.jsonl",
+    "+chat_eval_jsonl=/workspace/CMBAQUANT/HRM/data/chat/val.jsonl",
+    "+chat_max_seq_len=1024",
+    "arch=CMBA_GPU",
+    "global_batch_size=16",
+    "epochs=3",
+    "eval_interval=1",
+    "eval_halt_max_steps=16",
+    "arch.halt_max_steps=16",
+    "arch.halt_min_steps_ceiling=2",
+    "arch.ponder_eval_best_step=true"
+  ],
+  "program": "/workspace/CMBAQUANT/HRM/pretrain.py",
+  "codePath": "HRM/pretrain.py",
+  "codePathLocal": "pretrain.py",
+  "git": {
+    "remote": "https://github.com/VihariKanukollu/CMBAQUANT.git",
+    "commit": "e5268bde17baeef2b0d056a7d2a1ce63026eaf50"
+  },
+  "email": "vihari@urbankisaan.com",
+  "root": "/workspace/CMBAQUANT/HRM",
+  "host": "f1f4c026a824",
+  "executable": "/usr/bin/python3",
+  "writerId": "cde5t2kcirrq0luzn1fpiy0u2m9ymcku"
+}

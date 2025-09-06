@@ -19,8 +19,11 @@ from omegaconf import DictConfig
 from adam_atan2 import AdamATan2
 
 from puzzle_dataset import PuzzleDataset, PuzzleDatasetConfig, PuzzleDatasetMetadata
+from chat_dataset import ChatDataset, ChatDatasetConfig
+from pair_dataset import DistillPairsDataset, PairDatasetConfig, PairDatasetMetadata
 from utils.functions import load_model_class, get_model_source_path
 from models.sparse_embedding import CastedSparseEmbeddingSignSGD_Distributed
+from transformers import AutoTokenizer
 
 
 class LossConfig(pydantic.BaseModel):
@@ -62,6 +65,8 @@ class PretrainConfig(pydantic.BaseModel):
     project_name: Optional[str] = None
     run_name: Optional[str] = None
     checkpoint_path: Optional[str] = None
+    # Optional: warm-start from an existing checkpoint (model.state_dict)
+    init_model_ckpt: Optional[str] = None
 
     # Extras
     seed: int = 0
@@ -78,6 +83,23 @@ class PretrainConfig(pydantic.BaseModel):
     eval_sample_random: bool = False
     eval_sample_seed: int = 20250901
 
+    # Chat training (optional)
+    data_mode: Optional[str] = None  # "chat" or "puzzle" (default auto-detects puzzle)
+    tokenizer_id: Optional[str] = None
+    chat_max_seq_len: int = 2048
+    chat_train_jsonl: Optional[str] = None
+    chat_eval_jsonl: Optional[str] = None
+    trust_remote_code: bool = True
+    # Chat augmentation flags (train-time)
+    chat_sample_any_assistant_turn: bool = False
+    chat_samples_per_conversation: int = 1
+    chat_random_truncate_prob: float = 0.0
+    chat_token_dropout_prob: float = 0.0
+    chat_system_prompt_variant_prob: float = 0.0
+
+    # Pairs dataset (distillation) optional
+    pairs_dataset_dir: Optional[str] = None
+
 
 @dataclass
 class TrainState:
@@ -90,7 +112,107 @@ class TrainState:
     total_steps: int
 
 
+@dataclass
+class ChatMetadata:
+    seq_len: int
+    vocab_size: int
+    num_puzzle_identifiers: int = 1
+    # Expected by evaluation to build set id mapping
+    sets: Sequence[str] = ("train",)
+
+
+def _is_chat_mode(config: PretrainConfig) -> bool:
+    if getattr(config, "data_mode", None) is not None:
+        return str(config.data_mode).lower() == "chat"
+    # Heuristic fallback: if using a chat model file name
+    try:
+        return "_chat" in str(config.arch.name)
+    except Exception:
+        return False
+
+def _is_pairs_mode(config: PretrainConfig) -> bool:
+    return str(getattr(config, "data_mode", "")).lower() == "pairs"
+
+
+def _create_chat_dataloader(config: PretrainConfig, split: str):
+    # Resolve paths
+    if split == "train":
+        jsonl_path = config.chat_train_jsonl or config.data_path
+    else:
+        jsonl_path = config.chat_eval_jsonl or config.chat_train_jsonl or config.data_path
+    if jsonl_path is None:
+        raise ValueError("chat_*_jsonl or data_path must be provided for chat mode")
+
+    if not getattr(config, "tokenizer_id", None):
+        raise ValueError("tokenizer_id must be set for chat mode")
+
+    tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_id, trust_remote_code=config.trust_remote_code)
+    if tokenizer.pad_token_id is None:
+        # Ensure pad token exists for batching
+        tokenizer.pad_token = tokenizer.eos_token or tokenizer.unk_token or "<|pad|>"
+
+    ds_cfg = ChatDatasetConfig(
+        jsonl_path=jsonl_path,
+        tokenizer=tokenizer,
+        global_batch_size=config.global_batch_size,
+        max_seq_len=int(getattr(config, "chat_max_seq_len", 2048)),
+        # Augmentations: enable only for train
+        sample_any_assistant_turn=bool(getattr(config, 'chat_sample_any_assistant_turn', False)) if split == 'train' else False,
+        samples_per_conversation=int(getattr(config, 'chat_samples_per_conversation', 1)) if split == 'train' else 1,
+        random_truncate_prob=float(getattr(config, 'chat_random_truncate_prob', 0.0)) if split == 'train' else 0.0,
+        token_dropout_prob=float(getattr(config, 'chat_token_dropout_prob', 0.0)) if split == 'train' else 0.0,
+        system_prompt_variant_prob=float(getattr(config, 'chat_system_prompt_variant_prob', 0.0)) if split == 'train' else 0.0,
+    )
+    dataset = ChatDataset(ds_cfg)
+    dataloader = DataLoader(
+        dataset,
+        batch_size=None,
+        num_workers=1,
+        prefetch_factor=8,
+        pin_memory=True,
+        persistent_workers=True
+    )
+    vocab_size = getattr(tokenizer, "vocab_size", None)
+    if vocab_size is None:
+        try:
+            vocab_size = len(tokenizer)
+        except Exception:
+            vocab_size = 32000
+    metadata = ChatMetadata(seq_len=ds_cfg.max_seq_len, vocab_size=int(vocab_size))
+    return dataloader, metadata
+
+
+def _create_pairs_dataloader(config: PretrainConfig, split: str):
+    if split != "train":
+        # Use the same set for eval; pairs data is typically train-only
+        pass
+    if not getattr(config, "tokenizer_id", None):
+        raise ValueError("tokenizer_id must be set for pairs mode")
+    if not getattr(config, "pairs_dataset_dir", None):
+        raise ValueError("pairs_dataset_dir must be set for pairs mode")
+
+    tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_id, trust_remote_code=config.trust_remote_code)
+    if tokenizer.pad_token_id is None:
+        tokenizer.pad_token = tokenizer.eos_token or tokenizer.unk_token or "<|pad|>"
+
+    ds_cfg = PairDatasetConfig(
+        dataset_dir=str(config.pairs_dataset_dir),
+        tokenizer=tokenizer,
+        global_batch_size=config.global_batch_size,
+        max_seq_len=int(getattr(config, "chat_max_seq_len", 1024)),
+    )
+    dataset = DistillPairsDataset(ds_cfg)
+    dataloader = DataLoader(dataset, batch_size=None, num_workers=1, prefetch_factor=8, pin_memory=True, persistent_workers=True)
+    vocab_size = getattr(tokenizer, "vocab_size", None) or len(tokenizer)
+    metadata = PairDatasetMetadata(seq_len=ds_cfg.max_seq_len, vocab_size=int(vocab_size))
+    return dataloader, metadata
+
+
 def create_dataloader(config: PretrainConfig, split: str, rank: int, world_size: int, **kwargs):
+    if _is_pairs_mode(config):
+        return _create_pairs_dataloader(config, split)
+    if _is_chat_mode(config):
+        return _create_chat_dataloader(config, split)
     dataset = PuzzleDataset(PuzzleDatasetConfig(
         seed=config.seed,
 
@@ -114,7 +236,7 @@ def create_dataloader(config: PretrainConfig, split: str, rank: int, world_size:
     return dataloader, dataset.metadata
 
 
-def create_model(config: PretrainConfig, train_metadata: PuzzleDatasetMetadata, world_size: int):
+def create_model(config: PretrainConfig, train_metadata: Any, world_size: int):
     model_cfg = dict(
         **config.arch.__pydantic_extra__,  # type: ignore
 
@@ -123,7 +245,7 @@ def create_model(config: PretrainConfig, train_metadata: PuzzleDatasetMetadata, 
         vocab_size=train_metadata.vocab_size,
         seq_len=train_metadata.seq_len,
         num_puzzle_identifiers=train_metadata.num_puzzle_identifiers,
-        causal=False  # Non-autoregressive
+        causal=_is_chat_mode(config)  # Chat is autoregressive; puzzle is not
     )
 
     # Instantiate model with loss head
@@ -136,6 +258,12 @@ def create_model(config: PretrainConfig, train_metadata: PuzzleDatasetMetadata, 
 
         # Ensure base model tensors live on CUDA, then move PQC TorchLayer weights to CPU
         model = model.cuda()
+
+        # Compile the model for speed (requires PyTorch 2.0+). Disable if causing issues.
+        try:
+            model = torch.compile(model, mode="max-autotune")  # type: ignore[attr-defined]
+        except Exception:
+            pass
 
         # Collect PQC TorchLayer params to keep on CPU and optimize separately
         pqc_params: List[torch.nn.Parameter] = []
@@ -150,6 +278,29 @@ def create_model(config: PretrainConfig, train_metadata: PuzzleDatasetMetadata, 
                         pqc_params.append(p)
         except Exception:
             pqc_params = []
+
+        # Optional warm start
+        if getattr(config, "init_model_ckpt", None):
+            try:
+                loaded = torch.load(str(config.init_model_ckpt), map_location="cpu")
+                if not isinstance(loaded, dict):
+                    raise RuntimeError("checkpoint is not a state_dict")
+
+                target_sd = model.state_dict()
+                filtered: dict[str, torch.Tensor] = {}
+
+                # Accept keys that exist and have exactly matching shape
+                for k, v in loaded.items():
+                    if k in target_sd and target_sd[k].shape == v.shape:
+                        filtered[k] = v
+
+                missing = [k for k in target_sd.keys() if k not in filtered]
+                model.load_state_dict(filtered, strict=False)
+                print(f"[Warmstart] Loaded {len(filtered)}/{len(target_sd)} tensors from {config.init_model_ckpt}")
+                if len(missing):
+                    print(f"[Warmstart] Skipped {len(missing)} tensors due to shape/name mismatches (expected with different arch)")
+            except Exception as e:
+                print(f"[Warmstart] Failed to load {config.init_model_ckpt}: {e}")
 
         # Broadcast parameters from rank 0
         if world_size > 1:
@@ -213,9 +364,29 @@ def cosine_schedule_with_warmup_lr_lambda(
     return base_lr * (min_ratio + max(0.0, (1 - min_ratio) * 0.5 * (1.0 + math.cos(math.pi * float(num_cycles) * 2.0 * progress))))
 
 
-def init_train_state(config: PretrainConfig, train_metadata: PuzzleDatasetMetadata, world_size: int):
+def _estimate_chat_total_steps(config: PretrainConfig) -> int:
+    path = config.chat_train_jsonl or config.data_path
+    if path is None:
+        return 0
+    try:
+        # Count non-empty lines as rough example count
+        count = 0
+        with open(path, 'r') as f:
+            for line in f:
+                if line.strip():
+                    count += 1
+        steps_per_epoch = max(count // max(1, int(config.global_batch_size)), 1)
+        return int(config.epochs * steps_per_epoch)
+    except Exception:
+        return int(config.epochs * 1000)
+
+
+def init_train_state(config: PretrainConfig, train_metadata: Any, world_size: int):
     # Estimated total training steps
-    total_steps = int(config.epochs * train_metadata.total_groups * train_metadata.mean_puzzle_examples / config.global_batch_size)
+    if _is_chat_mode(config):
+        total_steps = _estimate_chat_total_steps(config)
+    else:
+        total_steps = int(config.epochs * train_metadata.total_groups * train_metadata.mean_puzzle_examples / config.global_batch_size)
 
     # Model
     model, optimizers, optimizer_lrs = create_model(config, train_metadata, world_size=world_size)

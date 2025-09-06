@@ -1,0 +1,205 @@
+_wandb:
+    value:
+        cli_version: 0.21.3
+        code_path: source-Arc-aug-1000_ACT-torch-None
+        e:
+            tgllnt5rv7yjuke9nwd7voh6txq1esgj:
+                args:
+                    - +data_mode=chat
+                    - +tokenizer_id=mistralai/Mistral-7B-Instruct-v0.2
+                    - +chat_train_jsonl=/workspace/CMBAQUANT/HRM/data/chat/train.jsonl
+                    - +chat_eval_jsonl=/workspace/CMBAQUANT/HRM/data/chat/val.jsonl
+                    - +chat_max_seq_len=2048
+                    - +chat_sample_any_assistant_turn=true
+                    - +chat_samples_per_conversation=2
+                    - +chat_random_truncate_prob=0.3
+                    - +chat_token_dropout_prob=0.02
+                    - +chat_system_prompt_variant_prob=0.1
+                    - +init_model_ckpt=/workspace/CMBAQUANT/HRM/checkpoints/Arc-aug-1000 ACT-torch/HierarchicalReasoningModel_ACTV1 arcane-macaque/step_1686
+                    - arch=hrm_quant_v1
+                    - arch.name=models.hrm.hrm_quant_v1_chat@HierarchicalReasoningModel_ACTV1
+                    - arch.loss.name=models.losses@ACTLossHead
+                    - arch.loss.loss_type=softmax_cross_entropy
+                    - arch.halt_max_steps=64
+                    - arch.halt_min_steps=4
+                    - arch.halt_exploration_prob=0.1
+                    - arch.act_min_step_penalty=4e-4
+                    - arch.act_sched_enabled=false
+                    - arch.pqc_shared=true
+                    - arch.pqc_n_wires=4
+                    - arch.pqc_n_layers=1
+                    - arch.quantum_gate_proj_dim=64
+                    - arch.quantum_gate_enabled=true
+                    - arch.quantum_gate_last_h_block_only=true
+                    - arch.per_head_bias_enabled=true
+                    - arch.token_routing_enabled=true
+                    - arch.mcp_enabled=true
+                    - arch.mcp_backend=mlp
+                    - arch.mcp_temp=0.7
+                    - arch.mcp_hard_eval=true
+                    - arch.mcp_cost_coef=4e-4
+                    - arch.mcp_entropy_coef=0.0
+                    - arch.film_enabled=false
+                    - arch.rope_phase_bias_enabled=false
+                    - global_batch_size=32
+                    - epochs=3
+                    - eval_interval=1
+                    - eval_halt_max_steps=16
+                    - checkpoint_every_eval=true
+                email: vihari@urbankisaan.com
+                executable: /usr/bin/python
+                git:
+                    commit: e5268bde17baeef2b0d056a7d2a1ce63026eaf50
+                    remote: https://github.com/VihariKanukollu/CMBAQUANT.git
+                host: 8decee94a198
+                os: Linux-6.8.0-57-generic-x86_64-with-glibc2.35
+                program: -m pretrain
+                python: CPython 3.11.11
+                root: /workspace/CMBAQUANT/HRM
+                startedAt: "2025-09-03T02:29:53.017158Z"
+                writerId: tgllnt5rv7yjuke9nwd7voh6txq1esgj
+        m: []
+        python_version: 3.11.11
+        t:
+            "1":
+                - 1
+                - 11
+                - 49
+                - 50
+                - 71
+            "2":
+                - 1
+                - 11
+                - 49
+                - 50
+                - 71
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.11.11
+            "5": 0.21.3
+            "6": 4.56.0
+            "12": 0.21.3
+            "13": linux-x86_64
+arch:
+    value:
+        H_cycles: 2
+        H_layers: 4
+        L_cycles: 2
+        L_layers: 4
+        act_min_step_penalty: 0.0004
+        act_sched_bias_scale: 0.3
+        act_sched_enabled: false
+        act_sched_proj_dim: 32
+        expansion: 4
+        film_enabled: false
+        film_groups: 32
+        film_scale: 1
+        forward_dtype: bfloat16
+        halt_exploration_prob: 0.1
+        halt_head_hidden: 128
+        halt_head_type: pqc
+        halt_max_steps: 64
+        halt_min_steps: 4
+        halt_proj_dim: 32
+        hidden_size: 512
+        loss:
+            loss_type: softmax_cross_entropy
+            name: models.losses@ACTLossHead
+        mcp_backend: mlp
+        mcp_cost_coef: 0.0004
+        mcp_enabled: true
+        mcp_entropy_coef: 0
+        mcp_hard_eval: true
+        mcp_temp: 0.7
+        name: models.hrm.hrm_quant_v1_chat@HierarchicalReasoningModel_ACTV1
+        num_heads: 8
+        per_head_bias_enabled: true
+        per_head_bias_scale: 1
+        pos_encodings: rope
+        pqc_n_layers: 1
+        pqc_n_wires: 4
+        pqc_shared: true
+        puzzle_emb_cache_eval: true
+        puzzle_emb_cache_size: 4096
+        puzzle_emb_ndim: 512
+        puzzle_emb_type: pqc
+        quantum_gate_dim: 2
+        quantum_gate_enabled: true
+        quantum_gate_last_h_block_only: true
+        quantum_gate_proj_dim: 64
+        rope_phase_bias_enabled: false
+        rope_phase_bias_per_head: true
+        rope_phase_bias_scale: 1
+        token_routing_enabled: true
+        token_routing_keep_ratio: 1
+beta1:
+    value: 0.9
+beta2:
+    value: 0.95
+chat_eval_jsonl:
+    value: /workspace/CMBAQUANT/HRM/data/chat/val.jsonl
+chat_max_seq_len:
+    value: 2048
+chat_random_truncate_prob:
+    value: 0.3
+chat_sample_any_assistant_turn:
+    value: true
+chat_samples_per_conversation:
+    value: 2
+chat_system_prompt_variant_prob:
+    value: 0.1
+chat_token_dropout_prob:
+    value: 0.02
+chat_train_jsonl:
+    value: /workspace/CMBAQUANT/HRM/data/chat/train.jsonl
+checkpoint_every_eval:
+    value: true
+checkpoint_path:
+    value: checkpoints/Arc-aug-1000 ACT-torch/HierarchicalReasoningModel_ACTV1 sociable-ape
+data_mode:
+    value: chat
+data_path:
+    value: data/arc-aug-1000
+epochs:
+    value: 3
+eval_halt_max_steps:
+    value: 16
+eval_interval:
+    value: 1
+eval_max_batches:
+    value: null
+eval_sample_random:
+    value: false
+eval_sample_seed:
+    value: 20250901
+eval_save_outputs:
+    value: []
+global_batch_size:
+    value: 32
+init_model_ckpt:
+    value: /workspace/CMBAQUANT/HRM/checkpoints/Arc-aug-1000 ACT-torch/HierarchicalReasoningModel_ACTV1 arcane-macaque/step_1686
+lr:
+    value: 0.0001
+lr_min_ratio:
+    value: 1
+lr_warmup_steps:
+    value: 2000
+project_name:
+    value: Arc-aug-1000 ACT-torch
+puzzle_emb_lr:
+    value: 0.01
+puzzle_emb_weight_decay:
+    value: 0.1
+run_name:
+    value: HierarchicalReasoningModel_ACTV1 sociable-ape
+seed:
+    value: 0
+tokenizer_id:
+    value: mistralai/Mistral-7B-Instruct-v0.2
+trust_remote_code:
+    value: true
+weight_decay:
+    value: 0.1

@@ -1,0 +1,3548 @@
+{
+  "analysis_metadata": {
+    "generated_at": "2025-09-05T21:34:44.329378",
+    "wandb_run_path": "viharikvs-urbankisaan/Arc-aug-1000 ACT-torch/zmf3wykr",
+    "analyzer_version": "2.2"
+  },
+  "run_summary": {
+    "run_info": {
+      "run_id": "zmf3wykr",
+      "run_name": "HierarchicalReasoningModel_ACTV1 berserk-porpoise",
+      "state": "finished",
+      "created_at": "2025-09-05T15:57:58Z",
+      "project": "Arc-aug-1000 ACT-torch",
+      "entity": "viharikvs-urbankisaan"
+    },
+    "model_info": {
+      "num_parameters": 67558174,
+      "model_architecture": "hrm.cmba_gpu_v1_live@HierarchicalReasoningModel_ACTV1"
+    },
+    "dataset_info": {
+      "data_path": "data/arc-aug-1000",
+      "global_batch_size": 16
+    },
+    "training_overview": {
+      "total_metrics_tracked": 67,
+      "total_data_points": 500,
+      "run_completed": true,
+      "run_status": "finished"
+    },
+    "key_performance_indicators": {
+      "best_accuracy": {
+        "metric_name": "train/accuracy",
+        "value": 1.0,
+        "final_value": 0.1616308093070984
+      },
+      "best_loss": {
+        "metric_name": "train/q_continue_loss",
+        "value": 0.04498329758644104,
+        "final_value": 0.5644530057907104,
+        "improvement": 0.5194697082042694
+      }
+    }
+  },
+  "training_dynamics": {
+    "training_duration": {
+      "total_runtime_seconds": 287.723220686,
+      "total_runtime_hours": 0.07992311685722223,
+      "avg_step_time": 0.5731626928837674
+    },
+    "step_analysis": {
+      "total_steps": 1684,
+      "step_range": [
+        1,
+        1685
+      ],
+      "avg_step_increment": 3.374749498997996
+    },
+    "convergence_analysis": {},
+    "learning_rate": {
+      "initial_lr": 5.0000000000000004e-08,
+      "final_lr": 8.425e-05,
+      "lr_schedule_detected": true,
+      "lr_decay_factor": 1684.9999999999998
+    }
+  },
+  "metrics_analysis": [
+    {
+      "metric_name": "train/ntm_erase_mag",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.050989508628845215,
+      "max": 0.5313624143600464,
+      "mean": 0.3382096945121884,
+      "median": 0.4989112913608551,
+      "std": 0.19653744884879434,
+      "variance": 0.03862696879999245,
+      "percentiles": {
+        "p5": 0.06508115231990814,
+        "p25": 0.12650515139102936,
+        "p75": 0.5178947150707245,
+        "p95": 0.5268768072128296
+      },
+      "range": 0.48037290573120117,
+      "iqr": 0.39138956367969513,
+      "first_value": 0.5247145295143127,
+      "last_value": 0.16729457676410675,
+      "absolute_change": -0.357419952750206,
+      "percent_change": -68.11702986022546,
+      "coefficient_of_variation": 0.5811112219366364,
+      "moving_averages": {
+        "last_10": 0.23625217899680137,
+        "last_50": 0.35225908368825914,
+        "last_100": 0.35835742074996235
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/gate_halt",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0416666679084301,
+      "max": 1.0,
+      "mean": 0.6163378692790866,
+      "median": 0.861328125,
+      "std": 0.3893181734932641,
+      "variance": 0.1515686402121313,
+      "percentiles": {
+        "p5": 0.0853955063968897,
+        "p25": 0.1962890662252903,
+        "p75": 0.99609375,
+        "p95": 1.0
+      },
+      "range": 0.9583333320915699,
+      "iqr": 0.7998046837747097,
+      "first_value": 0.4765625,
+      "last_value": 0.3333333432674408,
+      "absolute_change": -0.1432291567325592,
+      "percent_change": -30.054642724209145,
+      "coefficient_of_variation": 0.6316635613330701,
+      "moving_averages": {
+        "last_10": 0.4662532567977905,
+        "last_50": 0.6848973535001278,
+        "last_100": 0.68817976616323
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/ntm_write_entropy",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.21484375,
+      "max": 4.84375,
+      "mean": 2.659360553264618,
+      "median": 2.28125,
+      "std": 1.709934368897582,
+      "variance": 2.9238755459371726,
+      "percentiles": {
+        "p5": 0.5936197906732559,
+        "p25": 0.96875,
+        "p75": 4.7265625,
+        "p95": 4.84375
+      },
+      "range": 4.62890625,
+      "iqr": 3.7578125,
+      "first_value": 4.84375,
+      "last_value": 1.5104166269302368,
+      "absolute_change": -3.333333373069763,
+      "percent_change": -68.81720512144027,
+      "coefficient_of_variation": 0.6429870394213658,
+      "moving_averages": {
+        "last_10": 1.3986197888851166,
+        "last_50": 2.2329131907224653,
+        "last_100": 2.3464073637127876
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/gate_film",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.005950927734375,
+      "max": 0.93359375,
+      "mean": 0.35247819872386754,
+      "median": 0.2101236954331398,
+      "std": 0.2945056040898383,
+      "variance": 0.08673355084032058,
+      "percentiles": {
+        "p5": 0.03262067520990968,
+        "p25": 0.09306640736758709,
+        "p75": 0.65234375,
+        "p95": 0.8400390624999998
+      },
+      "range": 0.927642822265625,
+      "iqr": 0.5592773426324129,
+      "first_value": 0.4453125,
+      "last_value": 0.01603190042078495,
+      "absolute_change": -0.42928059957921505,
+      "percent_change": -96.39985394059566,
+      "coefficient_of_variation": 0.8355285664647726,
+      "moving_averages": {
+        "last_10": 0.036788126453757286,
+        "last_50": 0.07423544645309449,
+        "last_100": 0.08346223284490406
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/gate_puzzle",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.02777777798473835,
+      "max": 0.99609375,
+      "mean": 0.4378105717301369,
+      "median": 0.4091796875,
+      "std": 0.3206759759182861,
+      "variance": 0.1028330815311452,
+      "percentiles": {
+        "p5": 0.05685686282813549,
+        "p25": 0.12841796875,
+        "p75": 0.6943359375,
+        "p95": 0.98828125
+      },
+      "range": 0.9683159720152617,
+      "iqr": 0.56591796875,
+      "first_value": 0.2578125,
+      "last_value": 0.33203125,
+      "absolute_change": 0.07421875,
+      "percent_change": 28.78787878787879,
+      "coefficient_of_variation": 0.7324537062936625,
+      "moving_averages": {
+        "last_10": 0.4605273425579071,
+        "last_50": 0.672410156428814,
+        "last_100": 0.6716716276854277
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/accuracy",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.057783385155256835,
+      "median": 0.0,
+      "std": 0.10922067451368889,
+      "variance": 0.011929155741225168,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 0.08823304995894432,
+        "p95": 0.2109458118677132
+      },
+      "range": 1.0,
+      "iqr": 0.08823304995894432,
+      "first_value": 0.0,
+      "last_value": 0.1616308093070984,
+      "absolute_change": 0.1616308093070984,
+      "percent_change": null,
+      "coefficient_of_variation": 1.8901743852532418,
+      "moving_averages": {
+        "last_10": 0.12248227745294571,
+        "last_50": 0.07383287608623505,
+        "last_100": 0.07696731969714164
+      },
+      "improvement_direction": "higher_is_better",
+      "is_improving": true,
+      "best_value": 1.0,
+      "worst_value": 0.0,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/accuracy",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "zero_accuracy": {
+            "target_value": 0.0,
+            "exact_count": 261,
+            "percentage": 52.2,
+            "first_occurrence": 0,
+            "last_occurrence": 493
+          },
+          "half_accuracy": {
+            "target_value": 0.5,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          },
+          "perfect_accuracy": {
+            "target_value": 1.0,
+            "exact_count": 3,
+            "percentage": 0.6,
+            "first_occurrence": 168,
+            "last_occurrence": 354
+          }
+        },
+        "range_analysis": {
+          "very_low": {
+            "range": "0.0-0.1",
+            "count": 390,
+            "percentage": 78.0
+          },
+          "low": {
+            "range": "0.1-0.5",
+            "count": 106,
+            "percentage": 21.2
+          },
+          "high": {
+            "range": "0.5-0.9",
+            "count": 1,
+            "percentage": 0.2
+          },
+          "very_high": {
+            "range": "0.9-1.0",
+            "count": 0,
+            "percentage": 0.0
+          }
+        },
+        "perfect_streaks": {
+          "longest_streak": 1,
+          "total_streaks": 3,
+          "avg_streak_length": 1.0
+        }
+      }
+    },
+    {
+      "metric_name": "train/q_halt_accuracy",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.4835738099217415,
+      "median": 0.2500000074505806,
+      "std": 0.48850190046773334,
+      "variance": 0.23863410676058724,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 1.0,
+        "p95": 1.0
+      },
+      "range": 1.0,
+      "iqr": 1.0,
+      "first_value": 0.0,
+      "last_value": 1.0,
+      "absolute_change": 1.0,
+      "percent_change": null,
+      "coefficient_of_variation": 1.0101909790085393,
+      "moving_averages": {
+        "last_10": 0.7,
+        "last_50": 0.48,
+        "last_100": 0.455
+      },
+      "improvement_direction": "higher_is_better",
+      "is_improving": true,
+      "best_value": 1.0,
+      "worst_value": 0.0,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/q_halt_accuracy",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "zero_accuracy": {
+            "target_value": 0.0,
+            "exact_count": 248,
+            "percentage": 49.6,
+            "first_occurrence": 0,
+            "last_occurrence": 493
+          },
+          "half_accuracy": {
+            "target_value": 0.5,
+            "exact_count": 2,
+            "percentage": 0.4,
+            "first_occurrence": 243,
+            "last_occurrence": 373
+          },
+          "perfect_accuracy": {
+            "target_value": 1.0,
+            "exact_count": 221,
+            "percentage": 44.2,
+            "first_occurrence": 1,
+            "last_occurrence": 499
+          }
+        },
+        "range_analysis": {
+          "very_low": {
+            "range": "0.0-0.1",
+            "count": 248,
+            "percentage": 49.6
+          },
+          "low": {
+            "range": "0.1-0.5",
+            "count": 4,
+            "percentage": 0.8
+          },
+          "high": {
+            "range": "0.5-0.9",
+            "count": 27,
+            "percentage": 5.4
+          },
+          "very_high": {
+            "range": "0.9-1.0",
+            "count": 0,
+            "percentage": 0.0
+          }
+        },
+        "perfect_streaks": {
+          "longest_streak": 22,
+          "total_streaks": 71,
+          "avg_streak_length": 3.112676056338028
+        }
+      }
+    },
+    {
+      "metric_name": "train/mcp_cost_routing",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 2.4884939193725586e-06,
+      "max": 0.78515625,
+      "mean": 0.08517779231331406,
+      "median": 0.009480794426053762,
+      "std": 0.14697962125761396,
+      "variance": 0.021603009065031646,
+      "percentiles": {
+        "p5": 5.9612593213387305e-05,
+        "p25": 0.0005521774291992188,
+        "p75": 0.10751953162252903,
+        "p95": 0.41845703124999956
+      },
+      "range": 0.7851537615060806,
+      "iqr": 0.10696735419332981,
+      "first_value": 0.62109375,
+      "last_value": 4.609425741364248e-05,
+      "absolute_change": -0.6210476557425864,
+      "percent_change": -99.99257853465542,
+      "coefficient_of_variation": 1.725562699687859,
+      "moving_averages": {
+        "last_10": 3.6541720055538464e-05,
+        "last_50": 0.00013125548759489902,
+        "last_100": 0.0002418191497145017
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": true,
+      "best_value": 2.4884939193725586e-06,
+      "worst_value": 0.78515625
+    },
+    {
+      "metric_name": "train/ntm_reg",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 2.4730030418140814e-05,
+      "max": 0.0009941802127286792,
+      "mean": 0.00039495691416959746,
+      "median": 0.00033131921372842044,
+      "std": 0.0002693695077892234,
+      "variance": 7.255993172660848e-08,
+      "percentiles": {
+        "p5": 8.658938531880267e-05,
+        "p25": 0.00016566163685638458,
+        "p75": 0.0005592711095232517,
+        "p95": 0.000986343645490706
+      },
+      "range": 0.0009694501823105384,
+      "iqr": 0.0003936094726668671,
+      "first_value": 0.0009941802127286792,
+      "last_value": 0.00015965594502631575,
+      "absolute_change": -0.0008345242677023634,
+      "percent_change": -83.94094521473973,
+      "coefficient_of_variation": 0.682022514672459,
+      "moving_averages": {
+        "last_10": 0.00015158234891714527,
+        "last_50": 0.00024111455961246974,
+        "last_100": 0.0002674528819625266
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/mcp_cost_cycles",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.02500000037252903,
+      "max": 0.25,
+      "mean": 0.165001389272511,
+      "median": 0.25,
+      "std": 0.09547266824497305,
+      "variance": 0.009115030381814685,
+      "percentiles": {
+        "p5": 0.03125,
+        "p25": 0.0625,
+        "p75": 0.25,
+        "p95": 0.25
+      },
+      "range": 0.22499999962747097,
+      "iqr": 0.1875,
+      "first_value": 0.25,
+      "last_value": 0.0833333358168602,
+      "absolute_change": -0.1666666641831398,
+      "percent_change": -66.66666567325592,
+      "coefficient_of_variation": 0.5786173599259425,
+      "moving_averages": {
+        "last_10": 0.11708333380520344,
+        "last_50": 0.1715138891711831,
+        "last_100": 0.17246726227924228
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": true,
+      "best_value": 0.02500000037252903,
+      "worst_value": 0.25
+    },
+    {
+      "metric_name": "train/gate_h_cycles",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.02999441884458065,
+      "max": 0.62890625,
+      "mean": 0.26465686844661834,
+      "median": 0.28125,
+      "std": 0.162780811386413,
+      "variance": 0.026497592555618968,
+      "percentiles": {
+        "p5": 0.05294053740799427,
+        "p25": 0.0955810546875,
+        "p75": 0.40087890625,
+        "p95": 0.5078125
+      },
+      "range": 0.5989118311554193,
+      "iqr": 0.3052978515625,
+      "first_value": 0.271484375,
+      "last_value": 0.1640625,
+      "absolute_change": -0.107421875,
+      "percent_change": -39.568345323741006,
+      "coefficient_of_variation": 0.6150636193265702,
+      "moving_averages": {
+        "last_10": 0.216259765625,
+        "last_50": 0.3218139105290174,
+        "last_100": 0.3155854182317853
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/gate_l_cycles",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.04472656175494194,
+      "max": 0.734375,
+      "mean": 0.33290438368916514,
+      "median": 0.390625,
+      "std": 0.1984953157707615,
+      "variance": 0.03940039038293431,
+      "percentiles": {
+        "p5": 0.06494140625,
+        "p25": 0.1151123046875,
+        "p75": 0.51171875,
+        "p95": 0.6017578124999998
+      },
+      "range": 0.6896484382450581,
+      "iqr": 0.3966064453125,
+      "first_value": 0.609375,
+      "last_value": 0.142578125,
+      "absolute_change": -0.466796875,
+      "percent_change": -76.6025641025641,
+      "coefficient_of_variation": 0.5962532351514415,
+      "moving_averages": {
+        "last_10": 0.22717773392796517,
+        "last_50": 0.34024164497852327,
+        "last_100": 0.3405127650499344
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/gate_sched",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0447048619389534,
+      "max": 0.84765625,
+      "mean": 0.38040117648988964,
+      "median": 0.3955078125,
+      "std": 0.23737246841847198,
+      "variance": 0.05634568876307847,
+      "percentiles": {
+        "p5": 0.0732421875,
+        "p25": 0.13652343675494194,
+        "p75": 0.5859375,
+        "p95": 0.75390625
+      },
+      "range": 0.8029513880610466,
+      "iqr": 0.44941406324505806,
+      "first_value": 0.76953125,
+      "last_value": 0.2161458283662796,
+      "absolute_change": -0.5533854216337204,
+      "percent_change": -71.91201418184386,
+      "coefficient_of_variation": 0.6240056106261304,
+      "moving_averages": {
+        "last_10": 0.2130061849951744,
+        "last_50": 0.3060845269262791,
+        "last_100": 0.32406770050525663
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/q_halt_loss",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.11087505519390106,
+      "max": 2.108154773712158,
+      "mean": 0.5787912827730178,
+      "median": 0.5680572986602783,
+      "std": 0.21636396358810572,
+      "variance": 0.046813364739555136,
+      "percentiles": {
+        "p5": 0.2500351995229721,
+        "p25": 0.46685361862182617,
+        "p75": 0.6659439951181412,
+        "p95": 0.9537633538246152
+      },
+      "range": 1.9972797185182571,
+      "iqr": 0.199090376496315,
+      "first_value": 0.7842814326286316,
+      "last_value": 0.5562654733657837,
+      "absolute_change": -0.2280159592628479,
+      "percent_change": -29.073231849773588,
+      "coefficient_of_variation": 0.3738203563666253,
+      "moving_averages": {
+        "last_10": 0.4579120099544525,
+        "last_50": 0.5039157783985138,
+        "last_100": 0.5206223207712174
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": true,
+      "best_value": 0.11087505519390106,
+      "worst_value": 2.108154773712158,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/q_halt_loss",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "minimum_loss": {
+            "target_value": 0.11087505519390106,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 408,
+            "last_occurrence": 408
+          },
+          "low_quartile_loss": {
+            "target_value": 0.46685361862182617,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train/gate_heads_active",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0390625,
+      "max": 0.6640625,
+      "mean": 0.30774656327813865,
+      "median": 0.345703125,
+      "std": 0.19022760988049625,
+      "variance": 0.036186543560846274,
+      "percentiles": {
+        "p5": 0.057713293284177784,
+        "p25": 0.10917968675494194,
+        "p75": 0.484375,
+        "p95": 0.5705078124999998
+      },
+      "range": 0.625,
+      "iqr": 0.37519531324505806,
+      "first_value": 0.353515625,
+      "last_value": 0.1510416716337204,
+      "absolute_change": -0.2024739533662796,
+      "percent_change": -57.27440006825147,
+      "coefficient_of_variation": 0.618130736714581,
+      "moving_averages": {
+        "last_10": 0.21075358092784882,
+        "last_50": 0.31624034270644186,
+        "last_100": 0.3183425795286894
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/mcp_cost_ntm_flops",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 1.327196787315188e-05,
+      "max": 0.77734375,
+      "mean": 0.10303317930391495,
+      "median": 0.013193766120821238,
+      "std": 0.16488771146952633,
+      "variance": 0.02718795739365777,
+      "percentiles": {
+        "p5": 0.00010519027709960939,
+        "p25": 0.0009670257568359375,
+        "p75": 0.131103515625,
+        "p95": 0.5041015624999998
+      },
+      "range": 0.7773304780321268,
+      "iqr": 0.13013648986816406,
+      "first_value": 0.671875,
+      "last_value": 1.327196787315188e-05,
+      "absolute_change": -0.6718617280321268,
+      "percent_change": -99.99802463733981,
+      "coefficient_of_variation": 1.600336052750156,
+      "moving_averages": {
+        "last_10": 7.509152055718005e-05,
+        "last_50": 0.00018335914610361214,
+        "last_100": 0.00047259220209525663
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": true,
+      "best_value": 1.327196787315188e-05,
+      "worst_value": 0.77734375
+    },
+    {
+      "metric_name": "train/count",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.516,
+      "median": 1.0,
+      "std": 0.5002444292323062,
+      "variance": 0.2502444889779558,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 1.0,
+        "p95": 1.0
+      },
+      "range": 1.0,
+      "iqr": 1.0,
+      "first_value": 0.0,
+      "last_value": 1.0,
+      "absolute_change": 1.0,
+      "percent_change": null,
+      "coefficient_of_variation": 0.9694659481246243,
+      "moving_averages": {
+        "last_10": 0.7,
+        "last_50": 0.48,
+        "last_100": 0.46
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/gate_ponder",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0260009765625,
+      "max": 0.75,
+      "mean": 0.2770872566029429,
+      "median": 0.2734375,
+      "std": 0.16987566520363392,
+      "variance": 0.02885774162837712,
+      "percentiles": {
+        "p5": 0.0629638671875,
+        "p25": 0.11513671837747097,
+        "p75": 0.41796875,
+        "p95": 0.5626953124999998
+      },
+      "range": 0.7239990234375,
+      "iqr": 0.30283203162252903,
+      "first_value": 0.75,
+      "last_value": 0.1236979141831398,
+      "absolute_change": -0.6263020858168602,
+      "percent_change": -83.50694477558136,
+      "coefficient_of_variation": 0.6130764268493959,
+      "moving_averages": {
+        "last_10": 0.2188444010913372,
+        "last_50": 0.32242599822580814,
+        "last_100": 0.3194822048395872
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/steps",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 16.0,
+      "mean": 3.095117455482483,
+      "median": 2.0,
+      "std": 4.975804313681313,
+      "variance": 24.758628568049566,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 2.6875000596046448,
+        "p95": 16.0
+      },
+      "range": 16.0,
+      "iqr": 2.6875000596046448,
+      "first_value": 0.0,
+      "last_value": 2.0,
+      "absolute_change": 2.0,
+      "percent_change": null,
+      "coefficient_of_variation": 1.6076302063650307,
+      "moving_averages": {
+        "last_10": 2.9375,
+        "last_50": 2.893055548667908,
+        "last_100": 3.302527768611908
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/steps",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "minimum_value": {
+            "target_value": 0.0,
+            "exact_count": 242,
+            "percentage": 48.4,
+            "first_occurrence": 0,
+            "last_occurrence": 493
+          },
+          "maximum_value": {
+            "target_value": 16.0,
+            "exact_count": 50,
+            "percentage": 10.0,
+            "first_occurrence": 116,
+            "last_occurrence": 492
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train/gate_routing",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 2.4884939193725586e-06,
+      "max": 0.78515625,
+      "mean": 0.08517779231331406,
+      "median": 0.009480794426053762,
+      "std": 0.14697962125761396,
+      "variance": 0.021603009065031646,
+      "percentiles": {
+        "p5": 5.9612593213387305e-05,
+        "p25": 0.0005521774291992188,
+        "p75": 0.10751953162252903,
+        "p95": 0.41845703124999956
+      },
+      "range": 0.7851537615060806,
+      "iqr": 0.10696735419332981,
+      "first_value": 0.62109375,
+      "last_value": 4.609425741364248e-05,
+      "absolute_change": -0.6210476557425864,
+      "percent_change": -99.99257853465542,
+      "coefficient_of_variation": 1.725562699687859,
+      "moving_averages": {
+        "last_10": 3.6541720055538464e-05,
+        "last_50": 0.00013125548759489902,
+        "last_100": 0.0002418191497145017
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/gate_min_steps",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0341796875,
+      "max": 0.87109375,
+      "mean": 0.34224386619776487,
+      "median": 0.3623046875,
+      "std": 0.21920848094636172,
+      "variance": 0.048052358118811436,
+      "percentiles": {
+        "p5": 0.06328279692679645,
+        "p25": 0.1185302734375,
+        "p75": 0.533203125,
+        "p95": 0.69140625
+      },
+      "range": 0.8369140625,
+      "iqr": 0.4146728515625,
+      "first_value": 0.58984375,
+      "last_value": 0.15625,
+      "absolute_change": -0.43359375,
+      "percent_change": -73.50993377483444,
+      "coefficient_of_variation": 0.6405037536003424,
+      "moving_averages": {
+        "last_10": 0.2046533204615116,
+        "last_50": 0.31651323810219767,
+        "last_100": 0.31018027655780317
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/gate_min_steps",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "minimum_value": {
+            "target_value": 0.0341796875,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 397,
+            "last_occurrence": 397
+          },
+          "maximum_value": {
+            "target_value": 0.87109375,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 173,
+            "last_occurrence": 173
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train/lr",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 5.0000000000000004e-08,
+      "max": 8.425e-05,
+      "mean": 4.27979e-05,
+      "median": 4.2275e-05,
+      "std": 2.3851792523900726e-05,
+      "variance": 5.689080066032066e-10,
+      "percentiles": {
+        "p5": 5.530000000000001e-06,
+        "p25": 2.3175e-05,
+        "p75": 6.29625e-05,
+        "p95": 7.946e-05
+      },
+      "range": 8.42e-05,
+      "iqr": 3.9787500000000005e-05,
+      "first_value": 5.0000000000000004e-08,
+      "last_value": 8.425e-05,
+      "absolute_change": 8.42e-05,
+      "percent_change": 168399.99999999997,
+      "coefficient_of_variation": 0.5573122168120568,
+      "moving_averages": {
+        "last_10": 8.3555e-05,
+        "last_50": 7.999000000000001e-05,
+        "last_100": 7.591850000000001e-05
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/ntm_read_entropy",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.000339508056640625,
+      "max": 4.84375,
+      "mean": 1.1251690604750184,
+      "median": 0.63671875,
+      "std": 1.3566752769250803,
+      "variance": 1.8405678070197435,
+      "percentiles": {
+        "p5": 0.004266357421875,
+        "p25": 0.427734375,
+        "p75": 1.09375,
+        "p95": 4.814062499999999
+      },
+      "range": 4.843410491943359,
+      "iqr": 0.666015625,
+      "first_value": 4.84375,
+      "last_value": 0.0005950927734375,
+      "absolute_change": -4.8431549072265625,
+      "percent_change": -99.98771421370968,
+      "coefficient_of_variation": 1.2057523838704964,
+      "moving_averages": {
+        "last_10": 0.0006562042195582763,
+        "last_50": 0.006655346330371685,
+        "last_100": 0.15455584946466844
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/dyn_h_cycles",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.1428571492433548,
+      "max": 2.0,
+      "mean": 1.2953253998458385,
+      "median": 2.0,
+      "std": 0.7615581592364082,
+      "variance": 0.5799708298995465,
+      "percentiles": {
+        "p5": 0.25,
+        "p25": 0.5,
+        "p75": 2.0,
+        "p95": 2.0
+      },
+      "range": 1.8571428507566452,
+      "iqr": 1.5,
+      "first_value": 2.0,
+      "last_value": 0.6666666865348816,
+      "absolute_change": -1.3333333134651184,
+      "percent_change": -66.66666567325592,
+      "coefficient_of_variation": 0.5879280675937059,
+      "moving_averages": {
+        "last_10": 0.9366666704416275,
+        "last_50": 1.3721111133694648,
+        "last_100": 1.3797380982339382
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/gate_max_steps",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.036865234375,
+      "max": 0.6484375,
+      "mean": 0.2854544952735305,
+      "median": 0.3388671875,
+      "std": 0.1711493532053628,
+      "variance": 0.02929210110261403,
+      "percentiles": {
+        "p5": 0.057811143621802334,
+        "p25": 0.10881347581744194,
+        "p75": 0.43359375,
+        "p95": 0.5197265624999998
+      },
+      "range": 0.611572265625,
+      "iqr": 0.32478027418255806,
+      "first_value": 0.44140625,
+      "last_value": 0.1165364608168602,
+      "absolute_change": -0.3248697891831398,
+      "percent_change": -73.59881949635734,
+      "coefficient_of_variation": 0.5995679032532407,
+      "moving_averages": {
+        "last_10": 0.18379231840372084,
+        "last_50": 0.3097715929150581,
+        "last_100": 0.30296466544270517
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/gate_max_steps",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "minimum_value": {
+            "target_value": 0.036865234375,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 295,
+            "last_occurrence": 295
+          },
+          "maximum_value": {
+            "target_value": 0.6484375,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 224,
+            "last_occurrence": 224
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train/exact_accuracy",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.01057142859697342,
+      "median": 0.0,
+      "std": 0.08505496017446249,
+      "variance": 0.0072343462502794005,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "p95": 0.0
+      },
+      "range": 1.0,
+      "iqr": 0.0,
+      "first_value": 0.0,
+      "last_value": 0.0,
+      "absolute_change": 0.0,
+      "percent_change": null,
+      "coefficient_of_variation": 8.045739456520906,
+      "moving_averages": {
+        "last_10": 0.0,
+        "last_50": 0.0,
+        "last_100": 0.005
+      },
+      "improvement_direction": "higher_is_better",
+      "is_improving": false,
+      "best_value": 1.0,
+      "worst_value": 0.0,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/exact_accuracy",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "zero_accuracy": {
+            "target_value": 0.0,
+            "exact_count": 488,
+            "percentage": 97.6,
+            "first_occurrence": 0,
+            "last_occurrence": 499
+          },
+          "half_accuracy": {
+            "target_value": 0.5,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 373,
+            "last_occurrence": 373
+          },
+          "perfect_accuracy": {
+            "target_value": 1.0,
+            "exact_count": 3,
+            "percentage": 0.6,
+            "first_occurrence": 168,
+            "last_occurrence": 354
+          }
+        },
+        "range_analysis": {
+          "very_low": {
+            "range": "0.0-0.1",
+            "count": 488,
+            "percentage": 97.6
+          },
+          "low": {
+            "range": "0.1-0.5",
+            "count": 8,
+            "percentage": 1.6
+          },
+          "high": {
+            "range": "0.5-0.9",
+            "count": 1,
+            "percentage": 0.2
+          },
+          "very_high": {
+            "range": "0.9-1.0",
+            "count": 0,
+            "percentage": 0.0
+          }
+        },
+        "perfect_streaks": {
+          "longest_streak": 1,
+          "total_streaks": 3,
+          "avg_streak_length": 1.0
+        }
+      }
+    },
+    {
+      "metric_name": "train/gate_headbias",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0185546875,
+      "max": 0.65625,
+      "mean": 0.20201531731709838,
+      "median": 0.1953125,
+      "std": 0.13058923245755247,
+      "variance": 0.017053547633852677,
+      "percentiles": {
+        "p5": 0.0396907564252615,
+        "p25": 0.07496744953095913,
+        "p75": 0.30322265625,
+        "p95": 0.4336914062499999
+      },
+      "range": 0.6376953125,
+      "iqr": 0.22825520671904087,
+      "first_value": 0.5078125,
+      "last_value": 0.1315104216337204,
+      "absolute_change": -0.3763020783662796,
+      "percent_change": -74.1025631244366,
+      "coefficient_of_variation": 0.6464323309334501,
+      "moving_averages": {
+        "last_10": 0.18335123732686043,
+        "last_50": 0.2693381080031395,
+        "last_100": 0.24550060484558345
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/dyn_l_cycles",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.20000000298023224,
+      "max": 2.0,
+      "mean": 1.318011114180088,
+      "median": 2.0,
+      "std": 0.7626496797823574,
+      "variance": 0.5816345340721323,
+      "percentiles": {
+        "p5": 0.25,
+        "p25": 0.5,
+        "p75": 2.0,
+        "p95": 2.0
+      },
+      "range": 1.7999999970197678,
+      "iqr": 1.5,
+      "first_value": 2.0,
+      "last_value": 0.6666666865348816,
+      "absolute_change": -1.3333333134651184,
+      "percent_change": -66.66666567325592,
+      "coefficient_of_variation": 0.5786367592634366,
+      "moving_averages": {
+        "last_10": 0.9366666704416275,
+        "last_50": 1.3721111133694648,
+        "last_100": 1.3797380982339382
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/gate_mlp_expand",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0486111119389534,
+      "max": 1.0,
+      "mean": 0.5729156001731753,
+      "median": 0.666015625,
+      "std": 0.3620834898418143,
+      "variance": 0.13110445361602724,
+      "percentiles": {
+        "p5": 0.0917773436754942,
+        "p25": 0.19140625,
+        "p75": 0.94921875,
+        "p95": 0.99609375
+      },
+      "range": 0.9513888880610466,
+      "iqr": 0.7578125,
+      "first_value": 0.546875,
+      "last_value": 0.3333333432674408,
+      "absolute_change": -0.2135416567325592,
+      "percent_change": -39.04761723109654,
+      "coefficient_of_variation": 0.6320014496591946,
+      "moving_averages": {
+        "last_10": 0.46570638120174407,
+        "last_50": 0.6798763026297092,
+        "last_100": 0.6801757195591926
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/gate_rope",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0254991315305233,
+      "max": 0.640625,
+      "mean": 0.27764441799372436,
+      "median": 0.30078125,
+      "std": 0.1658022603895111,
+      "variance": 0.027490389550271242,
+      "percentiles": {
+        "p5": 0.05380859337747097,
+        "p25": 0.10831705667078495,
+        "p75": 0.41015625,
+        "p95": 0.5279296874999995
+      },
+      "range": 0.6151258684694767,
+      "iqr": 0.30183919332921505,
+      "first_value": 0.6328125,
+      "last_value": 0.1901041716337204,
+      "absolute_change": -0.4427083283662796,
+      "percent_change": -69.95884695170838,
+      "coefficient_of_variation": 0.5971748381891069,
+      "moving_averages": {
+        "last_10": 0.21738444045186042,
+        "last_50": 0.2940682509541512,
+        "last_100": 0.27488113071769477
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/gate_gate",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.0018513997783884406,
+      "max": 0.875,
+      "mean": 0.32175409608450717,
+      "median": 0.1819661483168602,
+      "std": 0.2867561500263132,
+      "variance": 0.08222908957791344,
+      "percentiles": {
+        "p5": 0.009762137290090322,
+        "p25": 0.0721435546875,
+        "p75": 0.6416015625,
+        "p95": 0.7619140624999998
+      },
+      "range": 0.8731486002216116,
+      "iqr": 0.5694580078125,
+      "first_value": 0.55859375,
+      "last_value": 0.02327474020421505,
+      "absolute_change": -0.535319009795785,
+      "percent_change": -95.83333322218249,
+      "coefficient_of_variation": 0.891227659619283,
+      "moving_averages": {
+        "last_10": 0.01870992030017078,
+        "last_50": 0.021274488682392984,
+        "last_100": 0.02898720928118564
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/lm_loss",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 3.2729909420013428,
+      "max": 10.144697189331055,
+      "mean": 5.691178560733795,
+      "median": 5.504284381866455,
+      "std": 1.215997804999236,
+      "variance": 1.4786506617629596,
+      "percentiles": {
+        "p5": 4.046113467216491,
+        "p25": 4.856000304222107,
+        "p75": 6.350492000579834,
+        "p95": 7.980735325813293
+      },
+      "range": 6.871706247329712,
+      "iqr": 1.494491696357727,
+      "first_value": 8.850639343261719,
+      "last_value": 5.042004108428955,
+      "absolute_change": -3.8086352348327637,
+      "percent_change": -43.03231763400689,
+      "coefficient_of_variation": 0.21366361853219565,
+      "moving_averages": {
+        "last_10": 5.261324119567871,
+        "last_50": 5.0716347408294675,
+        "last_100": 5.019912588596344
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": true,
+      "best_value": 3.2729909420013428,
+      "worst_value": 10.144697189331055,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/lm_loss",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "minimum_loss": {
+            "target_value": 3.2729909420013428,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 241,
+            "last_occurrence": 241
+          },
+          "low_quartile_loss": {
+            "target_value": 4.856000304222107,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train/mcp_cost",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.002275763778015971,
+      "max": 1.648000717163086,
+      "mean": 0.36308942957175894,
+      "median": 0.2544594407081604,
+      "std": 0.33922433462894186,
+      "variance": 0.11507314920444833,
+      "percentiles": {
+        "p5": 0.04335023779422045,
+        "p25": 0.1844445839524269,
+        "p75": 0.3922286927700043,
+        "p95": 1.2333342015743243
+      },
+      "range": 1.64572495338507,
+      "iqr": 0.20778410881757736,
+      "first_value": 1.6128350496292114,
+      "last_value": 0.08337660878896713,
+      "absolute_change": -1.5294584408402443,
+      "percent_change": -94.83043174141488,
+      "coefficient_of_variation": 0.9342721296762496,
+      "moving_averages": {
+        "last_10": 0.11712072789669037,
+        "last_50": 0.17179361794143916,
+        "last_100": 0.17067360752029345
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": true,
+      "best_value": 0.002275763778015971,
+      "worst_value": 1.648000717163086
+    },
+    {
+      "metric_name": "train/gate_ntm",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 1.327196787315188e-05,
+      "max": 0.77734375,
+      "mean": 0.10303317930391495,
+      "median": 0.013193766120821238,
+      "std": 0.16488771146952633,
+      "variance": 0.02718795739365777,
+      "percentiles": {
+        "p5": 0.00010519027709960939,
+        "p25": 0.0009670257568359375,
+        "p75": 0.131103515625,
+        "p95": 0.5041015624999998
+      },
+      "range": 0.7773304780321268,
+      "iqr": 0.13013648986816406,
+      "first_value": 0.671875,
+      "last_value": 1.327196787315188e-05,
+      "absolute_change": -0.6718617280321268,
+      "percent_change": -99.99802463733981,
+      "coefficient_of_variation": 1.600336052750156,
+      "moving_averages": {
+        "last_10": 7.509152055718005e-05,
+        "last_50": 0.00018335914610361214,
+        "last_100": 0.00047259220209525663
+      },
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train/q_continue_loss",
+      "available": true,
+      "data_points": 500,
+      "total_logged_points": 500,
+      "missing_values": 0,
+      "min": 0.04498329758644104,
+      "max": 0.9453986287117004,
+      "mean": 0.5834649484753609,
+      "median": 0.6337931454181671,
+      "std": 0.14951779268131035,
+      "variance": 0.022355570328291302,
+      "percentiles": {
+        "p5": 0.3020452827215195,
+        "p25": 0.5147836357355118,
+        "p75": 0.689425528049469,
+        "p95": 0.7316213786602017
+      },
+      "range": 0.9004153311252594,
+      "iqr": 0.17464189231395721,
+      "first_value": 0.04498329758644104,
+      "last_value": 0.5644530057907104,
+      "absolute_change": 0.5194697082042694,
+      "percent_change": 1154.8057525263534,
+      "coefficient_of_variation": 0.2562583974787379,
+      "moving_averages": {
+        "last_10": 0.5990823566913605,
+        "last_50": 0.6111966919898987,
+        "last_100": 0.5960775911808014
+      },
+      "improvement_direction": "lower_is_better",
+      "is_improving": false,
+      "best_value": 0.04498329758644104,
+      "worst_value": 0.9453986287117004,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train/q_continue_loss",
+        "total_measurements": 500,
+        "value_frequencies": {
+          "minimum_loss": {
+            "target_value": 0.04498329758644104,
+            "exact_count": 1,
+            "percentage": 0.2,
+            "first_occurrence": 0,
+            "last_occurrence": 0
+          },
+          "low_quartile_loss": {
+            "target_value": 0.5147836357355118,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train.gate_h_cycles",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.053147584199905396,
+      "max": 0.053147584199905396,
+      "mean": 0.053147584199905396,
+      "median": 0.053147584199905396,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.053147584199905396,
+        "p25": 0.053147584199905396,
+        "p75": 0.053147584199905396,
+        "p95": 0.053147584199905396
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.053147584199905396,
+      "last_value": 0.053147584199905396,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.gate_headbias",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.016867198050022125,
+      "max": 0.016867198050022125,
+      "mean": 0.016867198050022125,
+      "median": 0.016867198050022125,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.016867198050022125,
+        "p25": 0.016867198050022125,
+        "p75": 0.016867198050022125,
+        "p95": 0.016867198050022125
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.016867198050022125,
+      "last_value": 0.016867198050022125,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.gate_mlp_expand",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.06396805495023727,
+      "max": 0.06396805495023727,
+      "mean": 0.06396805495023727,
+      "median": 0.06396805495023727,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.06396805495023727,
+        "p25": 0.06396805495023727,
+        "p75": 0.06396805495023727,
+        "p95": 0.06396805495023727
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.06396805495023727,
+      "last_value": 0.06396805495023727,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.ntm_erase_mag",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.04266821965575218,
+      "max": 0.04266821965575218,
+      "mean": 0.04266821965575218,
+      "median": 0.04266821965575218,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.04266821965575218,
+        "p25": 0.04266821965575218,
+        "p75": 0.04266821965575218,
+        "p95": 0.04266821965575218
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.04266821965575218,
+      "last_value": 0.04266821965575218,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.gate_routing",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.00016161083476617932,
+      "max": 0.00016161083476617932,
+      "mean": 0.00016161083476617932,
+      "median": 0.00016161083476617932,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.00016161083476617932,
+        "p25": 0.00016161083476617932,
+        "p75": 0.00016161083476617932,
+        "p95": 0.00016161083476617932
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.00016161083476617932,
+      "last_value": 0.00016161083476617932,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.gate_heads_active",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.06428629904985428,
+      "max": 0.06428629904985428,
+      "mean": 0.06428629904985428,
+      "median": 0.06428629904985428,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.06428629904985428,
+        "p25": 0.06428629904985428,
+        "p75": 0.06428629904985428,
+        "p95": 0.06428629904985428
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.06428629904985428,
+      "last_value": 0.06428629904985428,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.dyn_h_cycles",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.162943497300148,
+      "max": 0.162943497300148,
+      "mean": 0.162943497300148,
+      "median": 0.162943497300148,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.162943497300148,
+        "p25": 0.162943497300148,
+        "p75": 0.162943497300148,
+        "p95": 0.162943497300148
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.162943497300148,
+      "last_value": 0.162943497300148,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.gate_l_cycles",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.02291392907500267,
+      "max": 0.02291392907500267,
+      "mean": 0.02291392907500267,
+      "median": 0.02291392907500267,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.02291392907500267,
+        "p25": 0.02291392907500267,
+        "p75": 0.02291392907500267,
+        "p95": 0.02291392907500267
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.02291392907500267,
+      "last_value": 0.02291392907500267,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.gate_ponder",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.057284820824861526,
+      "max": 0.057284820824861526,
+      "mean": 0.057284820824861526,
+      "median": 0.057284820824861526,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.057284820824861526,
+        "p25": 0.057284820824861526,
+        "p75": 0.057284820824861526,
+        "p95": 0.057284820824861526
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.057284820824861526,
+      "last_value": 0.057284820824861526,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.ntm_reg",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 7.851052941987291e-05,
+      "max": 7.851052941987291e-05,
+      "mean": 7.851052941987291e-05,
+      "median": 7.851052941987291e-05,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 7.851052941987291e-05,
+        "p25": 7.851052941987291e-05,
+        "p75": 7.851052941987291e-05,
+        "p95": 7.851052941987291e-05
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 7.851052941987291e-05,
+      "last_value": 7.851052941987291e-05,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.mcp_cost_routing",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.00016161083476617932,
+      "max": 0.00016161083476617932,
+      "mean": 0.00016161083476617932,
+      "median": 0.00016161083476617932,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.00016161083476617932,
+        "p25": 0.00016161083476617932,
+        "p75": 0.00016161083476617932,
+        "p95": 0.00016161083476617932
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.00016161083476617932,
+      "last_value": 0.00016161083476617932,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "lower_is_better",
+      "is_improving": false,
+      "best_value": 0.00016161083476617932,
+      "worst_value": 0.00016161083476617932
+    },
+    {
+      "metric_name": "train.mcp_cost",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.02109581045806408,
+      "max": 0.02109581045806408,
+      "mean": 0.02109581045806408,
+      "median": 0.02109581045806408,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.02109581045806408,
+        "p25": 0.02109581045806408,
+        "p75": 0.02109581045806408,
+        "p95": 0.02109581045806408
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.02109581045806408,
+      "last_value": 0.02109581045806408,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "lower_is_better",
+      "is_improving": false,
+      "best_value": 0.02109581045806408,
+      "worst_value": 0.02109581045806408
+    },
+    {
+      "metric_name": "train.q_halt_accuracy",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "median": 1.0,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 1.0,
+        "p25": 1.0,
+        "p75": 1.0,
+        "p95": 1.0
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 1.0,
+      "last_value": 1.0,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "higher_is_better",
+      "is_improving": false,
+      "best_value": 1.0,
+      "worst_value": 1.0,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train.q_halt_accuracy",
+        "total_measurements": 1,
+        "value_frequencies": {
+          "zero_accuracy": {
+            "target_value": 0.0,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          },
+          "half_accuracy": {
+            "target_value": 0.5,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          },
+          "perfect_accuracy": {
+            "target_value": 1.0,
+            "exact_count": 1,
+            "percentage": 100.0,
+            "first_occurrence": 329,
+            "last_occurrence": 329
+          }
+        },
+        "range_analysis": {
+          "very_low": {
+            "range": "0.0-0.1",
+            "count": 0,
+            "percentage": 0.0
+          },
+          "low": {
+            "range": "0.1-0.5",
+            "count": 0,
+            "percentage": 0.0
+          },
+          "high": {
+            "range": "0.5-0.9",
+            "count": 0,
+            "percentage": 0.0
+          },
+          "very_high": {
+            "range": "0.9-1.0",
+            "count": 0,
+            "percentage": 0.0
+          }
+        },
+        "perfect_streaks": {
+          "longest_streak": 1,
+          "total_streaks": 1,
+          "avg_streak_length": 1.0
+        }
+      }
+    },
+    {
+      "metric_name": "train.gate_rope",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.03739425912499428,
+      "max": 0.03739425912499428,
+      "mean": 0.03739425912499428,
+      "median": 0.03739425912499428,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.03739425912499428,
+        "p25": 0.03739425912499428,
+        "p75": 0.03739425912499428,
+        "p95": 0.03739425912499428
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.03739425912499428,
+      "last_value": 0.03739425912499428,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.ntm_write_entropy",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.39462876319885254,
+      "max": 0.39462876319885254,
+      "mean": 0.39462876319885254,
+      "median": 0.39462876319885254,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.39462876319885254,
+        "p25": 0.39462876319885254,
+        "p75": 0.39462876319885254,
+        "p95": 0.39462876319885254
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.39462876319885254,
+      "last_value": 0.39462876319885254,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.dyn_l_cycles",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.162943497300148,
+      "max": 0.162943497300148,
+      "mean": 0.162943497300148,
+      "median": 0.162943497300148,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.162943497300148,
+        "p25": 0.162943497300148,
+        "p75": 0.162943497300148,
+        "p95": 0.162943497300148
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.162943497300148,
+      "last_value": 0.162943497300148,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.gate_ntm",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.0005992032238282263,
+      "max": 0.0005992032238282263,
+      "mean": 0.0005992032238282263,
+      "median": 0.0005992032238282263,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.0005992032238282263,
+        "p25": 0.0005992032238282263,
+        "p75": 0.0005992032238282263,
+        "p95": 0.0005992032238282263
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.0005992032238282263,
+      "last_value": 0.0005992032238282263,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.mcp_cost_ntm_flops",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.0005992032238282263,
+      "max": 0.0005992032238282263,
+      "mean": 0.0005992032238282263,
+      "median": 0.0005992032238282263,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.0005992032238282263,
+        "p25": 0.0005992032238282263,
+        "p75": 0.0005992032238282263,
+        "p95": 0.0005992032238282263
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.0005992032238282263,
+      "last_value": 0.0005992032238282263,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "lower_is_better",
+      "is_improving": false,
+      "best_value": 0.0005992032238282263,
+      "worst_value": 0.0005992032238282263
+    },
+    {
+      "metric_name": "train.accuracy",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.10867483168840408,
+      "max": 0.10867483168840408,
+      "mean": 0.10867483168840408,
+      "median": 0.10867483168840408,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.10867483168840408,
+        "p25": 0.10867483168840408,
+        "p75": 0.10867483168840408,
+        "p95": 0.10867483168840408
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.10867483168840408,
+      "last_value": 0.10867483168840408,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "higher_is_better",
+      "is_improving": false,
+      "best_value": 0.10867483168840408,
+      "worst_value": 0.10867483168840408,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train.accuracy",
+        "total_measurements": 1,
+        "value_frequencies": {
+          "zero_accuracy": {
+            "target_value": 0.0,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          },
+          "half_accuracy": {
+            "target_value": 0.5,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          },
+          "perfect_accuracy": {
+            "target_value": 1.0,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          }
+        },
+        "range_analysis": {
+          "very_low": {
+            "range": "0.0-0.1",
+            "count": 0,
+            "percentage": 0.0
+          },
+          "low": {
+            "range": "0.1-0.5",
+            "count": 1,
+            "percentage": 100.0
+          },
+          "high": {
+            "range": "0.5-0.9",
+            "count": 0,
+            "percentage": 0.0
+          },
+          "very_high": {
+            "range": "0.9-1.0",
+            "count": 0,
+            "percentage": 0.0
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train.q_halt_loss",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.861706018447876,
+      "max": 0.861706018447876,
+      "mean": 0.861706018447876,
+      "median": 0.861706018447876,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.861706018447876,
+        "p25": 0.861706018447876,
+        "p75": 0.861706018447876,
+        "p95": 0.861706018447876
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.861706018447876,
+      "last_value": 0.861706018447876,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "lower_is_better",
+      "is_improving": false,
+      "best_value": 0.861706018447876,
+      "worst_value": 0.861706018447876,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train.q_halt_loss",
+        "total_measurements": 1,
+        "value_frequencies": {
+          "minimum_loss": {
+            "target_value": 0.861706018447876,
+            "exact_count": 1,
+            "percentage": 100.0,
+            "first_occurrence": 329,
+            "last_occurrence": 329
+          },
+          "low_quartile_loss": {
+            "target_value": 0.861706018447876,
+            "exact_count": 1,
+            "percentage": 100.0,
+            "first_occurrence": 329,
+            "last_occurrence": 329
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train.steps",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 1.0,
+      "max": 1.0,
+      "mean": 1.0,
+      "median": 1.0,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 1.0,
+        "p25": 1.0,
+        "p75": 1.0,
+        "p95": 1.0
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 1.0,
+      "last_value": 1.0,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train.steps",
+        "total_measurements": 1,
+        "value_frequencies": {
+          "minimum_value": {
+            "target_value": 1.0,
+            "exact_count": 1,
+            "percentage": 100.0,
+            "first_occurrence": 329,
+            "last_occurrence": 329
+          },
+          "maximum_value": {
+            "target_value": 1.0,
+            "exact_count": 1,
+            "percentage": 100.0,
+            "first_occurrence": 329,
+            "last_occurrence": 329
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train.gate_film",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.0004823461640626192,
+      "max": 0.0004823461640626192,
+      "mean": 0.0004823461640626192,
+      "median": 0.0004823461640626192,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.0004823461640626192,
+        "p25": 0.0004823461640626192,
+        "p75": 0.0004823461640626192,
+        "p95": 0.0004823461640626192
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.0004823461640626192,
+      "last_value": 0.0004823461640626192,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.mcp_cost_cycles",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.0203679371625185,
+      "max": 0.0203679371625185,
+      "mean": 0.0203679371625185,
+      "median": 0.0203679371625185,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.0203679371625185,
+        "p25": 0.0203679371625185,
+        "p75": 0.0203679371625185,
+        "p95": 0.0203679371625185
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.0203679371625185,
+      "last_value": 0.0203679371625185,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "lower_is_better",
+      "is_improving": false,
+      "best_value": 0.0203679371625185,
+      "worst_value": 0.0203679371625185
+    },
+    {
+      "metric_name": "train.lm_loss",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 6.952779769897461,
+      "max": 6.952779769897461,
+      "mean": 6.952779769897461,
+      "median": 6.952779769897461,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 6.952779769897461,
+        "p25": 6.952779769897461,
+        "p75": 6.952779769897461,
+        "p95": 6.952779769897461
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 6.952779769897461,
+      "last_value": 6.952779769897461,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "lower_is_better",
+      "is_improving": false,
+      "best_value": 6.952779769897461,
+      "worst_value": 6.952779769897461,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train.lm_loss",
+        "total_measurements": 1,
+        "value_frequencies": {
+          "minimum_loss": {
+            "target_value": 6.952779769897461,
+            "exact_count": 1,
+            "percentage": 100.0,
+            "first_occurrence": 329,
+            "last_occurrence": 329
+          },
+          "low_quartile_loss": {
+            "target_value": 6.952779769897461,
+            "exact_count": 1,
+            "percentage": 100.0,
+            "first_occurrence": 329,
+            "last_occurrence": 329
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train.gate_halt",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.081471748650074,
+      "max": 0.081471748650074,
+      "mean": 0.081471748650074,
+      "median": 0.081471748650074,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.081471748650074,
+        "p25": 0.081471748650074,
+        "p75": 0.081471748650074,
+        "p95": 0.081471748650074
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.081471748650074,
+      "last_value": 0.081471748650074,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.gate_min_steps",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.02975628338754177,
+      "max": 0.02975628338754177,
+      "mean": 0.02975628338754177,
+      "median": 0.02975628338754177,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.02975628338754177,
+        "p25": 0.02975628338754177,
+        "p75": 0.02975628338754177,
+        "p95": 0.02975628338754177
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.02975628338754177,
+      "last_value": 0.02975628338754177,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train.gate_min_steps",
+        "total_measurements": 1,
+        "value_frequencies": {
+          "minimum_value": {
+            "target_value": 0.02975628338754177,
+            "exact_count": 1,
+            "percentage": 100.0,
+            "first_occurrence": 329,
+            "last_occurrence": 329
+          },
+          "maximum_value": {
+            "target_value": 0.02975628338754177,
+            "exact_count": 1,
+            "percentage": 100.0,
+            "first_occurrence": 329,
+            "last_occurrence": 329
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train.gate_puzzle",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.07319727540016174,
+      "max": 0.07319727540016174,
+      "mean": 0.07319727540016174,
+      "median": 0.07319727540016174,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.07319727540016174,
+        "p25": 0.07319727540016174,
+        "p75": 0.07319727540016174,
+        "p95": 0.07319727540016174
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.07319727540016174,
+      "last_value": 0.07319727540016174,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.gate_max_steps",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.03787163272500038,
+      "max": 0.03787163272500038,
+      "mean": 0.03787163272500038,
+      "median": 0.03787163272500038,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.03787163272500038,
+        "p25": 0.03787163272500038,
+        "p75": 0.03787163272500038,
+        "p95": 0.03787163272500038
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.03787163272500038,
+      "last_value": 0.03787163272500038,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train.gate_max_steps",
+        "total_measurements": 1,
+        "value_frequencies": {
+          "minimum_value": {
+            "target_value": 0.03787163272500038,
+            "exact_count": 1,
+            "percentage": 100.0,
+            "first_occurrence": 329,
+            "last_occurrence": 329
+          },
+          "maximum_value": {
+            "target_value": 0.03787163272500038,
+            "exact_count": 1,
+            "percentage": 100.0,
+            "first_occurrence": 329,
+            "last_occurrence": 329
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train.gate_gate",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.034370891749858856,
+      "max": 0.034370891749858856,
+      "mean": 0.034370891749858856,
+      "median": 0.034370891749858856,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.034370891749858856,
+        "p25": 0.034370891749858856,
+        "p75": 0.034370891749858856,
+        "p95": 0.034370891749858856
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.034370891749858856,
+      "last_value": 0.034370891749858856,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.exact_accuracy",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0,
+      "median": 0.0,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "p95": 0.0
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.0,
+      "last_value": 0.0,
+      "absolute_change": 0.0,
+      "percent_change": null,
+      "coefficient_of_variation": null,
+      "moving_averages": {},
+      "improvement_direction": "higher_is_better",
+      "is_improving": false,
+      "best_value": 0.0,
+      "worst_value": 0.0,
+      "value_frequencies": {
+        "available": true,
+        "metric_name": "train.exact_accuracy",
+        "total_measurements": 1,
+        "value_frequencies": {
+          "zero_accuracy": {
+            "target_value": 0.0,
+            "exact_count": 1,
+            "percentage": 100.0,
+            "first_occurrence": 329,
+            "last_occurrence": 329
+          },
+          "half_accuracy": {
+            "target_value": 0.5,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          },
+          "perfect_accuracy": {
+            "target_value": 1.0,
+            "exact_count": 0,
+            "percentage": 0.0,
+            "first_occurrence": null,
+            "last_occurrence": null
+          }
+        },
+        "range_analysis": {
+          "very_low": {
+            "range": "0.0-0.1",
+            "count": 1,
+            "percentage": 100.0
+          },
+          "low": {
+            "range": "0.1-0.5",
+            "count": 0,
+            "percentage": 0.0
+          },
+          "high": {
+            "range": "0.5-0.9",
+            "count": 0,
+            "percentage": 0.0
+          },
+          "very_high": {
+            "range": "0.9-1.0",
+            "count": 0,
+            "percentage": 0.0
+          }
+        }
+      }
+    },
+    {
+      "metric_name": "train.gate_sched",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.04296361654996872,
+      "max": 0.04296361654996872,
+      "mean": 0.04296361654996872,
+      "median": 0.04296361654996872,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.04296361654996872,
+        "p25": 0.04296361654996872,
+        "p75": 0.04296361654996872,
+        "p95": 0.04296361654996872
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.04296361654996872,
+      "last_value": 0.04296361654996872,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    },
+    {
+      "metric_name": "train.ntm_read_entropy",
+      "available": true,
+      "data_points": 1,
+      "total_logged_points": 500,
+      "missing_values": 499,
+      "min": 0.36916884779930115,
+      "max": 0.36916884779930115,
+      "mean": 0.36916884779930115,
+      "median": 0.36916884779930115,
+      "std": NaN,
+      "variance": NaN,
+      "percentiles": {
+        "p5": 0.36916884779930115,
+        "p25": 0.36916884779930115,
+        "p75": 0.36916884779930115,
+        "p95": 0.36916884779930115
+      },
+      "range": 0.0,
+      "iqr": 0.0,
+      "first_value": 0.36916884779930115,
+      "last_value": 0.36916884779930115,
+      "absolute_change": 0.0,
+      "percent_change": 0.0,
+      "coefficient_of_variation": NaN,
+      "moving_averages": {},
+      "improvement_direction": "unknown",
+      "is_improving": null,
+      "best_value": null,
+      "worst_value": null
+    }
+  ],
+  "correlation_analysis": {
+    "train/steps_vs_train/exact_accuracy": {
+      "correlation": 0.2856861890631851,
+      "strength": "weak",
+      "direction": "positive",
+      "sample_size": 500
+    },
+    "train/steps_vs_train/q_halt_accuracy": {
+      "correlation": 0.5723182829033284,
+      "strength": "moderate",
+      "direction": "positive",
+      "sample_size": 500
+    },
+    "train/mcp_cost_vs_train/exact_accuracy": {
+      "correlation": -0.04173858143509031,
+      "strength": "weak",
+      "direction": "negative",
+      "sample_size": 500
+    },
+    "train/q_halt_loss_vs_train/q_continue_loss": {
+      "correlation": -0.2238113883902723,
+      "strength": "weak",
+      "direction": "negative",
+      "sample_size": 500
+    },
+    "train/lm_loss_vs_train/accuracy": {
+      "correlation": -0.19498376643686569,
+      "strength": "weak",
+      "direction": "negative",
+      "sample_size": 500
+    },
+    "train/steps_vs_train/lm_loss": {
+      "correlation": -0.08365720353606303,
+      "strength": "weak",
+      "direction": "negative",
+      "sample_size": 500
+    },
+    "train/q_halt_accuracy_vs_train/exact_accuracy": {
+      "correlation": -0.04515148592732184,
+      "strength": "weak",
+      "direction": "negative",
+      "sample_size": 500
+    },
+    "train/mcp_cost_vs_train/steps": {
+      "correlation": -0.21339035993211333,
+      "strength": "weak",
+      "direction": "negative",
+      "sample_size": 500
+    }
+  },
+  "act_dynamics": {
+    "halting_patterns": {
+      "uses_max_steps_ratio": 0.1,
+      "uses_min_steps_ratio": 0.484,
+      "step_distribution": {
+        "unique_values": 61,
+        "most_common_step": 0,
+        "most_common_frequency": 0.484,
+        "step_variance": 24.758628568049566,
+        "step_entropy": 3.3293714188574732
+      },
+      "efficiency_metrics": {
+        "avg_steps_used": 3.095117455482483,
+        "steps_utilization": 0.19344484096765518,
+        "halting_consistency": -0.6076302063650307
+      }
+    },
+    "q_learning_stability": {
+      "binary_switches": 131,
+      "switch_rate": 0.262,
+      "time_at_extremes": 0.938,
+      "convergence_quality": {
+        "final_value": 1.0,
+        "converged_to_one": false,
+        "learning_stability": 0.4966809027856006
+      }
+    },
+    "halt_continue_dynamics": {
+      "loss_ratio_mean": 1.3412862145460063,
+      "loss_difference_trend": "halt_decreasing",
+      "balanced_learning": "True"
+    }
+  },
+  "performance_breakthroughs": {
+    "train/exact_accuracy": {
+      "breakthrough_count": 3,
+      "major_breakthroughs": [
+        {
+          "step": 168,
+          "improvement": 1.0,
+          "from_value": 0.0,
+          "to_value": 1.0,
+          "relative_improvement": 1000.0
+        },
+        {
+          "step": 300,
+          "improvement": 1.0,
+          "from_value": 0.0,
+          "to_value": 1.0,
+          "relative_improvement": 1000.0
+        },
+        {
+          "step": 354,
+          "improvement": 1.0,
+          "from_value": 0.0,
+          "to_value": 1.0,
+          "relative_improvement": 1000.0
+        }
+      ],
+      "first_success": 142,
+      "first_major_success": 168,
+      "breakthrough_timing": {
+        "early_phase": 0,
+        "mid_phase": 2,
+        "late_phase": 1
+      }
+    },
+    "train/accuracy": {
+      "breakthrough_count": 11,
+      "major_breakthroughs": [
+        {
+          "step": 168,
+          "improvement": 1.0,
+          "from_value": 0.0,
+          "to_value": 1.0,
+          "relative_improvement": 1000.0
+        },
+        {
+          "step": 300,
+          "improvement": 1.0,
+          "from_value": 0.0,
+          "to_value": 1.0,
+          "relative_improvement": 1000.0
+        },
+        {
+          "step": 354,
+          "improvement": 1.0,
+          "from_value": 0.0,
+          "to_value": 1.0,
+          "relative_improvement": 1000.0
+        }
+      ],
+      "first_success": 100,
+      "first_major_success": 168,
+      "breakthrough_timing": {
+        "early_phase": 0,
+        "mid_phase": 4,
+        "late_phase": 7
+      }
+    }
+  },
+  "mcp_gate_analysis": {
+    "available": true,
+    "cost_dynamics": {
+      "initial_cost": 1.6128350496292114,
+      "final_cost": 0.08337660878896713,
+      "mean_cost": 0.36308942957175894,
+      "cost_range": 1.64572495338507,
+      "trend_direction": "decreasing",
+      "trend_magnitude": 0.9483043174141489
+    },
+    "learning_phases": {
+      "early_mean": 0.5425493611097336,
+      "late_mean": 0.18362949803378434,
+      "phase_improvement": 0.6615432415989072
+    },
+    "stability_analysis": {
+      "coefficient_of_variation": 0.9342721296762496,
+      "convergence_point": 324,
+      "late_stability": 0.09492149425383371
+    },
+    "per_gate_stats": {
+      "gate_halt": {
+        "mean": 0.6163378692790866,
+        "std": 0.3893181734932641,
+        "on_ratio_eval": 0.556
+      },
+      "gate_film": {
+        "mean": 0.35247819872386754,
+        "std": 0.2945056040898383,
+        "on_ratio_eval": 0.342
+      },
+      "gate_puzzle": {
+        "mean": 0.4378105717301369,
+        "std": 0.3206759759182861,
+        "on_ratio_eval": 0.37
+      },
+      "gate_h_cycles": {
+        "mean": 0.26465686844661834,
+        "std": 0.162780811386413,
+        "on_ratio_eval": 0.07
+      },
+      "gate_l_cycles": {
+        "mean": 0.33290438368916514,
+        "std": 0.1984953157707615,
+        "on_ratio_eval": 0.278
+      },
+      "gate_sched": {
+        "mean": 0.38040117648988964,
+        "std": 0.23737246841847198,
+        "on_ratio_eval": 0.382
+      },
+      "gate_heads_active": {
+        "mean": 0.30774656327813865,
+        "std": 0.19022760988049625,
+        "on_ratio_eval": 0.2
+      },
+      "gate_ponder": {
+        "mean": 0.2770872566029429,
+        "std": 0.16987566520363392,
+        "on_ratio_eval": 0.108
+      },
+      "gate_routing": {
+        "mean": 0.08517779231331406,
+        "std": 0.14697962125761396,
+        "on_ratio_eval": 0.038
+      },
+      "gate_min_steps": {
+        "mean": 0.34224386619776487,
+        "std": 0.21920848094636172,
+        "on_ratio_eval": 0.294
+      },
+      "gate_max_steps": {
+        "mean": 0.2854544952735305,
+        "std": 0.1711493532053628,
+        "on_ratio_eval": 0.078
+      },
+      "gate_headbias": {
+        "mean": 0.20201531731709838,
+        "std": 0.13058923245755247,
+        "on_ratio_eval": 0.016
+      },
+      "gate_mlp_expand": {
+        "mean": 0.5729156001731753,
+        "std": 0.3620834898418143,
+        "on_ratio_eval": 0.544
+      },
+      "gate_rope": {
+        "mean": 0.27764441799372436,
+        "std": 0.1658022603895111,
+        "on_ratio_eval": 0.09
+      },
+      "gate_gate": {
+        "mean": 0.32175409608450717,
+        "std": 0.2867561500263132,
+        "on_ratio_eval": 0.344
+      },
+      "gate_ntm": {
+        "mean": 0.10303317930391495,
+        "std": 0.16488771146952633,
+        "on_ratio_eval": 0.054
+      }
+    },
+    "cost_components": {
+      "mcp_cost_cycles": {
+        "mean": 0.165001389272511,
+        "max": 0.25
+      },
+      "mcp_cost_ntm_flops": {
+        "mean": 0.10303317930391495,
+        "max": 0.77734375
+      },
+      "mcp_cost_routing": {
+        "mean": 0.08517779231331406,
+        "max": 0.78515625
+      }
+    },
+    "dynamic_cycles": {
+      "h": {
+        "mean": 1.2953253998458385,
+        "hist": {
+          "2.0": 262,
+          "1.0": 42,
+          "0.5": 39,
+          "0.4000000059604645": 36,
+          "0.6666666865348816": 36,
+          "0.3333333432674408": 29,
+          "0.25": 21,
+          "0.2857142984867096": 20,
+          "0.2222222238779068": 10,
+          "0.20000000298023224": 3,
+          "0.1666666716337204": 1,
+          "0.1428571492433548": 1
+        }
+      },
+      "l": {
+        "mean": 1.318011114180088,
+        "hist": {
+          "2.0": 271,
+          "0.5": 41,
+          "0.4000000059604645": 37,
+          "0.6666666865348816": 37,
+          "1.0": 31,
+          "0.3333333432674408": 29,
+          "0.2857142984867096": 21,
+          "0.25": 19,
+          "0.2222222238779068": 10,
+          "0.20000000298023224": 2,
+          "1.5": 2
+        }
+      }
+    }
+  },
+  "ntm_analysis": {
+    "available": true,
+    "metrics": {
+      "ntm_erase_mag": {
+        "mean": 0.3382096945121884,
+        "min": 0.050989508628845215,
+        "max": 0.5313624143600464,
+        "last": 0.16729457676410675
+      },
+      "ntm_write_entropy": {
+        "mean": 2.659360553264618,
+        "min": 0.21484375,
+        "max": 4.84375,
+        "last": 1.5104166269302368
+      },
+      "ntm_reg": {
+        "mean": 0.00039495691416959746,
+        "min": 2.4730030418140814e-05,
+        "max": 0.0009941802127286792,
+        "last": 0.00015965594502631575
+      },
+      "ntm_read_entropy": {
+        "mean": 1.1251690604750184,
+        "min": 0.000339508056640625,
+        "max": 4.84375,
+        "last": 0.0005950927734375
+      }
+    },
+    "summary": {
+      "ntm_reg": {
+        "mean": 0.00039495691416959746,
+        "min": 2.4730030418140814e-05,
+        "max": 0.0009941802127286792,
+        "last": 0.00015965594502631575
+      },
+      "ntm_read_entropy": {
+        "mean": 1.1251690604750184,
+        "min": 0.000339508056640625,
+        "max": 4.84375,
+        "last": 0.0005950927734375
+      },
+      "ntm_write_entropy": {
+        "mean": 2.659360553264618,
+        "min": 0.21484375,
+        "max": 4.84375,
+        "last": 1.5104166269302368
+      }
+    }
+  },
+  "ponder_analysis": {
+    "available": true,
+    "gate_ponder": {
+      "mean": 0.2770872566029429,
+      "on_ratio_eval": 0.108
+    },
+    "correlations": {
+      "steps_vs_gate_ponder": -0.3565509723174864,
+      "accuracy_vs_gate_ponder": -0.02201901345707693
+    }
+  },
+  "mcp_cost_reconciliation": {
+    "available": true,
+    "means": {
+      "mcp_cost": 0.36308942957175894,
+      "components_sum": 0.35321236088974,
+      "residual": 0.009877068682018944
+    },
+    "max": {
+      "mcp_cost": 1.648000717163086,
+      "components_sum": 1.734375,
+      "residual": 0.40977680683135986
+    }
+  },
+  "stability_analysis": {
+    "train/lm_loss": {
+      "available": true,
+      "metric_name": "train/lm_loss",
+      "stable_regions": [
+        [
+          32,
+          33
+        ],
+        [
+          38,
+          62
+        ],
+        [
+          68,
+          83
+        ],
+        [
+          106,
+          127
+        ],
+        [
+          133,
+          137
+        ],
+        [
+          250,
+          253
+        ],
+        [
+          259,
+          280
+        ],
+        [
+          295,
+          313
+        ],
+        [
+          316,
+          322
+        ]
+      ],
+      "num_stable_regions": 9,
+      "total_stable_steps": 113,
+      "stability_ratio": 0.226,
+      "avg_cv": 0.13949478600600806,
+      "min_cv": 0.1072538614964992,
+      "stability_threshold": 0.12508318886903974
+    },
+    "train/exact_accuracy": {
+      "available": true,
+      "metric_name": "train/exact_accuracy",
+      "stable_regions": [
+        [
+          176,
+          195
+        ],
+        [
+          199,
+          230
+        ],
+        [
+          242,
+          248
+        ]
+      ],
+      "num_stable_regions": 3,
+      "total_stable_steps": 56,
+      "stability_ratio": 0.112,
+      "avg_cv": 5.893587855798422,
+      "min_cv": 3.9982989580349195,
+      "stability_threshold": 4.948716593053935
+    },
+    "train/steps": {
+      "available": true,
+      "metric_name": "train/steps",
+      "stable_regions": [
+        [
+          0,
+          88
+        ],
+        [
+          239,
+          240
+        ],
+        [
+          330,
+          340
+        ],
+        [
+          349,
+          351
+        ],
+        [
+          353,
+          362
+        ],
+        [
+          367,
+          370
+        ]
+      ],
+      "num_stable_regions": 6,
+      "total_stable_steps": 113,
+      "stability_ratio": 0.226,
+      "avg_cv": 1.5854017397606375,
+      "min_cv": 0.22830230050008776,
+      "stability_threshold": 1.473769387298858
+    },
+    "train/mcp_cost": {
+      "available": true,
+      "metric_name": "train/mcp_cost",
+      "stable_regions": [
+        [
+          110,
+          112
+        ],
+        [
+          118,
+          223
+        ],
+        [
+          285,
+          286
+        ],
+        [
+          288,
+          290
+        ],
+        [
+          310,
+          311
+        ],
+        [
+          321,
+          323
+        ]
+      ],
+      "num_stable_regions": 6,
+      "total_stable_steps": 113,
+      "stability_ratio": 0.226,
+      "avg_cv": 0.5357782589005576,
+      "min_cv": 0.3846473844124073,
+      "stability_threshold": 0.46176174771013245
+    }
+  },
+  "downloaded_files": {
+    "checkpoints": [],
+    "configs": [
+      "checkstop/downloads_zmf3wykr/config.yaml"
+    ]
+  },
+  "wandb_metadata": {
+    "os": "Linux-6.8.0-57-generic-x86_64-with-glibc2.35",
+    "python": "CPython 3.11.11",
+    "startedAt": "2025-09-05T15:57:58.672664Z",
+    "args": [
+      "+data_mode=chat",
+      "+tokenizer_id=mistralai/Mistral-7B-Instruct-v0.2",
+      "+trust_remote_code=true",
+      "+chat_train_jsonl=/workspace/CMBAQUANT/HRM/data/chat/train.jsonl",
+      "+chat_eval_jsonl=/workspace/CMBAQUANT/HRM/data/chat/val.jsonl",
+      "+chat_max_seq_len=1024",
+      "arch=CMBA_GPU",
+      "global_batch_size=16",
+      "epochs=3",
+      "eval_interval=1",
+      "eval_halt_max_steps=16",
+      "arch.halt_max_steps=16",
+      "arch.halt_min_steps_ceiling=2",
+      "arch.ponder_eval_best_step=true"
+    ],
+    "program": "/workspace/CMBAQUANT/HRM/pretrain.py",
+    "codePath": "HRM/pretrain.py",
+    "codePathLocal": "pretrain.py",
+    "git": {
+      "remote": "https://github.com/VihariKanukollu/CMBAQUANT.git",
+      "commit": "e5268bde17baeef2b0d056a7d2a1ce63026eaf50"
+    },
+    "email": "vihari@urbankisaan.com",
+    "root": "/workspace/CMBAQUANT/HRM",
+    "host": "f1f4c026a824",
+    "executable": "/usr/bin/python3",
+    "writerId": "cde5t2kcirrq0luzn1fpiy0u2m9ymcku"
+  },
+  "raw_config": {
+    "lr": 0.0001,
+    "arch": {
+      "loss": {
+        "name": "losses@ACTLossHead",
+        "loss_type": "softmax_cross_entropy"
+      },
+      "name": "hrm.cmba_gpu_v1_live@HierarchicalReasoningModel_ACTV1",
+      "ntm_dim": 128,
+      "H_cycles": 2,
+      "H_layers": 6,
+      "L_cycles": 1,
+      "L_layers": 4,
+      "mcp_temp": 1.1,
+      "ntm_rows": 128,
+      "expansion": 4,
+      "num_heads": 8,
+      "hidden_size": 512,
+      "mcp_backend": "mlp",
+      "mcp_enabled": true,
+      "ntm_enabled": true,
+      "rope_factor": 1,
+      "max_h_cycles": 3,
+      "max_l_cycles": 3,
+      "ntm_rw_order": "write_then_read",
+      "forward_dtype": "bfloat16",
+      "halt_proj_dim": 0,
+      "max_expansion": 4,
+      "mcp_cost_coef": 0.0001,
+      "mcp_hard_eval": false,
+      "ntm_erase_reg": 1e-05,
+      "pos_encodings": "rope_yarn",
+      "halt_head_type": "mlp",
+      "halt_max_steps": 16,
+      "halt_min_steps": 0,
+      "rope_beta_fast": 32,
+      "rope_beta_slow": 1,
+      "ntm_entropy_reg": 0.0001,
+      "puzzle_emb_ndim": 512,
+      "halt_head_hidden": 128,
+      "mcp_entropy_coef": 0.001,
+      "mcp_feature_keys": [
+        "puzzle",
+        "halt",
+        "gate",
+        "headbias",
+        "routing",
+        "film",
+        "rope",
+        "sched",
+        "ponder",
+        "ntm",
+        "h_cycles",
+        "l_cycles",
+        "mlp_expand",
+        "heads_active",
+        "min_steps",
+        "max_steps"
+      ],
+      "rope_mscale_base": 1,
+      "mcp_auto_features": false,
+      "mcp_feature_costs": "{'ntm': 2e-05, 'routing': 1e-05, 'film': 1e-05}",
+      "ntm_gate_from_mcp": true,
+      "mcp_eval_threshold": 0.3,
+      "mcp_feature_profile": "algorithmic",
+      "act_min_step_penalty": 0,
+      "halt_exploration_prob": 0.15,
+      "ponder_eval_best_step": true,
+      "ponder_eval_threshold": 0.5,
+      "rope_original_seq_len": 2048,
+      "halt_min_steps_ceiling": 2,
+      "ponder_eval_deterministic": true
+    },
+    "seed": 0,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "epochs": 3,
+    "run_name": "HierarchicalReasoningModel_ACTV1 berserk-porpoise",
+    "data_mode": "chat",
+    "data_path": "data/arc-aug-1000",
+    "lr_min_ratio": 1,
+    "project_name": "Arc-aug-1000 ACT-torch",
+    "tokenizer_id": "mistralai/Mistral-7B-Instruct-v0.2",
+    "weight_decay": 0.1,
+    "eval_interval": 1,
+    "puzzle_emb_lr": 0.01,
+    "chat_eval_jsonl": "/workspace/CMBAQUANT/HRM/data/chat/val.jsonl",
+    "checkpoint_path": "checkpoints/Arc-aug-1000 ACT-torch/HierarchicalReasoningModel_ACTV1 berserk-porpoise",
+    "init_model_ckpt": null,
+    "lr_warmup_steps": 2000,
+    "chat_max_seq_len": 1024,
+    "chat_train_jsonl": "/workspace/CMBAQUANT/HRM/data/chat/train.jsonl",
+    "eval_max_batches": null,
+    "eval_sample_seed": 20250901,
+    "eval_save_outputs": [],
+    "global_batch_size": 16,
+    "pairs_dataset_dir": null,
+    "trust_remote_code": true,
+    "eval_sample_random": false,
+    "eval_halt_max_steps": 16,
+    "checkpoint_every_eval": true,
+    "chat_token_dropout_prob": 0,
+    "puzzle_emb_weight_decay": 0.1,
+    "chat_random_truncate_prob": 0,
+    "chat_samples_per_conversation": 1,
+    "chat_sample_any_assistant_turn": false,
+    "chat_system_prompt_variant_prob": 0
+  },
+  "raw_summary": {
+    "_runtime": 295.207762848,
+    "_step": 1686,
+    "_timestamp": 1757088170.8214424,
+    "_wandb": "{'runtime': 295}",
+    "num_params": 67558174,
+    "train": "{'accuracy': 0.13155275583267212, 'dyn_h_cycles': 0.162943497300148, 'dyn_l_cycles': 0.162943497300148, 'exact_accuracy': 0, 'gate_film': 7.427882519550622e-05, 'gate_gate': 0.004296361468732357, 'gate_h_cycles': 0.04741910472512245, 'gate_halt': 0.081471748650074, 'gate_headbias': 0.01272996049374342, 'gate_heads_active': 0.04964684695005417, 'gate_l_cycles': 0.024982547387480736, 'gate_max_steps': 0.04519135877490043, 'gate_min_steps': 0.040735874325037, 'gate_mlp_expand': 0.07988050580024719, 'gate_ntm': 8.352482836926356e-06, 'gate_ponder': 0.04582785815000534, 'gate_puzzle': 0.07988050580024719, 'gate_rope': 0.039622001349925995, 'gate_routing': 3.069051672355272e-06, 'gate_sched': 0.034211769700050354, 'lm_loss': 6.611367225646973, 'mcp_cost': 0.02035123109817505, 'mcp_cost_cycles': 0.0203679371625185, 'mcp_cost_ntm_flops': 8.352482836926356e-06, 'mcp_cost_routing': 3.069051672355272e-06, 'ntm_erase_mag': 0.04083940014243126, 'ntm_read_entropy': 0.0017006432171911, 'ntm_reg': 4.150819222559221e-05, 'ntm_write_entropy': 0.3920827805995941, 'q_halt_accuracy': 1, 'q_halt_loss': 0.7074998617172241, 'steps': 1}",
+    "train/accuracy": 0.14654400944709778,
+    "train/count": 1,
+    "train/dyn_h_cycles": 1,
+    "train/dyn_l_cycles": 1,
+    "train/exact_accuracy": 0,
+    "train/gate_film": 0.050537109375,
+    "train/gate_gate": 0.005096435546875,
+    "train/gate_h_cycles": 0.212890625,
+    "train/gate_halt": 0.5,
+    "train/gate_headbias": 0.208984375,
+    "train/gate_heads_active": 0.22265625,
+    "train/gate_l_cycles": 0.271484375,
+    "train/gate_max_steps": 0.212890625,
+    "train/gate_min_steps": 0.27734375,
+    "train/gate_mlp_expand": 0.5,
+    "train/gate_ntm": 3.3855438232421875e-05,
+    "train/gate_ponder": 0.1669921875,
+    "train/gate_puzzle": 0.490234375,
+    "train/gate_rope": 0.279296875,
+    "train/gate_routing": 5.841255187988281e-05,
+    "train/gate_sched": 0.2060546875,
+    "train/lm_loss": 5.4373979568481445,
+    "train/lr": 8.43e-05,
+    "train/mcp_cost": 0.12517380714416504,
+    "train/mcp_cost_cycles": 0.125,
+    "train/mcp_cost_ntm_flops": 3.3855438232421875e-05,
+    "train/mcp_cost_routing": 5.841255187988281e-05,
+    "train/ntm_erase_mag": 0.250080943107605,
+    "train/ntm_read_entropy": 0.00061798095703125,
+    "train/ntm_reg": 0.00022993855236563832,
+    "train/ntm_write_entropy": 2.171875,
+    "train/q_continue_loss": 0.5710704326629639,
+    "train/q_halt_accuracy": 1,
+    "train/q_halt_loss": 0.4830995202064514,
+    "train/steps": 3.5
+  }
+}

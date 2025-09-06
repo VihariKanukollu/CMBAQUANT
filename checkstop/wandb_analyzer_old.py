@@ -28,13 +28,12 @@ import os
 from datetime import datetime
 from pathlib import Path
 from urllib.parse import urlparse, unquote
-import re
 
 # =============================================================================
 # CONFIGURATION - MODIFY THIS SECTION
 # =============================================================================
 # Change this to your wandb run path: "entity/project/run_id"
-RUN_PATH = "viharikvs-urbankisaan/Arc-2-aug-1000 ACT-torch/zt0krrlm"
+RUN_PATH = "viharikvs-urbankisaan/Sudoku-6x6-1000 ACT-torch/wpfc61u8"
 
 # Output directory (relative to script location)
 OUTPUT_DIR = "checkstop"
@@ -441,24 +440,18 @@ def detect_breakthroughs(history_df, metrics=['train/exact_accuracy', 'train/acc
 
 def analyze_mcp_gates(history_df):
     """Analyze MCP gate behavior over training."""
-    # Helper to get a column by name with or without 'train/' prefix
-    def _get_col(df, key):
-        if key in df.columns:
-            return df[key].dropna()
-        pref = f"train/{key}"
-        if pref in df.columns:
-            return df[pref].dropna()
-        # try regex match
-        candidates = [c for c in df.columns if c.endswith(f"/{key}") or c == key]
-        for c in candidates:
-            s = df[c].dropna()
-            if not s.empty:
-                return s
-        return pd.Series(dtype=float)
-
-    mcp_cost = _get_col(history_df, 'mcp_cost')
+    if 'train/mcp_cost' not in history_df.columns:
+        return {
+            "available": False,
+            "reason": "MCP cost not found - model may not be using MCP"
+        }
+    
+    mcp_cost = history_df['train/mcp_cost'].dropna()
     if mcp_cost.empty:
-        return {"available": False, "reason": "MCP cost not found"}
+        return {
+            "available": False, 
+            "reason": "No MCP cost data available"
+        }
     
     # Trend analysis
     first_half = mcp_cost[:len(mcp_cost)//2]
@@ -494,245 +487,16 @@ def analyze_mcp_gates(history_df):
         }
     }
     
-    # Gate utilization analysis and per-gate stats
-    gate_cols = [c for c in history_df.columns if re.search(r'(?:^|/)gate_[A-Za-z0-9_]+$', c)]
-    per_gate = {}
-    for col in gate_cols:
-        s = history_df[col].dropna()
-        if s.empty:
-            continue
-        name = col.split('/')[-1]
-        per_gate[name] = {
-            "mean": float(s.mean()),
-            "std": float(s.std()),
-            "on_ratio_eval": float((s >= 0.5).mean())
+    # Gate utilization analysis
+    if mcp_cost.mean() > 0:
+        analysis["gate_utilization"] = {
+            "avg_gates_per_step": float(mcp_cost.mean()),
+            "max_gate_usage": float(mcp_cost.max()),
+            "gate_efficiency": "improving" if trend_direction == "decreasing" else "degrading",
+            "utilization_consistency": float(1.0 - mcp_cost.std() / mcp_cost.mean())
         }
-    if per_gate:
-        analysis["per_gate_stats"] = per_gate
-
-    # Component costs (cycles, ntm, routing) if present
-    for comp in ['mcp_cost_cycles', 'mcp_cost_ntm_flops', 'mcp_cost_routing']:
-        s = _get_col(history_df, comp)
-        if not s.empty:
-            analysis.setdefault('cost_components', {})[comp] = {
-                "mean": float(s.mean()),
-                "max": float(s.max())
-            }
-
-    # Dynamic cycles telemetry
-    dyn_h = _get_col(history_df, 'dyn_h_cycles')
-    dyn_l = _get_col(history_df, 'dyn_l_cycles')
-    if not dyn_h.empty or not dyn_l.empty:
-        analysis['dynamic_cycles'] = {}
-        if not dyn_h.empty:
-            analysis['dynamic_cycles']['h'] = {
-                "mean": float(dyn_h.mean()),
-                "hist": dyn_h.value_counts().to_dict()
-            }
-        if not dyn_l.empty:
-            analysis['dynamic_cycles']['l'] = {
-                "mean": float(dyn_l.mean()),
-                "hist": dyn_l.value_counts().to_dict()
-            }
     
     return analysis
-
-def analyze_ntm_metrics(history_df):
-    """Analyze NTM-specific metrics if present."""
-    ntm_cols = [c for c in history_df.columns if re.search(r'(?:^|/)ntm_[A-Za-z0-9_]+', c)]
-    if not ntm_cols:
-        return {"available": False, "reason": "No NTM metrics found"}
-
-    per_metric = {}
-    seen = set()
-    for col in ntm_cols:
-        name = col.split('/')[-1]
-        if name in seen:
-            continue
-        s = history_df[col].dropna()
-        if s.empty:
-            continue
-        seen.add(name)
-        per_metric[name] = {
-            "mean": float(s.mean()),
-            "min": float(s.min()),
-            "max": float(s.max()),
-            "last": float(s.iloc[-1])
-        }
-
-    if not per_metric:
-        return {"available": False, "reason": "NTM columns empty"}
-
-    # Highlight common regularizers if present
-    summary = {}
-    for key in [
-        'ntm_reg', 'ntm_entropy_reg', 'ntm_erase_reg',
-        'ntm_read_entropy', 'ntm_write_entropy'
-    ]:
-        if key in per_metric:
-            summary[key] = per_metric[key]
-
-    return {
-        "available": True,
-        "metrics": per_metric,
-        "summary": summary
-    }
-
-def analyze_ponder_metrics(history_df):
-    """Analyze Ponder/ACT-related metrics and relationships."""
-    def _get_col(df, key):
-        if key in df.columns:
-            return df[key].dropna()
-        pref = f"train/{key}"
-        if pref in df.columns:
-            return df[pref].dropna()
-        candidates = [c for c in df.columns if c.endswith(f"/{key}") or c == key]
-        for c in candidates:
-            s = df[c].dropna()
-            if not s.empty:
-                return s
-        return pd.Series(dtype=float)
-
-    p_kl = _get_col(history_df, 'ponder_kl')
-    p_thr = _get_col(history_df, 'ponder_eval_threshold')
-    p_gate = _get_col(history_df, 'gate_ponder')
-    steps = _get_col(history_df, 'steps')
-    acc = _get_col(history_df, 'exact_accuracy')
-
-    if p_kl.empty and p_thr.empty and p_gate.empty and steps.empty:
-        return {"available": False, "reason": "No Ponder metrics found"}
-
-    analysis = {"available": True}
-    if not p_kl.empty:
-        analysis["ponder_kl"] = {
-            "mean": float(p_kl.mean()),
-            "last": float(p_kl.iloc[-1]),
-        }
-    if not p_thr.empty:
-        analysis["ponder_eval_threshold"] = {
-            "mean": float(p_thr.mean()),
-            "last": float(p_thr.iloc[-1]),
-        }
-    if not p_gate.empty:
-        analysis["gate_ponder"] = {
-            "mean": float(p_gate.mean()),
-            "on_ratio_eval": float((p_gate >= 0.5).mean())
-        }
-
-    # Simple correlations
-    corrs = {}
-    try:
-        if not steps.empty and not p_gate.empty and len(steps.align(p_gate, join='inner')[0]) > 2:
-            aligned = pd.concat([steps, p_gate], axis=1, join='inner').dropna()
-            if len(aligned) > 2:
-                corrs['steps_vs_gate_ponder'] = float(aligned.iloc[:, 0].corr(aligned.iloc[:, 1]))
-        if not steps.empty and not p_kl.empty:
-            aligned = pd.concat([steps, p_kl], axis=1, join='inner').dropna()
-            if len(aligned) > 2:
-                corrs['steps_vs_ponder_kl'] = float(aligned.iloc[:, 0].corr(aligned.iloc[:, 1]))
-        if not acc.empty and not p_gate.empty:
-            aligned = pd.concat([acc, p_gate], axis=1, join='inner').dropna()
-            if len(aligned) > 2:
-                corrs['accuracy_vs_gate_ponder'] = float(aligned.iloc[:, 0].corr(aligned.iloc[:, 1]))
-    except Exception:
-        pass
-    if corrs:
-        analysis['correlations'] = corrs
-
-    return analysis
-
-def reconcile_mcp_costs(history_df):
-    """Reconcile total mcp_cost against component costs if available."""
-    def _get_col(df, key):
-        if key in df.columns:
-            return df[key].dropna()
-        pref = f"train/{key}"
-        if pref in df.columns:
-            return df[pref].dropna()
-        candidates = [c for c in df.columns if c.endswith(f"/{key}") or c == key]
-        for c in candidates:
-            s = df[c].dropna()
-            if not s.empty:
-                return s
-        return pd.Series(dtype=float)
-
-    mcp = _get_col(history_df, 'mcp_cost')
-    if mcp.empty:
-        return {"available": False, "reason": "mcp_cost not found"}
-
-    comp_keys = ['mcp_cost_cycles', 'mcp_cost_ntm_flops', 'mcp_cost_routing']
-    comp_series = {k: _get_col(history_df, k) for k in comp_keys}
-    comp_series = {k: s for k, s in comp_series.items() if not s.empty}
-    if not comp_series:
-        return {"available": False, "reason": "No component costs present"}
-
-    df = pd.concat([mcp.rename('mcp_cost')] + [s.rename(k) for k, s in comp_series.items()], axis=1, join='inner').dropna()
-    if df.empty:
-        return {"available": False, "reason": "No aligned samples"}
-    df['components_sum'] = df[[k for k in comp_series.keys()]].sum(axis=1)
-    df['residual'] = df['mcp_cost'] - df['components_sum']
-
-    return {
-        "available": True,
-        "means": {
-            "mcp_cost": float(df['mcp_cost'].mean()),
-            "components_sum": float(df['components_sum'].mean()),
-            "residual": float(df['residual'].mean())
-        },
-        "max": {
-            "mcp_cost": float(df['mcp_cost'].max()),
-            "components_sum": float(df['components_sum'].max()),
-            "residual": float(df['residual'].max())
-        }
-    }
-
-def select_best_checkpoint(downloaded_files, history_df):
-    """Pick a best checkpoint candidate using accuracy/step heuristics."""
-    try:
-        ckpts = downloaded_files.get('checkpoints', [])
-    except Exception:
-        ckpts = []
-    if not ckpts:
-        return None
-
-    # Determine target step from best exact_accuracy if present
-    best_step = None
-    if 'train/exact_accuracy' in history_df.columns and '_step' in history_df.columns:
-        acc = history_df['train/exact_accuracy'].dropna()
-        if not acc.empty:
-            idx = acc.idxmax()
-            try:
-                best_step = int(history_df.loc[idx, '_step'])
-            except Exception:
-                best_step = None
-
-    # Parse steps from filenames
-    parsed = []
-    step_pat = re.compile(r'(?:step|epoch)[_-]?(\d+)', re.IGNORECASE)
-    for p in ckpts:
-        m = step_pat.search(os.path.basename(p))
-        step = int(m.group(1)) if m else None
-        parsed.append((p, step))
-
-    # Prefer ckpt with step <= best_step and largest step
-    candidate = None
-    if best_step is not None:
-        le = [t for t in parsed if t[1] is not None and t[1] <= best_step]
-        if le:
-            candidate = max(le, key=lambda x: x[1])[0]
-    if candidate is None:
-        # fallback: largest step
-        with_steps = [t for t in parsed if t[1] is not None]
-        if with_steps:
-            candidate = max(with_steps, key=lambda x: x[1])[0]
-    if candidate is None:
-        # fallback: latest by mtime
-        candidate = max(ckpts, key=lambda p: os.path.getmtime(p))
-
-    return {
-        "path": candidate,
-        "reason": "closest_to_best_accuracy_step" if best_step is not None else "latest_available"
-    }
 
 def generate_run_summary(run, history_df, metrics_analysis):
     """Generate a high-level summary of the run."""
@@ -914,16 +678,6 @@ def main():
         print("Analyzing MCP gates...")
         mcp_analysis = analyze_mcp_gates(history_df)
         
-        # NTM and Ponder telemetry
-        print("Analyzing NTM metrics...")
-        ntm_analysis = analyze_ntm_metrics(history_df)
-        
-        print("Analyzing Ponder metrics...")
-        ponder_analysis = analyze_ponder_metrics(history_df)
-        
-        print("Reconciling MCP costs...")
-        mcp_cost_recon = reconcile_mcp_costs(history_df)
-        
         # Stability analysis for key metrics
         print("Analyzing training stability...")
         stability_analysis = {}
@@ -950,9 +704,6 @@ def main():
             "act_dynamics": act_dynamics,
             "performance_breakthroughs": breakthroughs,
             "mcp_gate_analysis": mcp_analysis,
-            "ntm_analysis": ntm_analysis,
-            "ponder_analysis": ponder_analysis,
-            "mcp_cost_reconciliation": mcp_cost_recon,
             "stability_analysis": stability_analysis,
             "downloaded_files": downloaded_files,
             "wandb_metadata": wandb_metadata,
@@ -986,12 +737,9 @@ def main():
         
         # Show checkpoint info if available
         if downloaded_files["checkpoints"]:
-            best_ckpt = select_best_checkpoint(downloaded_files, history_df)
             print(f"  - Checkpoint files ready for evaluation:")
             for checkpoint in downloaded_files["checkpoints"]:
                 print(f"    {os.path.basename(checkpoint)}")
-            if best_ckpt:
-                print(f"  - Suggested checkpoint: {os.path.basename(best_ckpt['path'])} ({best_ckpt['reason']})")
         
         if wandb_metadata:
             if 'os' in wandb_metadata:

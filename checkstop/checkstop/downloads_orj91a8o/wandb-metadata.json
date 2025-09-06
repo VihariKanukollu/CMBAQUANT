@@ -1,0 +1,41 @@
+{
+  "os": "Linux-6.8.0-57-generic-x86_64-with-glibc2.35",
+  "python": "CPython 3.11.11",
+  "startedAt": "2025-09-03T04:09:10.979478Z",
+  "args": [
+    "+data_mode=chat",
+    "+tokenizer_id=mistralai/Mistral-7B-Instruct-v0.2",
+    "+chat_train_jsonl=/workspace/CMBAQUANT/HRM/data/chat/train.jsonl",
+    "+chat_eval_jsonl=/workspace/CMBAQUANT/HRM/data/chat/val.jsonl",
+    "+chat_max_seq_len=1024",
+    "arch=hrm_quant_v1",
+    "arch.name=models.hrm.hrm_quant_v1_chat@HierarchicalReasoningModel_ACTV1",
+    "arch.loss.name=models.losses@ACTDistillLossHead",
+    "+arch.loss.teacher_model_id=mistralai/Mistral-7B-Instruct-v0.2",
+    "+arch.loss.distill_temp=1.0",
+    "+arch.loss.kl_weight=1.0",
+    "+arch.loss.ce_weight=0.5",
+    "arch.halt_max_steps=24",
+    "arch.halt_min_steps=2",
+    "arch.act_sched_enabled=true",
+    "lr=1e-4",
+    "lr_warmup_steps=100",
+    "lr_min_ratio=0.1",
+    "global_batch_size=16",
+    "epochs=2",
+    "eval_interval=1",
+    "eval_halt_max_steps=24",
+    "checkpoint_every_eval=true",
+    "+init_model_ckpt=/workspace/CMBAQUANT/HRM/checkpoints/Arc-aug-1000 ACT-torch/HierarchicalReasoningModel_ACTV1 perfect-caribou/step_2248"
+  ],
+  "program": "-m pretrain",
+  "git": {
+    "remote": "https://github.com/VihariKanukollu/CMBAQUANT.git",
+    "commit": "e5268bde17baeef2b0d056a7d2a1ce63026eaf50"
+  },
+  "email": "vihari@urbankisaan.com",
+  "root": "/workspace/CMBAQUANT/HRM",
+  "host": "8decee94a198",
+  "executable": "/usr/bin/python",
+  "writerId": "g07znpdbwegrpwpovs9ujqt68hjdszrl"
+}

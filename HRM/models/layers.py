@@ -40,6 +40,24 @@ def apply_rotary_pos_emb(q: torch.Tensor, k: torch.Tensor, cos: torch.Tensor, si
     return q_embed.to(orig_dtype), k_embed.to(orig_dtype)
 
 
+def _repeat_kv(x: torch.Tensor, num_heads: int, num_kv_heads: int) -> torch.Tensor:
+    """Repeat key/value heads to match query heads for GQA/MQA.
+
+    x: [bs, seq_len, num_kv_heads, head_dim]
+    returns: [bs, seq_len, num_heads, head_dim]
+    """
+    if num_kv_heads == num_heads:
+        return x
+    assert (num_heads % num_kv_heads) == 0, "num_heads must be multiple of num_kv_heads"
+    n_rep = num_heads // num_kv_heads
+    bs, slen, h, d = x.shape
+    return (
+        x.unsqueeze(3)
+         .expand(bs, slen, h, n_rep, d)
+         .reshape(bs, slen, h * n_rep, d)
+    )
+
+
 class CastedLinear(nn.Module):
     def __init__(self,
                  in_features: int,
@@ -95,6 +113,52 @@ class RotaryEmbedding(nn.Module):
         return self.cos_cached, self.sin_cached
 
 
+class YarnRotaryEmbedding(nn.Module):
+    """YARN-style RoPE extension with mscale stabilization for long context.
+
+    Ref: DeepSeek and long-context RoPE smoothing. Stores `mscale` to optionally
+    rescale attention (by scaling Q/K).
+    """
+    def __init__(self, dim: int, max_position_embeddings: int, base: float,
+                 original_seq_len: int, rope_factor: float, beta_fast: int = 32, beta_slow: int = 1,
+                 mscale_base: float = 1.0, device=None):
+        super().__init__()
+        self.mscale = float(0.1 * mscale_base * (torch.log(torch.tensor(rope_factor, dtype=torch.float32)).item()) + 1.0)
+
+        inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2, dtype=torch.float32, device=device) / dim))
+        t = torch.arange(max_position_embeddings, dtype=torch.float32, device=device)
+        freqs = torch.outer(t, inv_freq)
+
+        if max_position_embeddings > original_seq_len and rope_factor > 1.0:
+            def find_correction_dim(num_rotations, dim, base, max_seq_len):
+                return dim * torch.log(torch.tensor(max_seq_len / (num_rotations * 2 * torch.pi))) / (2 * torch.log(torch.tensor(base)))
+
+            def find_correction_range(low_rot, high_rot, dim, base, max_seq_len):
+                low = torch.floor(find_correction_dim(low_rot, dim, base, max_seq_len)).int().item()
+                high = torch.ceil(find_correction_dim(high_rot, dim, base, max_seq_len)).int().item()
+                return max(low, 0), min(high, dim - 1)
+
+            def linear_ramp_factor(min_v, max_v, dim_v):
+                if min_v == max_v:
+                    max_v = max_v + 1e-3
+                linear_func = (torch.arange(dim_v, dtype=torch.float32, device=device) - min_v) / (max_v - min_v)
+                return torch.clamp(linear_func, 0, 1)
+
+            low, high = find_correction_range(beta_fast, beta_slow, dim, base, original_seq_len)
+            smooth = 1 - linear_ramp_factor(low, high, dim // 2)
+            # Adjust frequencies across dims for extended window
+            freqs_base = 1.0 / (base ** (torch.arange(0, dim, 2, dtype=torch.float32, device=device) / dim))
+            freqs_adj = freqs_base / rope_factor * (1 - smooth) + freqs_base * smooth
+            freqs = torch.outer(t, freqs_adj)
+
+        emb = torch.cat((freqs, freqs), dim=-1)
+        self.cos_cached = nn.Buffer(emb.cos(), persistent=False)
+        self.sin_cached = nn.Buffer(emb.sin(), persistent=False)
+
+    def forward(self):
+        return self.cos_cached, self.sin_cached
+
+
 class Attention(nn.Module):
     def __init__(self, hidden_size, head_dim, num_heads, num_key_value_heads, causal=False):
         super().__init__()
@@ -109,7 +173,7 @@ class Attention(nn.Module):
         self.qkv_proj = CastedLinear(self.hidden_size, (self.num_heads + 2 * self.num_key_value_heads) * self.head_dim, bias=False)
         self.o_proj = CastedLinear(self.output_size, self.hidden_size, bias=False)
 
-    def forward(self, cos_sin: CosSin, hidden_states: torch.Tensor, *, per_head_scale: Optional[torch.Tensor] = None, per_head_phase: Optional[torch.Tensor] = None) -> torch.Tensor:
+    def forward(self, cos_sin: CosSin, hidden_states: torch.Tensor, *, per_head_scale: Optional[torch.Tensor] = None, per_head_phase: Optional[torch.Tensor] = None, rope_mscale: Optional[float] = None) -> torch.Tensor:
         batch_size, seq_len, _ = hidden_states.shape
 
         # hidden_states: [bs, seq_len, num_heads, head_dim]
@@ -133,6 +197,12 @@ class Attention(nn.Module):
             cos, sin = cos_sin
             query, key = apply_rotary_pos_emb(query, key, cos, sin)
 
+        # Optional YARN mscale scaling (applied to dot-product scale via Q/K)
+        if rope_mscale is not None and rope_mscale != 1.0:
+            scale = torch.tensor(rope_mscale, dtype=query.dtype, device=query.device)
+            query = query * scale
+            key = key * scale
+
         # Optional per-head scaling (shape: [B, H] or [B, H, 1, 1])
         if per_head_scale is not None:
             if per_head_scale.ndim == 2:
@@ -140,6 +210,11 @@ class Attention(nn.Module):
             else:
                 scale = per_head_scale
             query = query * scale.to(query.dtype)
+
+        # Repeat KV heads for GQA if needed
+        if self.num_key_value_heads != self.num_heads:
+            key = _repeat_kv(key, self.num_heads, self.num_key_value_heads)
+            value = _repeat_kv(value, self.num_heads, self.num_key_value_heads)
 
         # flash attn
         attn_output = flash_attn_func(q=query, k=key, v=value, causal=self.causal)

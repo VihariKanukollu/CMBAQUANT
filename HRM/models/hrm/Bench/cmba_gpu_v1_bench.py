@@ -9,151 +9,50 @@ import torch._dynamo as dynamo
 from pydantic import BaseModel
 
 from models.common import trunc_normal_init_
-from models.layers import rms_norm, SwiGLU, Attention, RotaryEmbedding, CosSin, CastedEmbedding, CastedLinear
+from models.layers import rms_norm, SwiGLU, Attention, RotaryEmbedding, YarnRotaryEmbedding, CosSin, CastedEmbedding, CastedLinear
 from models.sparse_embedding import CastedSparseEmbedding
-
-# PennyLane import for PQC components (required in quant variant)
-import pennylane as qml  # type: ignore[import]
-from pennylane.qnn import TorchLayer as _PLTorchLayer  # type: ignore[import]
 
 
 class PennyLanePQC(nn.Module):
-    """Enhanced PQC wrapper with re-uploading, NN entanglement, richer readout, and ensembles.
+    """GPU periodic MLP.
 
-    input_dim -> project to n_wires -> PQC features -> linear readout -> output_dim.
+    Maps input_dim -> n_wires (via a learned projection), applies sinusoidal features
+    and a small MLP for `n_layers`, then projects to output_dim. Stays on GPU.
     """
-    def __init__(
-        self,
-        input_dim: int,
-        output_dim: int,
-        n_wires: int,
-        n_layers: int,
-        *,
-        device_name: Optional[str] = None,
-        prefer_gpu: bool = False,
-        diff_method: str = "adjoint",
-        reupload: bool = True,
-        pair_bases: Tuple[bool, bool, bool] = (True, True, False),  # (ZZ, XX, XY)
-        ensemble_size: int = 1,
-        ensemble_merge: str = "mean",  # "mean" | "concat"
-        input_scale_learnable: bool = True,
-        zero_init_readout: bool = True,
-    ):
+    def __init__(self, input_dim: int, output_dim: int, n_wires: int, n_layers: int):
         super().__init__()
         assert input_dim > 0 and output_dim > 0 and n_wires > 0 and n_layers > 0
-        assert ensemble_merge in ("mean", "concat")
         self.n_wires = n_wires
         self.n_layers = n_layers
-        self.reupload = reupload
-        self.pair_bases = pair_bases
-        self.ensemble_size = max(1, int(ensemble_size))
-        self.ensemble_merge = ensemble_merge
-        self.diff_method = diff_method
 
-        # Project inputs to wires; optional learnable input scaling
         self.input_proj = CastedLinear(input_dim, n_wires, bias=True)
-        self.input_scale = nn.Parameter(torch.ones(n_wires)) if input_scale_learnable else None
+        hidden_dim = 2 * n_wires  # sin and cos features
+        self.hidden = nn.ModuleList([
+            CastedLinear(hidden_dim, hidden_dim, bias=True) for _ in range(max(0, n_layers - 1))
+        ])
+        self.readout = CastedLinear(hidden_dim, output_dim, bias=True)
+        self.act = nn.SiLU()
+        # Per-dimension frequency scale; cast at runtime to match input dtype
+        self.freq = nn.Parameter(torch.ones(n_wires))
 
-        # Device selection
-        dev_name = device_name
-        if dev_name is None:
-            if prefer_gpu:
-                try:
-                    _ = qml.device("lightning.gpu", wires=n_wires)
-                    dev_name = "lightning.gpu"
-                except Exception:
-                    dev_name = "lightning.qubit"
-            else:
-                dev_name = "lightning.qubit"
+    def _fourier(self, h: torch.Tensor) -> torch.Tensor:
+        # h: [B, n_wires]
+        f = self.freq.to(h.dtype).view(1, -1)
+        h = h * f
+        return torch.cat([torch.sin(h), torch.cos(h)], dim=-1)
 
-        # Build pair list (nearest neighbors, ring)
-        pairs = [(i, (i + 1) % n_wires) for i in range(n_wires)]
-        self._pairs = pairs
-        num_pair_terms = (pair_bases[0] + pair_bases[1] + pair_bases[2]) * len(pairs)
-        n_meas = n_wires + num_pair_terms
-        self._n_meas = n_meas
-
-        # Define one TorchLayer per ensemble member
-        self.pqc_layers = nn.ModuleList()
-        for _k in range(self.ensemble_size):
-            dev = qml.device(dev_name, wires=n_wires)
-
-            @qml.qnode(dev, interface="torch", diff_method=self.diff_method)
-            def _circuit(inputs, rot_yrz):  # type: ignore[no-redef]
-                # Optional data re-uploading across layers
-                if self.reupload:
-                    qml.AngleEmbedding(inputs, wires=list(range(n_wires)), rotation="Y")
-                for l in range(n_layers):
-                    # Single-qubit trainable rotations (RY, RZ)
-                    for w in range(n_wires):
-                        qml.RY(rot_yrz[l, w, 0], wires=w)
-                        qml.RZ(rot_yrz[l, w, 1], wires=w)
-                    # Nearest-neighbor entanglement (ring)
-                    for w in range(n_wires):
-                        qml.CNOT(wires=[w, (w + 1) % n_wires])
-                    # Re-upload data each layer if enabled
-                    if self.reupload:
-                        qml.AngleEmbedding(inputs, wires=list(range(n_wires)), rotation="Y")
-
-                obs = [qml.expval(qml.PauliZ(i)) for i in range(n_wires)]
-                # Pairwise terms
-                for (i, j) in pairs:
-                    if pair_bases[0]:
-                        obs.append(qml.expval(qml.PauliZ(i) @ qml.PauliZ(j)))
-                    if pair_bases[1]:
-                        obs.append(qml.expval(qml.PauliX(i) @ qml.PauliX(j)))
-                    if pair_bases[2]:
-                        obs.append(qml.expval(qml.PauliX(i) @ qml.PauliY(j)))
-                return obs
-
-            weight_shapes = {"rot_yrz": (n_layers, n_wires, 2)}
-            self.pqc_layers.append(_PLTorchLayer(_circuit, weight_shapes))
-
-        readout_in = n_meas if self.ensemble_merge == "mean" else (self.ensemble_size * n_meas)
-        self.readout = CastedLinear(readout_in, output_dim, bias=True)
-        if zero_init_readout:
-            self.zero_last_linear()
-
-    @dynamo.disable
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        orig_dtype = x.dtype
-        orig_device = x.device
-        h = self.input_proj(x.to(orig_dtype))
-        h32 = h.to(torch.float32)
-        if self.input_scale is not None:
-            h32 = h32 * self.input_scale.view(1, -1)
+        h = self.input_proj(x)
+        z = self._fourier(h)
+        for layer in self.hidden:
+            z = self.act(layer(z))
+        return self.readout(z)
 
-        # TorchLayer/QNode usually run on CPU with lightning; keep it on CPU
-        h_cpu = h32.cpu()
-
-        outs: List[torch.Tensor] = []
-        for layer in self.pqc_layers:
-            z = layer(h_cpu)
-            outs.append(z)
-
-        if len(outs) == 1:
-            feat = outs[0]
-        else:
-            if self.ensemble_merge == "mean":
-                feat = torch.stack(outs, dim=0).mean(dim=0)
-            else:
-                feat = torch.cat(outs, dim=-1)
-
-        feat = feat.to(orig_device)
-        return self.readout(feat.to(orig_dtype))
-
-    def zero_last_linear(self, bias_fill: Optional[float] = 0.0):
+    def zero_last_linear(self, bias_fill: Optional[float] = None):
         with torch.no_grad():
             self.readout.weight.zero_()
             if (bias_fill is not None) and (self.readout.bias is not None):
                 self.readout.bias.fill_(bias_fill)  # type: ignore[arg-type]
-
-    def l2_reg(self) -> torch.Tensor:
-        total = torch.zeros((), dtype=torch.float32)
-        for layer in self.pqc_layers:
-            for p in layer.parameters():
-                total = total + (p.to(torch.float32) ** 2).sum()
-        return total
 
 
 class PQCPuzzleEmbedding(nn.Module):
@@ -162,8 +61,7 @@ class PQCPuzzleEmbedding(nn.Module):
     Builds lightweight features from id, projects to wires, runs PQC, then to emb_dim.
     """
     def __init__(self, num_ids: int, emb_dim: int, cast_to: torch.dtype,
-                 n_wires: int, n_layers: int, cache_eval: bool = True, cache_size: int = 4096,
-                 *, pqc_kwargs: Optional[Dict[str, object]] = None):
+                 n_wires: int, n_layers: int, cache_eval: bool = True, cache_size: int = 4096):
         super().__init__()
         self.num_ids = max(1, int(num_ids))
         self.emb_dim = emb_dim
@@ -175,8 +73,7 @@ class PQCPuzzleEmbedding(nn.Module):
         # Simple id features (normalized id + harmonics), then PQC
         self.feat_dim = 1 + 2 * 3
         self.feat_proj = CastedLinear(self.feat_dim, n_wires, bias=True)
-        pqc_kwargs = pqc_kwargs or {}
-        self.pqc = PennyLanePQC(n_wires, emb_dim, n_wires=n_wires, n_layers=n_layers, **pqc_kwargs)
+        self.pqc = PennyLanePQC(n_wires, emb_dim, n_wires=n_wires, n_layers=n_layers)
 
     def _features(self, ids: torch.Tensor) -> torch.Tensor:
         ids_f = ids.to(torch.float32) / float(self.num_ids)
@@ -217,20 +114,13 @@ class PQCPuzzleEmbedding(nn.Module):
 
 class QuantumGatingHead(nn.Module):
     """Produces small gating vector (e.g., 2 scalars for attn/mlp) via PQC (no fallback)."""
-    def __init__(self, input_dim: int, gate_dim: int, n_wires: int, n_layers: int, *, gate_temp: float = 1.0, gate_dropout_p: float = 0.0, pqc_kwargs: Optional[Dict[str, object]] = None):
+    def __init__(self, input_dim: int, gate_dim: int, n_wires: int, n_layers: int):
         super().__init__()
         self.gate_dim = gate_dim
-        pqc_kwargs = pqc_kwargs or {}
-        self.core = PennyLanePQC(input_dim, gate_dim, n_wires=n_wires, n_layers=n_layers, **pqc_kwargs)
-        self.gate_temp = max(1e-3, float(gate_temp))
-        self.gate_dropout_p = float(gate_dropout_p)
+        self.core = PennyLanePQC(input_dim, gate_dim, n_wires=n_wires, n_layers=n_layers)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        raw = self.core(x)
-        if self.training and self.gate_dropout_p > 0:
-            mask = torch.rand_like(raw) > self.gate_dropout_p
-            raw = raw * mask.to(raw.dtype)
-        return torch.tanh(raw / self.gate_temp)
+        return self.core(x)
 
 
 class SharedPQCTrunk(nn.Module):
@@ -289,10 +179,20 @@ class HierarchicalReasoningModel_ACTV1Config(BaseModel):
     hidden_size: int
     expansion: float
     num_heads: int
+    # Causal attention for autoregressive text (True in chat/text mode)
+    causal: bool = False
+    # If <=0, defaults to num_heads (no GQA). If < num_heads, enables GQA.
+    num_kv_heads: int = 0
     pos_encodings: str
 
     rms_norm_eps: float = 1e-5
     rope_theta: float = 10000.0
+    # YARN long-context options (used when pos_encodings=="rope_yarn")
+    rope_original_seq_len: int = 0  # if <=0, defaults to seq_len
+    rope_factor: float = 1.0
+    rope_beta_fast: int = 32
+    rope_beta_slow: int = 1
+    rope_mscale_base: float = 1.0
     
     # Halting Q-learning config
     halt_max_steps: int
@@ -310,18 +210,8 @@ class HierarchicalReasoningModel_ACTV1Config(BaseModel):
     halt_head_hidden: int = 128
 
     # PQC common params
-    pqc_n_wires: int = 8   # 8–12 recommended
-    pqc_n_layers: int = 2  # 2–3 recommended
-    pqc_device: str = "auto"  # auto | lightning.qubit | lightning.gpu
-    pqc_diff_method: str = "adjoint"
-    pqc_reupload: bool = True
-    pqc_pair_ZZ: bool = True
-    pqc_pair_XX: bool = True
-    pqc_pair_XY: bool = False
-    pqc_ensemble_size: int = 1
-    pqc_ensemble_merge: str = "mean"  # mean | concat
-    pqc_input_scale_learnable: bool = True
-    pqc_zero_init_readout: bool = True
+    pqc_n_wires: int = 8
+    pqc_n_layers: int = 2
 
     # Puzzle embedding options
     puzzle_emb_type: str = "table"  # "table" | "pqc"
@@ -333,8 +223,6 @@ class HierarchicalReasoningModel_ACTV1Config(BaseModel):
     quantum_gate_dim: int = 2  # gates for [attn, mlp]
     quantum_gate_last_h_block_only: bool = False
     quantum_gate_proj_dim: int = 0
-    gate_temp: float = 1.0
-    gate_dropout_p: float = 0.0
 
     # ACT scheduler PQC
     act_sched_enabled: bool = False
@@ -370,9 +258,6 @@ class HierarchicalReasoningModel_ACTV1Config(BaseModel):
     mcp_cost_coef: float = 0.0
     mcp_entropy_coef: float = 0.0
 
-    # PQC regularization
-    pqc_l2_coef: float = 0.0
-
 
 class HierarchicalReasoningModel_ACTV1Block(nn.Module):
     def __init__(self, config: HierarchicalReasoningModel_ACTV1Config) -> None:
@@ -382,27 +267,14 @@ class HierarchicalReasoningModel_ACTV1Block(nn.Module):
             hidden_size=config.hidden_size,
             head_dim=config.hidden_size // config.num_heads,
             num_heads=config.num_heads,
-            num_key_value_heads=config.num_heads,
-            causal=False
+            num_key_value_heads=(config.num_kv_heads if getattr(config, 'num_kv_heads', 0) and config.num_kv_heads > 0 else config.num_heads),
+            causal=bool(getattr(config, 'causal', False))
         )
         self.mlp = SwiGLU(
             hidden_size=config.hidden_size,
             expansion=config.expansion,
         )
         self.norm_eps = config.rms_norm_eps
-
-        # Common PQC options
-        pqc_kwargs = dict(
-            device_name=(None if getattr(config, 'pqc_device', 'auto') == 'auto' else getattr(config, 'pqc_device', 'auto')),
-            prefer_gpu=(getattr(config, 'pqc_device', 'auto') == 'auto' and torch.cuda.is_available()),
-            diff_method=getattr(config, 'pqc_diff_method', 'adjoint'),
-            reupload=getattr(config, 'pqc_reupload', True),
-            pair_bases=(getattr(config, 'pqc_pair_ZZ', True), getattr(config, 'pqc_pair_XX', True), getattr(config, 'pqc_pair_XY', False)),
-            ensemble_size=getattr(config, 'pqc_ensemble_size', 1),
-            ensemble_merge=getattr(config, 'pqc_ensemble_merge', 'mean'),
-            input_scale_learnable=getattr(config, 'pqc_input_scale_learnable', True),
-            zero_init_readout=getattr(config, 'pqc_zero_init_readout', True),
-        )
 
         # Optional quantum gating head
         self.quantum_gate = None
@@ -412,25 +284,11 @@ class HierarchicalReasoningModel_ACTV1Block(nn.Module):
             gate_in_dim = config.hidden_size if config.quantum_gate_proj_dim <= 0 else config.quantum_gate_proj_dim
             if config.quantum_gate_proj_dim > 0:
                 self.gate_proj = CastedLinear(config.hidden_size, config.quantum_gate_proj_dim, bias=False)
-            pqc_kwargs = dict(
-                device_name=(None if getattr(config, 'pqc_device', 'auto') == 'auto' else getattr(config, 'pqc_device', 'auto')),
-                prefer_gpu=(getattr(config, 'pqc_device', 'auto') == 'auto' and torch.cuda.is_available()),
-                diff_method=getattr(config, 'pqc_diff_method', 'adjoint'),
-                reupload=getattr(config, 'pqc_reupload', True),
-                pair_bases=(getattr(config, 'pqc_pair_ZZ', True), getattr(config, 'pqc_pair_XX', True), getattr(config, 'pqc_pair_XY', False)),
-                ensemble_size=getattr(config, 'pqc_ensemble_size', 1),
-                ensemble_merge=getattr(config, 'pqc_ensemble_merge', 'mean'),
-                input_scale_learnable=getattr(config, 'pqc_input_scale_learnable', True),
-                zero_init_readout=getattr(config, 'pqc_zero_init_readout', True),
-            )
             self.quantum_gate = QuantumGatingHead(
                 input_dim=gate_in_dim,
                 gate_dim=config.quantum_gate_dim,
                 n_wires=config.pqc_n_wires,
                 n_layers=config.pqc_n_layers,
-                gate_temp=getattr(config, 'gate_temp', 1.0),
-                gate_dropout_p=getattr(config, 'gate_dropout_p', 0.0),
-                pqc_kwargs=pqc_kwargs,
             )
 
         # Optional per-head bias and token routing (PQC on summary)
@@ -445,9 +303,6 @@ class HierarchicalReasoningModel_ACTV1Block(nn.Module):
                 gate_dim=config.num_heads,
                 n_wires=config.pqc_n_wires,
                 n_layers=config.pqc_n_layers,
-                gate_temp=getattr(config, 'gate_temp', 1.0),
-                gate_dropout_p=getattr(config, 'gate_dropout_p', 0.0),
-                pqc_kwargs=pqc_kwargs,
             )
         if getattr(config, "token_routing_enabled", False):
             self.token_router = QuantumGatingHead(
@@ -455,9 +310,6 @@ class HierarchicalReasoningModel_ACTV1Block(nn.Module):
                 gate_dim=1,  # produce a keep score per token based on similarity later
                 n_wires=config.pqc_n_wires,
                 n_layers=config.pqc_n_layers,
-                gate_temp=getattr(config, 'gate_temp', 1.0),
-                gate_dropout_p=getattr(config, 'gate_dropout_p', 0.0),
-                pqc_kwargs=pqc_kwargs,
             )
 
         # Shared PQC trunk and adapters
@@ -467,7 +319,7 @@ class HierarchicalReasoningModel_ACTV1Block(nn.Module):
         self.adapter_router = None
         self.adapter_film = None
         self.adapter_rope = None
-        trunk_dim = int(getattr(config, 'pqc_shared_trunk_dim', 128))
+        trunk_dim = 64
         if getattr(config, "pqc_shared", False):
             in_dim = (config.quantum_gate_proj_dim if config.quantum_gate_proj_dim > 0 else config.hidden_size)
             self.shared_trunk = SharedPQCTrunk(input_dim=in_dim, trunk_dim=trunk_dim, n_wires=config.pqc_n_wires, n_layers=config.pqc_n_layers)
@@ -495,9 +347,6 @@ class HierarchicalReasoningModel_ACTV1Block(nn.Module):
                 gate_dim=2 * groups,
                 n_wires=config.pqc_n_wires,
                 n_layers=config.pqc_n_layers,
-                gate_temp=getattr(config, 'gate_temp', 1.0),
-                gate_dropout_p=getattr(config, 'gate_dropout_p', 0.0),
-                pqc_kwargs=pqc_kwargs,
             )
 
         # RoPE phase bias head
@@ -511,11 +360,8 @@ class HierarchicalReasoningModel_ACTV1Block(nn.Module):
                 gate_dim=gate_dim,
                 n_wires=config.pqc_n_wires,
                 n_layers=config.pqc_n_layers,
-                gate_temp=getattr(config, 'gate_temp', 1.0),
-                gate_dropout_p=getattr(config, 'gate_dropout_p', 0.0),
-                pqc_kwargs=pqc_kwargs,
             )
-    def forward(self, cos_sin: CosSin, hidden_states: torch.Tensor, *, block_index: int = 0, num_blocks: int = 1, module_role: str = "", mcp_gates: Optional[Dict[str, torch.Tensor]] = None) -> torch.Tensor:
+    def forward(self, cos_sin: CosSin, hidden_states: torch.Tensor, *, block_index: int = 0, num_blocks: int = 1, module_role: str = "", mcp_gates: Optional[Dict[str, torch.Tensor]] = None, rope_mscale: Optional[float] = None) -> torch.Tensor:
         # Post Norm
         # Compute optional gating from summary token
         gate_vals = None
@@ -622,7 +468,7 @@ class HierarchicalReasoningModel_ACTV1Block(nn.Module):
                 if (g_rope is not None):
                     rope_phase = rope_phase * g_rope.view(-1,1).to(rope_phase.dtype)
 
-        attn_out = self.self_attn(cos_sin=cos_sin, hidden_states=hidden_states, per_head_scale=per_head_scale, per_head_phase=rope_phase)
+        attn_out = self.self_attn(cos_sin=cos_sin, hidden_states=hidden_states, per_head_scale=per_head_scale, per_head_phase=rope_phase, rope_mscale=rope_mscale)
         if gate_vals is not None and gate_vals.shape[-1] >= 1:
             gate_attn = gate_vals[..., 0].view(-1, 1, 1)
             hidden_states = rms_norm(hidden_states + gate_attn * attn_out, variance_epsilon=self.norm_eps)
@@ -714,18 +560,7 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
             mcp_in = self.config.hidden_size
             mcp_out = 8  # puzzle, halt, gate, headbias, routing, film, rope, sched
             if self.config.mcp_backend == "pqc":
-                pqc_kwargs = dict(
-                    device_name=(None if getattr(self.config, 'pqc_device', 'auto') == 'auto' else getattr(self.config, 'pqc_device', 'auto')),
-                    prefer_gpu=(getattr(self.config, 'pqc_device', 'auto') == 'auto' and torch.cuda.is_available()),
-                    diff_method=getattr(self.config, 'pqc_diff_method', 'adjoint'),
-                    reupload=getattr(self.config, 'pqc_reupload', True),
-                    pair_bases=(getattr(self.config, 'pqc_pair_ZZ', True), getattr(self.config, 'pqc_pair_XX', True), getattr(self.config, 'pqc_pair_XY', False)),
-                    ensemble_size=getattr(self.config, 'pqc_ensemble_size', 1),
-                    ensemble_merge=getattr(self.config, 'pqc_ensemble_merge', 'mean'),
-                    input_scale_learnable=getattr(self.config, 'pqc_input_scale_learnable', True),
-                    zero_init_readout=getattr(self.config, 'pqc_zero_init_readout', True),
-                )
-                self.mcp_head = PennyLanePQC(mcp_in, mcp_out, n_wires=self.config.pqc_n_wires, n_layers=self.config.pqc_n_layers, **pqc_kwargs)
+                self.mcp_head = PennyLanePQC(mcp_in, mcp_out, n_wires=self.config.pqc_n_wires, n_layers=self.config.pqc_n_layers)
             else:
                 self.mcp_head = nn.Sequential(
                     CastedLinear(mcp_in, 128, bias=True), nn.SiLU(),
@@ -745,23 +580,11 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
                 CastedLinear(self.config.halt_head_hidden, 2, bias=True),
             )
         elif halt_type == "pqc":
-            pqc_kwargs = dict(
-                device_name=(None if getattr(self.config, 'pqc_device', 'auto') == 'auto' else getattr(self.config, 'pqc_device', 'auto')),
-                prefer_gpu=(getattr(self.config, 'pqc_device', 'auto') == 'auto' and torch.cuda.is_available()),
-                diff_method=getattr(self.config, 'pqc_diff_method', 'adjoint'),
-                reupload=getattr(self.config, 'pqc_reupload', True),
-                pair_bases=(getattr(self.config, 'pqc_pair_ZZ', True), getattr(self.config, 'pqc_pair_XX', True), getattr(self.config, 'pqc_pair_XY', False)),
-                ensemble_size=getattr(self.config, 'pqc_ensemble_size', 1),
-                ensemble_merge=getattr(self.config, 'pqc_ensemble_merge', 'mean'),
-                input_scale_learnable=getattr(self.config, 'pqc_input_scale_learnable', True),
-                zero_init_readout=getattr(self.config, 'pqc_zero_init_readout', True),
-            )
             self.q_head = PennyLanePQC(
                 input_dim=q_in_dim,
                 output_dim=2,
                 n_wires=self.config.pqc_n_wires,
                 n_layers=self.config.pqc_n_layers,
-                **pqc_kwargs,
             )
         else:
             self.q_head = CastedLinear(q_in_dim, 2, bias=True)
@@ -770,7 +593,7 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
         self.halt_delta = None
         if getattr(self.config, "mcp_enabled", False):
             if getattr(self.config, 'mcp_backend', 'mlp') == 'pqc':
-                self.halt_delta = PennyLanePQC(q_in_dim, 2, n_wires=self.config.pqc_n_wires, n_layers=self.config.pqc_n_layers, **pqc_kwargs)
+                self.halt_delta = PennyLanePQC(q_in_dim, 2, n_wires=self.config.pqc_n_wires, n_layers=self.config.pqc_n_layers)
             else:
                 self.halt_delta = CastedLinear(q_in_dim, 2, bias=True)
 
@@ -784,7 +607,6 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
                 output_dim=1,
                 n_wires=self.config.pqc_n_wires,
                 n_layers=self.config.pqc_n_layers,
-                **pqc_kwargs,
             )
             # Critic baseline for halting logits
             self.qcritic = PennyLanePQC(
@@ -792,7 +614,6 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
                 output_dim=1,
                 n_wires=self.config.pqc_n_wires,
                 n_layers=self.config.pqc_n_layers,
-                **pqc_kwargs,
             )
 
         self.puzzle_emb_len = -(self.config.puzzle_emb_ndim // -self.config.hidden_size)  # ceil div
@@ -809,7 +630,6 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
                     n_layers=self.config.pqc_n_layers,
                     cache_eval=self.config.puzzle_emb_cache_eval,
                     cache_size=self.config.puzzle_emb_cache_size,
-                    pqc_kwargs=pqc_kwargs,
                 )
             else:
                 if getattr(self.config, "puzzle_emb_type", "table") == "pqc":
@@ -821,7 +641,6 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
                         n_layers=self.config.pqc_n_layers,
                         cache_eval=self.config.puzzle_emb_cache_eval,
                         cache_size=self.config.puzzle_emb_cache_size,
-                        pqc_kwargs=pqc_kwargs,
                     )
                 else:
                     # Zero init puzzle embeddings (table)
@@ -833,6 +652,19 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
             self.rotary_emb = RotaryEmbedding(dim=self.config.hidden_size // self.config.num_heads,
                                               max_position_embeddings=self.config.seq_len + self.puzzle_emb_len,
                                               base=self.config.rope_theta)
+            self.rope_mscale = 1.0
+        elif self.config.pos_encodings == "rope_yarn":
+            orig = (self.config.rope_original_seq_len if getattr(self.config, 'rope_original_seq_len', 0) and self.config.rope_original_seq_len > 0 else self.config.seq_len + self.puzzle_emb_len)
+            self.rotary_emb = YarnRotaryEmbedding(dim=self.config.hidden_size // self.config.num_heads,
+                                                  max_position_embeddings=self.config.seq_len + self.puzzle_emb_len,
+                                                  base=self.config.rope_theta,
+                                                  original_seq_len=orig,
+                                                  rope_factor=max(1.0, float(getattr(self.config, 'rope_factor', 1.0))),
+                                                  beta_fast=int(getattr(self.config, 'rope_beta_fast', 32)),
+                                                  beta_slow=int(getattr(self.config, 'rope_beta_slow', 1)),
+                                                  mscale_base=float(getattr(self.config, 'rope_mscale_base', 1.0)))
+            # Fetch mscale from embedding for attention rescale
+            self.rope_mscale = float(getattr(self.rotary_emb, 'mscale', 1.0))
         elif self.config.pos_encodings == "learned":
             self.embed_pos = CastedEmbedding(self.config.seq_len + self.puzzle_emb_len, self.config.hidden_size, init_std=embed_init_std, cast_to=self.forward_dtype)
         else:
@@ -854,7 +686,6 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
                 output_dim=3,
                 n_wires=self.config.pqc_n_wires,
                 n_layers=self.config.pqc_n_layers,
-                **pqc_kwargs,
             )
         else:
             self.act_scheduler = None
@@ -931,6 +762,7 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
     def forward(self, carry: HierarchicalReasoningModel_ACTV1InnerCarry, batch: Dict[str, torch.Tensor]) -> Tuple[HierarchicalReasoningModel_ACTV1InnerCarry, torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]:
         seq_info = dict(
             cos_sin=self.rotary_emb() if hasattr(self, "rotary_emb") else None,
+            rope_mscale=float(getattr(self, 'rope_mscale', 1.0)) if hasattr(self, 'rope_mscale') else None,
         )
 
         # Input encoding
@@ -1025,7 +857,7 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
             bias_vec = torch.stack([halt_bias, -halt_bias], dim=-1)
             q_logits = q_logits + bias_vec
         
-        # MCP regularizer + PQC regularizer
+        # MCP regularizer
         mcp_cost = None
         if mcp_gates is not None and (self.config.mcp_cost_coef > 0 or self.config.mcp_entropy_coef > 0):
             gates = torch.stack(list(mcp_gates.values()), dim=-1).to(torch.float32)
@@ -1034,14 +866,6 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
                 p = gates.clamp(1e-6, 1-1e-6)
                 ent = - (p*torch.log(p) + (1-p)*torch.log(1-p)).mean()
                 mcp_cost = mcp_cost - self.config.mcp_entropy_coef * ent
-        # Add PQC L2 regularization across all PQC modules if configured
-        if getattr(self.config, 'pqc_l2_coef', 0.0) > 0:
-            pqc_l2_total = torch.zeros((), dtype=torch.float32, device=q_logits.device)
-            for mod in self.modules():
-                if isinstance(mod, PennyLanePQC):
-                    pqc_l2_total = pqc_l2_total + mod.l2_reg().to(pqc_l2_total.device)
-            pqc_l2_total = self.config.pqc_l2_coef * pqc_l2_total
-            mcp_cost = pqc_l2_total if mcp_cost is None else (mcp_cost + pqc_l2_total)
         return new_carry, output, (q_logits[..., 0], q_logits[..., 1]), mcp_cost
 
 

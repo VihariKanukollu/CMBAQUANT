@@ -1,0 +1,199 @@
+_wandb:
+    value:
+        cli_version: 0.21.3
+        code_path: source-Arc-2-aug-1000_ACT-torch-HRM_pretrain.py
+        e:
+            s0ox7g8aqjbpfn5dxigm4qfjxgb3fp47:
+                args:
+                    - data_path=data/arc-2-aug-1000
+                    - epochs=3
+                    - eval_interval=1
+                    - global_batch_size=32
+                    - lr=7e-5
+                    - lr_warmup_steps=40
+                    - lr_min_ratio=0.1
+                    - weight_decay=0.12
+                    - arch=CMBA_GPU
+                    - eval_max_batches=4
+                    - eval_halt_max_steps=48
+                    - arch.halt_max_steps=96
+                    - arch.halt_min_steps=1
+                    - checkpoint_every_eval=true
+                codePath: HRM/pretrain.py
+                codePathLocal: pretrain.py
+                email: vihari@urbankisaan.com
+                executable: /usr/bin/python3
+                git:
+                    commit: e5268bde17baeef2b0d056a7d2a1ce63026eaf50
+                    remote: https://github.com/VihariKanukollu/CMBAQUANT.git
+                host: f1f4c026a824
+                os: Linux-6.8.0-57-generic-x86_64-with-glibc2.35
+                program: /workspace/CMBAQUANT/HRM/pretrain.py
+                python: CPython 3.11.11
+                root: /workspace/CMBAQUANT/HRM
+                startedAt: "2025-09-05T16:28:56.473703Z"
+                writerId: s0ox7g8aqjbpfn5dxigm4qfjxgb3fp47
+        m: []
+        python_version: 3.11.11
+        t:
+            "1":
+                - 1
+                - 11
+                - 49
+                - 50
+                - 71
+            "2":
+                - 1
+                - 11
+                - 49
+                - 50
+                - 71
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.11.11
+            "5": 0.21.3
+            "6": 4.56.1
+            "12": 0.21.3
+            "13": linux-x86_64
+arch:
+    value:
+        H_cycles: 2
+        H_layers: 6
+        L_cycles: 1
+        L_layers: 4
+        act_min_step_penalty: 0
+        expansion: 4
+        forward_dtype: bfloat16
+        halt_exploration_prob: 0.15
+        halt_head_hidden: 128
+        halt_head_type: mlp
+        halt_max_steps: 96
+        halt_min_steps: 1
+        halt_min_steps_ceiling: 4
+        halt_proj_dim: 0
+        hidden_size: 512
+        loss:
+            loss_type: softmax_cross_entropy
+            name: losses@ACTLossHead
+        max_expansion: 4
+        max_h_cycles: 3
+        max_l_cycles: 3
+        mcp_auto_features: false
+        mcp_backend: mlp
+        mcp_cost_coef: 0.0001
+        mcp_enabled: true
+        mcp_entropy_coef: 0.001
+        mcp_eval_threshold: 0.3
+        mcp_feature_costs: '{''ntm'': 2e-05, ''routing'': 1e-05, ''film'': 1e-05}'
+        mcp_feature_keys:
+            - puzzle
+            - halt
+            - gate
+            - headbias
+            - routing
+            - film
+            - rope
+            - sched
+            - ponder
+            - ntm
+            - h_cycles
+            - l_cycles
+            - mlp_expand
+            - heads_active
+            - min_steps
+            - max_steps
+        mcp_feature_profile: algorithmic
+        mcp_hard_eval: false
+        mcp_temp: 1.1
+        name: hrm.cmba_gpu_v1_live@HierarchicalReasoningModel_ACTV1
+        ntm_dim: 128
+        ntm_enabled: true
+        ntm_entropy_reg: 0.0001
+        ntm_erase_reg: 1e-05
+        ntm_gate_from_mcp: true
+        ntm_rows: 128
+        ntm_rw_order: write_then_read
+        num_heads: 8
+        ponder_eval_best_step: false
+        ponder_eval_deterministic: true
+        ponder_eval_threshold: 0.5
+        pos_encodings: rope_yarn
+        puzzle_emb_ndim: 512
+        rope_beta_fast: 32
+        rope_beta_slow: 1
+        rope_factor: 1
+        rope_mscale_base: 1
+        rope_original_seq_len: 2048
+beta1:
+    value: 0.9
+beta2:
+    value: 0.95
+chat_eval_jsonl:
+    value: null
+chat_max_seq_len:
+    value: 2048
+chat_random_truncate_prob:
+    value: 0
+chat_sample_any_assistant_turn:
+    value: false
+chat_samples_per_conversation:
+    value: 1
+chat_system_prompt_variant_prob:
+    value: 0
+chat_token_dropout_prob:
+    value: 0
+chat_train_jsonl:
+    value: null
+checkpoint_every_eval:
+    value: true
+checkpoint_path:
+    value: checkpoints/Arc-2-aug-1000 ACT-torch/HierarchicalReasoningModel_ACTV1 daffy-sawfish
+data_mode:
+    value: null
+data_path:
+    value: data/arc-2-aug-1000
+epochs:
+    value: 3
+eval_halt_max_steps:
+    value: 48
+eval_interval:
+    value: 1
+eval_max_batches:
+    value: 4
+eval_sample_random:
+    value: false
+eval_sample_seed:
+    value: 20250901
+eval_save_outputs:
+    value: []
+global_batch_size:
+    value: 32
+init_model_ckpt:
+    value: null
+lr:
+    value: 7e-05
+lr_min_ratio:
+    value: 0.1
+lr_warmup_steps:
+    value: 40
+pairs_dataset_dir:
+    value: null
+project_name:
+    value: Arc-2-aug-1000 ACT-torch
+puzzle_emb_lr:
+    value: 0.01
+puzzle_emb_weight_decay:
+    value: 0.1
+run_name:
+    value: HierarchicalReasoningModel_ACTV1 daffy-sawfish
+seed:
+    value: 0
+tokenizer_id:
+    value: null
+trust_remote_code:
+    value: true
+weight_decay:
+    value: 0.12

@@ -1,0 +1,210 @@
+_wandb:
+    value:
+        cli_version: 0.21.3
+        code_path: source-Sudoku-6x6-1000_ACT-torch-HRM_pretrain.py
+        e:
+            u6wk88f4v9qs9jl8w6ie831nx5x5bo7p:
+                args:
+                    - data_path=data/sudoku-6x6-1000
+                    - epochs=480
+                    - eval_interval=40
+                    - global_batch_size=32
+                    - lr=7e-5
+                    - lr_warmup_steps=40
+                    - lr_min_ratio=0.1
+                    - weight_decay=0.12
+                    - arch=hrm_quant_v1
+                    - arch.name=hrm.cmba_gpu_v1_live@HierarchicalReasoningModel_ACTV1
+                    - arch.halt_max_steps=130
+                    - arch.halt_min_steps=6
+                    - arch.halt_exploration_prob=0.10
+                    - arch.act_min_step_penalty=4e-4
+                    - arch.act_sched_enabled=false
+                    - arch.puzzle_emb_type=table
+                    - arch.halt_head_type=mlp
+                    - arch.quantum_gate_enabled=false
+                    - arch.per_head_bias_enabled=false
+                    - arch.token_routing_enabled=false
+                    - arch.pqc_shared=false
+                    - +arch.num_kv_heads=1
+                    - arch.mcp_enabled=true
+                    - arch.mcp_backend=mlp
+                    - arch.mcp_temp=0.7
+                    - arch.mcp_hard_eval=true
+                    - arch.mcp_cost_coef=4e-4
+                    - arch.mcp_entropy_coef=0.0
+                    - arch.film_enabled=false
+                    - arch.rope_phase_bias_enabled=false
+                    - arch.pos_encodings=rope_yarn
+                    - +arch.rope_original_seq_len=2048
+                    - +arch.rope_factor=1.0
+                    - +arch.rope_beta_fast=32
+                    - +arch.rope_beta_slow=1
+                    - +arch.rope_mscale_base=1.0
+                codePath: HRM/pretrain.py
+                codePathLocal: pretrain.py
+                email: vihari@urbankisaan.com
+                executable: /usr/bin/python
+                git:
+                    commit: e5268bde17baeef2b0d056a7d2a1ce63026eaf50
+                    remote: https://github.com/VihariKanukollu/CMBAQUANT.git
+                host: 7cf398b48e9d
+                os: Linux-6.8.0-57-generic-x86_64-with-glibc2.35
+                program: /workspace/CMBAQUANT/HRM/pretrain.py
+                python: CPython 3.11.11
+                root: /workspace/CMBAQUANT/HRM
+                startedAt: "2025-09-04T05:35:18.483751Z"
+                writerId: u6wk88f4v9qs9jl8w6ie831nx5x5bo7p
+        m: []
+        python_version: 3.11.11
+        t:
+            "1":
+                - 1
+                - 11
+                - 49
+                - 50
+                - 71
+            "2":
+                - 1
+                - 11
+                - 49
+                - 50
+                - 71
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.11.11
+            "5": 0.21.3
+            "6": 4.56.0
+            "12": 0.21.3
+            "13": linux-x86_64
+arch:
+    value:
+        H_cycles: 2
+        H_layers: 4
+        L_cycles: 2
+        L_layers: 4
+        act_min_step_penalty: 0.0004
+        act_sched_bias_scale: 0.3
+        act_sched_enabled: false
+        act_sched_proj_dim: 32
+        expansion: 4
+        film_enabled: false
+        film_groups: 32
+        film_scale: 1
+        forward_dtype: bfloat16
+        halt_exploration_prob: 0.1
+        halt_head_hidden: 128
+        halt_head_type: mlp
+        halt_max_steps: 130
+        halt_min_steps: 6
+        halt_proj_dim: 32
+        hidden_size: 512
+        loss:
+            loss_type: stablemax_cross_entropy
+            name: losses@ACTLossHead
+        mcp_backend: mlp
+        mcp_cost_coef: 0.0004
+        mcp_enabled: true
+        mcp_entropy_coef: 0
+        mcp_hard_eval: true
+        mcp_temp: 0.7
+        name: hrm.cmba_gpu_v1_live@HierarchicalReasoningModel_ACTV1
+        num_heads: 8
+        num_kv_heads: 1
+        per_head_bias_enabled: false
+        per_head_bias_scale: 1
+        pos_encodings: rope_yarn
+        pqc_n_layers: 2
+        pqc_n_wires: 8
+        pqc_shared: false
+        puzzle_emb_cache_eval: true
+        puzzle_emb_cache_size: 4096
+        puzzle_emb_ndim: 512
+        puzzle_emb_type: table
+        quantum_gate_dim: 2
+        quantum_gate_enabled: false
+        quantum_gate_last_h_block_only: true
+        quantum_gate_proj_dim: 32
+        rope_beta_fast: 32
+        rope_beta_slow: 1
+        rope_factor: 1
+        rope_mscale_base: 1
+        rope_original_seq_len: 2048
+        rope_phase_bias_enabled: false
+        rope_phase_bias_per_head: true
+        rope_phase_bias_scale: 1
+        token_routing_enabled: false
+        token_routing_keep_ratio: 1
+beta1:
+    value: 0.9
+beta2:
+    value: 0.95
+chat_eval_jsonl:
+    value: null
+chat_max_seq_len:
+    value: 2048
+chat_random_truncate_prob:
+    value: 0
+chat_sample_any_assistant_turn:
+    value: false
+chat_samples_per_conversation:
+    value: 1
+chat_system_prompt_variant_prob:
+    value: 0
+chat_token_dropout_prob:
+    value: 0
+chat_train_jsonl:
+    value: null
+checkpoint_every_eval:
+    value: true
+checkpoint_path:
+    value: checkpoints/Sudoku-6x6-1000 ACT-torch/HierarchicalReasoningModel_ACTV1 mindful-rook
+data_mode:
+    value: null
+data_path:
+    value: data/sudoku-6x6-1000
+epochs:
+    value: 480
+eval_halt_max_steps:
+    value: null
+eval_interval:
+    value: 40
+eval_max_batches:
+    value: null
+eval_sample_random:
+    value: false
+eval_sample_seed:
+    value: 20250901
+eval_save_outputs:
+    value: []
+global_batch_size:
+    value: 32
+init_model_ckpt:
+    value: null
+lr:
+    value: 7e-05
+lr_min_ratio:
+    value: 0.1
+lr_warmup_steps:
+    value: 40
+pairs_dataset_dir:
+    value: null
+project_name:
+    value: Sudoku-6x6-1000 ACT-torch
+puzzle_emb_lr:
+    value: 0.01
+puzzle_emb_weight_decay:
+    value: 0.1
+run_name:
+    value: HierarchicalReasoningModel_ACTV1 mindful-rook
+seed:
+    value: 0
+tokenizer_id:
+    value: null
+trust_remote_code:
+    value: true
+weight_decay:
+    value: 0.12

@@ -1,0 +1,79 @@
+name: hrm.cmba_gpu_v1_live@HierarchicalReasoningModel_ACTV1
+
+loss:
+  name: losses@ACTLossHead
+  loss_type: softmax_cross_entropy
+
+# ACT settings (ceilings; MCP controls actual effort)
+halt_exploration_prob: 0.15
+halt_max_steps: 128
+halt_min_steps: 0
+halt_min_steps_ceiling: 4
+
+# ACT training penalties
+act_min_step_penalty: 0.0
+
+# Cycle schedule (ceilings)
+H_cycles: 2
+L_cycles: 1
+max_h_cycles: 3
+max_l_cycles: 3
+
+# Depth
+H_layers: 6
+L_layers: 4
+
+# Transformer dims
+hidden_size: 512
+num_heads: 8
+expansion: 4
+max_expansion: 4.0
+
+# Embeddings
+puzzle_emb_ndim: ${.hidden_size}
+pos_encodings: rope_yarn
+rope_original_seq_len: 2048
+rope_factor: 1.0
+rope_beta_fast: 32
+rope_beta_slow: 1
+rope_mscale_base: 1.0
+
+# Dtype
+forward_dtype: bfloat16
+
+# Halt head
+halt_head_type: mlp   # linear | mlp | pqc
+halt_proj_dim: 0
+halt_head_hidden: 128
+
+# MCP controller (central switchboard)
+mcp_enabled: true
+mcp_backend: mlp    # mlp | pqc
+mcp_temp: 1.1
+mcp_hard_eval: false
+mcp_auto_features: false
+mcp_feature_profile: algorithmic  # fast | balanced | algorithmic
+mcp_eval_threshold: 0.3
+mcp_cost_coef: 1e-4
+mcp_entropy_coef: 1e-3
+mcp_feature_keys: [puzzle, halt, gate, headbias, routing, film, rope, sched, ponder, ntm, h_cycles, l_cycles, mlp_expand, heads_active, min_steps, max_steps]
+mcp_feature_costs:
+  ntm: 2e-5
+  routing: 1e-5
+  film: 1e-5
+
+# NTM external memory (enabled via MCP gate; dimensions here)
+ntm_enabled: true
+ntm_rows: 128
+ntm_dim: 128
+ntm_rw_order: write_then_read
+ntm_gate_from_mcp: true
+ntm_entropy_reg: 1e-4
+ntm_erase_reg: 1e-5
+
+# Ponder eval knobs (exposed for eval-time sweeps)
+ponder_eval_deterministic: true
+ponder_eval_threshold: 0.5
+ponder_eval_best_step: false
+
+

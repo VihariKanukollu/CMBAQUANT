@@ -1,0 +1,33 @@
+{
+  "os": "Linux-6.8.0-57-generic-x86_64-with-glibc2.35",
+  "python": "CPython 3.11.11",
+  "startedAt": "2025-09-05T16:28:56.473703Z",
+  "args": [
+    "data_path=data/arc-2-aug-1000",
+    "epochs=3",
+    "eval_interval=1",
+    "global_batch_size=32",
+    "lr=7e-5",
+    "lr_warmup_steps=40",
+    "lr_min_ratio=0.1",
+    "weight_decay=0.12",
+    "arch=CMBA_GPU",
+    "eval_max_batches=4",
+    "eval_halt_max_steps=48",
+    "arch.halt_max_steps=96",
+    "arch.halt_min_steps=1",
+    "checkpoint_every_eval=true"
+  ],
+  "program": "/workspace/CMBAQUANT/HRM/pretrain.py",
+  "codePath": "HRM/pretrain.py",
+  "codePathLocal": "pretrain.py",
+  "git": {
+    "remote": "https://github.com/VihariKanukollu/CMBAQUANT.git",
+    "commit": "e5268bde17baeef2b0d056a7d2a1ce63026eaf50"
+  },
+  "email": "vihari@urbankisaan.com",
+  "root": "/workspace/CMBAQUANT/HRM",
+  "host": "f1f4c026a824",
+  "executable": "/usr/bin/python3",
+  "writerId": "s0ox7g8aqjbpfn5dxigm4qfjxgb3fp47"
+}

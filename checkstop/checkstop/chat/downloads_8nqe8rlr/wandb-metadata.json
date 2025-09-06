@@ -1,0 +1,40 @@
+{
+  "os": "Linux-6.8.0-57-generic-x86_64-with-glibc2.35",
+  "python": "CPython 3.11.11",
+  "startedAt": "2025-09-03T01:58:29.008336Z",
+  "args": [
+    "+data_mode=chat",
+    "+tokenizer_id=mistralai/Mistral-7B-Instruct-v0.2",
+    "+chat_train_jsonl=/workspace/CMBAQUANT/HRM/data/chat/train.jsonl",
+    "+chat_eval_jsonl=/workspace/CMBAQUANT/HRM/data/chat/val.jsonl",
+    "+chat_max_seq_len=2048",
+    "+chat_sample_any_assistant_turn=true",
+    "+chat_samples_per_conversation=2",
+    "+chat_random_truncate_prob=0.3",
+    "+chat_token_dropout_prob=0.02",
+    "+chat_system_prompt_variant_prob=0.1",
+    "arch=hrm_quant_v1",
+    "arch.name=models.hrm.hrm_quant_v1_chat@HierarchicalReasoningModel_ACTV1",
+    "arch.loss.name=models.losses@ACTLossHead",
+    "arch.loss.loss_type=softmax_cross_entropy",
+    "arch.halt_max_steps=16",
+    "arch.halt_min_steps=2",
+    "arch.halt_exploration_prob=0.1",
+    "arch.act_sched_enabled=true",
+    "global_batch_size=32",
+    "epochs=3",
+    "eval_interval=1",
+    "eval_halt_max_steps=16",
+    "checkpoint_every_eval=true"
+  ],
+  "program": "-m pretrain",
+  "git": {
+    "remote": "https://github.com/VihariKanukollu/CMBAQUANT.git",
+    "commit": "e5268bde17baeef2b0d056a7d2a1ce63026eaf50"
+  },
+  "email": "vihari@urbankisaan.com",
+  "root": "/workspace/CMBAQUANT/HRM",
+  "host": "8decee94a198",
+  "executable": "/usr/bin/python",
+  "writerId": "sbqcc6wiwipy6wmol9l290zqb45qh5wz"
+}

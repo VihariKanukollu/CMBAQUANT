@@ -729,8 +729,17 @@ class HierarchicalReasoningModel_ACTV1_Inner(nn.Module):
             pos_table = self.embed_pos.weight.to(self.forward_dtype)  # [S_total, H]
             embedding = 0.707106781 * (embedding + pos_table.unsqueeze(0))  # [B,S,H] + [1,S,H]
 
-        # Scale
-        return self.embed_scale * embedding
+        # Scale and force sequence length to match model seq_len + puzzle_emb_len
+        embedding = self.embed_scale * embedding
+        target_len = self.config.seq_len + self.puzzle_emb_len
+        cur_len = embedding.shape[-2]
+        if cur_len < target_len:
+            pad_len = target_len - cur_len
+            pad = torch.zeros(embedding.shape[0], pad_len, embedding.shape[-1], dtype=embedding.dtype, device=embedding.device)
+            embedding = torch.cat([embedding, pad], dim=-2)
+        elif cur_len > target_len:
+            embedding = embedding[:, :target_len]
+        return embedding
 
     def empty_carry(self, batch_size: int):
         dev = next(self.parameters()).device
